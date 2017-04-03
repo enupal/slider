@@ -14,6 +14,13 @@
       "homepage": "http://enupal.com/"
     }
   ],
+  "support": {
+    "email": "info@enupal.com",
+    "issues": "http://enupal.com/plugins/slider/issues?state=open",
+    "source": "http://enupal.com/plugins/slider/",
+    "docs": "http://enupal.com/plugins/slider/",
+    "rss": "http://enupal.com/plugins/slider/commits/master.atom"
+  },
   "extra": {
     "name": "Enupal Slider",
     "handle": "enupalslider",
@@ -23,7 +30,7 @@
     "developer": "Enupal",
     "class": "enupal\\slider\\Slider",
     "components": {
-      "api": "enupal\\slider\\services\\Api"
+      "app": "enupal\\slider\\services\\App"
     }
   }
 }

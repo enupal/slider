@@ -1,0 +1,14 @@
+{% extends "_layouts/elementindex" %}
+
+{% set subnav = {
+	entries: {
+		label: "Slider"|t,
+		url: url('enupal-slider/sliders')
+	},
+	forms: {
+		label: "Settings"|t,
+		url: url('enupal-slider/settings')
+	}
+} %}
+
+{% set selectedSubnavItem = craft.app.request.segment(2) %}

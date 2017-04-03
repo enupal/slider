@@ -2,17 +2,21 @@
 namespace enupal\slider;
 
 use Craft;
+use craft\events\RegisterUrlRulesEvent;
+use craft\web\UrlManager;
+use yii\base\Event;
 
-use enupal\variables\SliderVariable;
+use enupal\slider\variables\SliderVariable;
+use enupal\slider\models\Settings;
 
 class Slider extends \craft\base\Plugin
 {
 	/**
-	 * Enable use of Slider::$plugin-> in place of Craft::$app->
+	 * Enable use of Slider::$app-> in place of Craft::$app->
 	 *
 	 * @var [type]
 	 */
-	public static $api;
+	public static $app;
 
 	public $hasCpSection = true;
 
@@ -20,15 +24,10 @@ class Slider extends \craft\base\Plugin
 	{
 		parent::init();
 
-		self::$api = $this->get('api');
+		self::$app = $this->get('app');
 
 		Event::on(UrlManager::class, UrlManager::EVENT_REGISTER_CP_URL_RULES, function(RegisterUrlRulesEvent $event) {
 				$event->rules = array_merge($event->rules, $this->getCpUrlRules());
-			}
-		);
-
-		Event::on(Fields::class, Fields::EVENT_REGISTER_FIELDS, function(RegisterFieldsEvent $event) {
-				$event->fields[] = new PlainText();
 			}
 		);
 	}

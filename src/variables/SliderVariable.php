@@ -8,7 +8,7 @@ use enupal\slider\Slider;
 use enupal\slider\models\Settings;
 
 /**
- * EnupalSlider provides an API for accessing information about forms. It is accessible from templates via `craft.enupalslider`.
+ * EnupalSlider provides an API for accessing information about sliders. It is accessible from templates via `craft.enupalslider`.
  *
  */
 class SliderVariable
