@@ -1,0 +1,24 @@
+{% extends "_layouts/cp" %}
+
+{% set bodyClass = craft.app.request.getSegments()|slice(0, 3)|join(' ') %}
+
+{% set subnav = {
+	entries: {
+		label: "Sliders"|t,
+		url: url('enupalsliders/entries')
+	},
+	settings: {
+		label: "Settings"|t,
+		url: url('sprout-forms/settings')
+	}
+} %}
+
+{% set selectedSubnavItem = craft.request.segment(2) %}
+
+{% block content %}
+
+  {% if body is defined %}
+  	{{ body }}
+  {% endif %}
+
+{% endblock %}

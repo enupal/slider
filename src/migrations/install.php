@@ -27,6 +27,7 @@ class Install extends Migration
 	public function safeDown()
 	{
 		$this->dropTable('{{%enupalslider_sliders}}');
+		$this->dropTable('{{%enupalslider_groups}}');
 	}
 
 	/**
@@ -40,7 +41,8 @@ class Install extends Migration
 			'id'                   => $this->primaryKey(),
 			'name'                 => $this->string()->notNull(),
 			'handle'               => $this->string()->notNull(),
-			'images'               => $this->string()->notNull(),
+			'slides'               => $this->string()->notNull(),
+			'groupId'              => $this->integer(),
 			'mode'                 => $this->string(),
 			'speed'                => $this->integer(),
 			'randomStart'          => $this->boolean()->defaultValue(false),
@@ -64,6 +66,14 @@ class Install extends Migration
 			'dateCreated'          => $this->dateTime()->notNull(),
 			'dateUpdated'          => $this->dateTime()->notNull(),
 			'uid'                  => $this->uid(),
+		]);
+
+		$this->createTable('{{%enupalslider_groups}}', [
+			'id'                       => $this->primaryKey(),
+			'name'                     => $this->string()->notNull(),
+			'dateCreated'              => $this->dateTime()->notNull(),
+			'dateUpdated'              => $this->dateTime()->notNull(),
+			'uid'                      => $this->uid(),
 		]);
 	}
 

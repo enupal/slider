@@ -22,8 +22,11 @@ class SliderQuery extends ElementQuery
 	// Handle of the Slider
 	public $handle;
 
-	// Images of the Slider
-	public $images;
+	// Slides of the Slider
+	public $slides;
+
+	// GroupId of the Slider
+	public $groupId;
 
 	// Type of transition between slides.
 	public $mode;
@@ -147,7 +150,8 @@ class SliderQuery extends ElementQuery
 		$this->query->select([
 			'enupalslider_sliders.name',
 			'enupalslider_sliders.handle',
-			'enupalslider_sliders.images',
+			'enupalslider_sliders.slides',
+			'enupalslider_sliders.groupId',
 			'enupalslider_sliders.mode',
 			'enupalslider_sliders.speed',
 			'enupalslider_sliders.randomStart',

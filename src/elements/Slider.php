@@ -32,8 +32,10 @@ class Slider extends Element
 	// Handle of the Slider
 	public $handle;
 
-	// Images of the Slider
-	public $images;
+	// Slides of the Slider
+	public $slides;
+
+	public $groupId;
 
 	// Type of transition between slides.
 	public $mode;

@@ -30,4 +30,23 @@ class Sliders extends Component
 		}
 	}
 
+	/**
+	 * Returns a Slider model if one is found in the database by id
+	 *
+	 * @param int $sliderId
+	 * @param int $siteId
+	 *
+	 * @return null|SliderElement
+	 */
+	public function getSliderById(int $sliderId, int $siteId = null)
+	{
+		$query = SliderElement::find();
+		$query->id($sliderId);
+		$query->siteId($siteId);
+		// @todo - research next function
+		#$query->enabledForSite(false);
+
+		return $query->one();
+	}
+
 }
