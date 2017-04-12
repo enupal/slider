@@ -49,4 +49,53 @@ class Sliders extends Component
 		return $query->one();
 	}
 
+	/**
+	 * @param SliderElement $slider
+	 *
+	 * @throws \Exception
+	 * @return bool
+	 */
+	public function saveSlider(SliderElement $slider)
+	{
+		$isNewSlider  = true;
+
+		if ($slider->id)
+		{
+			$sliderRecord = SliderRecord::findOne($slider->id);
+
+			if (!$sliderRecord)
+			{
+				throw new Exception(Slider::t('No Slider exists with the ID “{id}”', ['id' => $slider->id]));
+			}
+		}
+
+		$slider->validate();
+
+		if (!$slider->hasErrors())
+		{
+			$transaction = Craft::$app->db->getTransaction() === null ? Craft::$app->db->beginTransaction() : null;
+			try
+			{
+				if (Craft::$app->elements->saveElement($slider, false))
+				{
+					if ($transaction !== null)
+					{
+						$transaction->commit();
+					}
+
+					return true;
+				}
+			}
+			catch (\Exception $e)
+			{
+				if ($transaction !== null)
+				{
+					$transaction->rollback();
+				}
+
+				throw $e;
+			}
+		}
+	}
+
 }

@@ -81,13 +81,13 @@ class Groups extends Component
 	{
 		if (!$this->_fetchedAllGroups)
 		{
-			$groupRecords = SliderGroupModel::find()
+			$groupRecords = SliderGroupRecord::find()
 				->orderBy(['name' => SORT_ASC])
 				->all();
 
 			foreach ($groupRecords as $key => $groupRecord)
 			{
-				$groupRecords[$key] = new SliderGroupModel($groupRecord);
+				$groupRecords[$key] = new SliderGroupRecord($groupRecord);
 			}
 
 			$this->_groupsById       = $groupRecords;

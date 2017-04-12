@@ -5,7 +5,7 @@ use craft\base\Model;
 
 use enupal\slider\Slider;
 
-class FormGroup extends Model
+class SliderGroup extends Model
 {
 	/**
 	 * @var int|null ID
@@ -39,6 +39,6 @@ class FormGroup extends Model
 	 */
 	function __toString()
 	{
-		return SproutForms::t($this->name);
+		return Slider::t($this->name);
 	}
 }

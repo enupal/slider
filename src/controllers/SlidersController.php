@@ -13,18 +13,19 @@ use enupal\slider\elements\Slider as SliderElement;
 class SlidersController extends BaseController
 {
 	/**
-	 * Save a form
+	 * Save a slider
 	 */
 	public function actionSaveSlider()
 	{
 		$this->requirePostRequest();
 
 		$request = Craft::$app->getRequest();
-		$form    = new SliderElement();
+		$slider  = new SliderElement();
 
-		if ($request->getBodyParam('saveAsNew'))
+		/*if ($request->getBodyParam('saveAsNew'))
 		{
-			$form->saveAsNew = true;
+			@todo save as new feature
+			$slider->saveAsNew = true;
 			$duplicateForm = Slider::$app()->sliders->createNewForm(
 				$request->getBodyParam('name'),
 				$request->getBodyParam('handle')
@@ -32,121 +33,39 @@ class SlidersController extends BaseController
 
 			if ($duplicateForm)
 			{
-				$form->id = $duplicateForm->id;
+				$slider->id = $duplicateForm->id;
 			}
 			else
 			{
 				throw new Exception(Craft::t('Error creating Form'));
 			}
-		}
-		else
-		{
-			$form->id = $request->getBodyParam('id');
-		}
+		}*/
 
-		$form->groupId              = $request->getBodyParam('groupId');
-		$form->name                 = $request->getBodyParam('name');
-		$form->handle               = $request->getBodyParam('handle');
-		$form->titleFormat          = $request->getBodyParam('titleFormat');
-		$form->displaySectionTitles = $request->getBodyParam('displaySectionTitles');
-		$form->redirectUri          = $request->getBodyParam('redirectUri');
-		$form->submitAction         = $request->getBodyParam('submitAction');
-		$form->savePayload          = $request->getBodyParam('savePayload', 0);
-		$form->submitButtonText     = $request->getBodyParam('submitButtonText');
+		$slider->id = $request->getBodyParam('id');
 
-		$form->notificationEnabled      = $request->getBodyParam('notificationEnabled');
-		$form->notificationRecipients   = $request->getBodyParam('notificationRecipients');
-		$form->notificationSubject      = $request->getBodyParam('notificationSubject');
-		$form->notificationSenderName   = $request->getBodyParam('notificationSenderName');
-		$form->notificationSenderEmail  = $request->getBodyParam('notificationSenderEmail');
-		$form->notificationReplyToEmail = $request->getBodyParam('notificationReplyToEmail');
-		$form->enableTemplateOverrides  = $request->getBodyParam('enableTemplateOverrides', 0);
-		$form->templateOverridesFolder  = $form->enableTemplateOverrides
-			? $request->getBodyParam('templateOverridesFolder')
-			: null;
-		$form->enableFileAttachments    = $request->getBodyParam('enableFileAttachments');
-
-		// Set the field layout
-		$fieldLayout = Craft::$app->getFields()->assembleLayoutFromPost();
-
-		if ($form->saveAsNew)
-		{
-			$fieldLayout = Slider::$app->fields->getDuplicateLayout($duplicateForm, $fieldLayout);
-		}
-
-		$fieldLayout->type = Form::class;
-		$form->setFieldLayout($fieldLayout);
-
-		// Delete any fields removed from the layout
-		$deletedFields = $request->getBodyParam('deletedFields');
-
-		if (count($deletedFields) > 0)
-		{
-			// Backup our field context and content table
-			$oldFieldContext = Craft::$app->content->fieldContext;
-			$oldContentTable = Craft::$app->content->contentTable;
-
-			// Set our field content and content table to work with our form output
-			Craft::$app->content->fieldContext = $form->getFieldContext();
-			Craft::$app->content->contentTable = $form->getContentTable();
-
-			$currentTitleFormat = null;
-
-			foreach ($deletedFields as $fieldId)
-			{
-				// Each field deleted will be update the titleFormat
-				$currentTitleFormat = Slider::$app->sliders->cleanTitleFormat($fieldId);
-				Craft::$app->fields->deleteFieldById($fieldId);
-			}
-
-			if ($currentTitleFormat)
-			{
-				// update the titleFormat
-				$form->titleFormat = $currentTitleFormat;
-			}
-
-			// Reset our field context and content table to what they were previously
-			Craft::$app->content->fieldContext = $oldFieldContext;
-			Craft::$app->content->contentTable = $oldContentTable;
-		}
+		//$slider->groupId     = $request->getBodyParam('groupId');
+		$slider->name        = $request->getBodyParam('name');
+		$slider->handle      = $request->getBodyParam('handle');
+		$slider->slides      = $request->getBodyParam('slides');
 
 		// Save it
-		if (!Slider::$app->sliders->saveForm($form))
+		if (!Slider::$app->sliders->saveSlider($slider))
 		{
-			Craft::$app->getSession()->setError(Slider::t('Couldn’t save form.'));
-
-			$notificationFields = [
-				'notificationRecipients',
-				'notificationSubject',
-				'notificationSenderName',
-				'notificationSenderEmail',
-				'notificationReplyToEmail'
-			];
-
-			$notificationErrors = false;
-			foreach ($form->getErrors() as $fieldHandle => $error)
-			{
-				if (in_array($fieldHandle, $notificationFields))
-				{
-					$notificationErrors = 'error';
-					break;
-				}
-			}
+			Craft::$app->getSession()->setError(Slider::t('Couldn’t save slider.'));
 
 			Craft::$app->getUrlManager()->setRouteParams([
-					'form'               => $form,
-					'notificationErrors' => $notificationErrors
+					'slider'               => $slider
 				]
 			);
 
 			return null;
 		}
 
-		Craft::$app->getSession()->setNotice(Slider::t('Form saved.'));
+		Craft::$app->getSession()->setNotice(Slider::t('Slider saved.'));
 
 		#$_POST['redirect'] = str_replace('{id}', $form->id, $_POST['redirect']);
 
-		return $this->redirectToPostedUrl($form);
+		return $this->redirectToPostedUrl($slider);
 	}
 
 	/**
@@ -164,7 +83,7 @@ class SlidersController extends BaseController
 		{
 			if ($slider === null)
 			{
-				$variables['groups']  = Slider::$app->groups->getAllFormGroups();
+				$variables['groups']  = Slider::$app->groups->getAllSlidersGroups();
 				$variables['groupId'] = "";
 
 				// Get the Slider
@@ -186,6 +105,28 @@ class SlidersController extends BaseController
 		$variables['name']     = $slider->name;
 		$variables['groupId']  = $slider->groupId;
 		$variables['elementType'] = Asset::class;
+		$variables['slidesElements']  = null;
+		$variables['slideElementId']  = null;
+
+		if ($slider->slides)
+		{
+			$slides = json_decode($slider->slides);
+			$slidesElements = [];
+
+			if (count($slides))
+			{
+				$variables['slideElementId'] = $slides[0];
+
+				foreach ($slides as $key => $slideId)
+				{
+					$slide = Craft::$app->elements->getElementById($slideId);
+					array_push($slidesElements, $slide);
+				}
+
+				$variables['slidesElements'] = $slidesElements;
+			}
+
+		}
 
 		// Set the "Continue Editing" URL
 		$variables['continueEditingUrl'] = 'enupalslider/slider/edit/{id}';

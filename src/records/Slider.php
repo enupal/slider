@@ -14,6 +14,7 @@ use craft\records\Element;
  * @property int         $groupId
  * @property string      $name
  * @property string      $handle
+ * @property string      $slides
  */
 class Slider extends ActiveRecord
 {

@@ -9,9 +9,11 @@ use craft\db\Query;
 use craft\helpers\UrlHelper;
 use yii\base\InvalidConfigException;
 use craft\elements\actions\Delete;
+use craft\validators\HandleValidator;
+use craft\validators\UniqueValidator;
 
 use enupal\slider\elements\db\SliderQuery;
-use enupal\slider\records\Form as SliderRecord;
+use enupal\slider\records\Slider as SliderRecord;
 use enupal\slider\Slider;
 
 /**
@@ -177,7 +179,7 @@ class Slider extends Element
 	public function getCpEditUrl()
 	{
 		return UrlHelper::cpUrl(
-			'enupal-slider/sliders/edit/'.$this->id
+			'enupalslider/slider/edit/'.$this->id
 		);
 	}
 
@@ -328,7 +330,7 @@ class Slider extends Element
 
 		$record->name   = $this->name;
 		$record->handle = $this->handle;
-		$record->iamges = $this->iamges;
+		$record->slides = $this->slides;
 
 		$record->save(false);
 
@@ -348,7 +350,7 @@ class Slider extends Element
 				HandleValidator::class,
 				'reservedWords' => ['id', 'dateCreated', 'dateUpdated', 'uid', 'title']
 			],
-			[['name', 'handle'], UniqueValidator::class, 'targetClass' => FormRecord::class],
+			[['name', 'handle'], UniqueValidator::class, 'targetClass' => SliderRecord::class],
 		];
 	}
 }
