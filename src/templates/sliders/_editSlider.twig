@@ -1,6 +1,15 @@
 {% extends "enupalslider/_layouts/base" %}
 {% import "_includes/forms" as forms %}
-
+{% css %}
+	.enupal-field-heading {
+		background-color: rgb(244, 245, 246);
+		color: rgb(85, 85, 85);
+		font-size: .8em;
+		min-height: auto;
+		padding: 8px auto;
+		text-transform: uppercase;
+	}
+{% endcss %}
 {% set crumbs = [
 	{ label: "Sliders"|t, url: url('enupalslider/sliders') }
 ] %}
@@ -70,6 +79,7 @@
 					id: 'name',
 					name: 'name',
 					value: slider.name,
+					required: true,
 					errors: slider.getErrors('name')
 				}) }}
 
@@ -77,8 +87,22 @@
 					label: "Handle"|t('enupalslider'),
 					id: 'handle',
 					name: 'handle',
+					required: true,
 					value: slider.handle,
 					errors: slider.getErrors('handle')
+				}) }}
+
+				<div class="field enupal-field-heading">{{'General Options'|t('enupalslider')}}</div>
+
+				{% set modeOptions = craft.enupalslider.getModes() %}
+
+				{{ forms.selectField({
+					label: "Mode <span class='info'>Type of transition between slides.</span>"|t('enupalslider'),
+					id: 'mode',
+					name: 'mode',
+					options: modeOptions,
+					value: slider.mode,
+					errors: slider.getErrors('mode')
 				}) }}
 
 				<div class="field" id="enabled-field">

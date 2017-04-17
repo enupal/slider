@@ -33,5 +33,19 @@ class SliderVariable
 
 		return $plugin->getVersion();
 	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getModes()
+	{
+		$modes = [
+			'horizontal' => 'Horizontal',
+			'vertical'   => 'Vertical',
+			'fade'       => 'Fade',
+		];
+
+		return $modes;
+	}
 }
 
