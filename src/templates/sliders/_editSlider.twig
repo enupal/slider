@@ -95,6 +95,8 @@
 				<div class="field enupal-field-heading">{{'General Options'|t('enupalslider')}}</div>
 
 				{% set modeOptions = craft.enupalslider.getModes() %}
+				{% set easingOptions = craft.enupalslider.getEasingOptions() %}
+				{% set preloadImagesOptions = craft.enupalslider.getPreloadImagesOptions() %}
 
 				{{ forms.selectField({
 					label: "Mode <span class='info'>Type of transition between slides.</span>"|t('enupalslider'),
@@ -103,6 +105,128 @@
 					options: modeOptions,
 					value: slider.mode,
 					errors: slider.getErrors('mode')
+				}) }}
+
+				{{ forms.numberField({
+					label: "Speed <span class='info'>Slide transition duration (in ms).</span>"|t('enupalslider'),
+					id: 'speed',
+					name: 'speed',
+					value: slider.speed,
+					errors: slider.getErrors('speed')
+				}) }}
+
+				{{ forms.numberField({
+					label: "Random Start <span class='info'>Start slider on a random slide</span>"|t('enupalslider'),
+					id: 'randomStart',
+					name: 'randomStart',
+					value: slider.randomStart,
+					errors: slider.getErrors('randomStart')
+				}) }}
+
+				{{ forms.numberField({
+					label: "Random Start <span class='info'>Start slider on a random slide</span>"|t('enupalslider'),
+					id: 'infiniteLoop',
+					name: 'infiniteLoop',
+					value: slider.infiniteLoop,
+					errors: slider.getErrors('infiniteLoop')
+				}) }}
+
+				{{ forms.lightswitchField({
+					label: "Infinite Loop <span class='info'>If checked, clicking 'Next' while on the last slide will transition to the first slide and vice-versa.</span>"|t('sproutforms'),
+					id: 'infiniteLoop',
+					name: 'infiniteLoop',
+					on: form.infiniteLoop,
+					onLabel: "On"|t('sproutforms'),
+					offLabel: "Off"|t('sproutforms')
+				}) }}
+
+				{{ forms.lightswitchField({
+					label: "Captions <span class='info'>Include image captions.</span>"|t('sproutforms'),
+					id: 'hasCaptions',
+					name: 'hasCaptions',
+					on: form.hasCaptions,
+					onLabel: "On"|t('sproutforms'),
+					offLabel: "Off"|t('sproutforms')
+				}) }}
+
+				{{ forms.lightswitchField({
+					label: "Ticker <span class='info'>Use slider in ticker mode (similar to a news ticker).</span>"|t('sproutforms'),
+					id: 'isTicker',
+					name: 'isTicker',
+					on: form.isTicker,
+					onLabel: "On"|t('sproutforms'),
+					offLabel: "Off"|t('sproutforms')
+				}) }}
+
+				{{ forms.lightswitchField({
+					label: "Ticker Hover <span class='info'>Ticker will pause when mouse hovers over slider. Note: this functionality does NOT work if using CSS transitions!</span>"|t('sproutforms'),
+					id: 'tickerHover',
+					name: 'tickerHover',
+					on: form.tickerHover,
+					onLabel: "On"|t('sproutforms'),
+					offLabel: "Off"|t('sproutforms')
+				}) }}
+
+				{{ forms.numberField({
+					label: "Random Start <span class='info'>Dynamically adjust slider height based on each slide's height.</span>"|t('enupalslider'),
+					id: 'adaptiveHeight',
+					name: 'adaptiveHeight',
+					value: slider.adaptiveHeight,
+					errors: slider.getErrors('adaptiveHeight')
+				}) }}
+
+				{{ forms.lightswitchField({
+					label: "Adaptive Height Speed <span class='info'>Slide height transition duration (in ms). Note: only used if Adaptive Height is checked.</span>"|t('sproutforms'),
+					id: 'adaptiveHeightSpeed',
+					name: 'adaptiveHeightSpeed',
+					on: form.adaptiveHeightSpeed,
+					onLabel: "On"|t('sproutforms'),
+					offLabel: "Off"|t('sproutforms')
+				}) }}
+
+				{{ forms.lightswitchField({
+					label: "Has Video? <span class='info'>Check this if any slides contain a video.</span>"|t('sproutforms'),
+					id: 'hasVideo',
+					name: 'hasVideo',
+					on: form.hasVideo,
+					onLabel: "On"|t('sproutforms'),
+					offLabel: "Off"|t('sproutforms')
+				}) }}
+
+				{{ forms.lightswitchField({
+					label: "Responsive <span class='info'>Enable or disable auto resize of the slider. Useful if you need to use fixed width sliders.</span>"|t('sproutforms'),
+					id: 'responsive',
+					name: 'responsive',
+					on: form.responsive,
+					onLabel: "On"|t('sproutforms'),
+					offLabel: "Off"|t('sproutforms')
+				}) }}
+
+				{{ forms.lightswitchField({
+					label: "Use Css <span class='info'>If checked, CSS transitions will be used for horizontal and vertical slide animations (this uses native hardware acceleration). If unchecked, jQuery animate() will be used.</span>"|t('sproutforms'),
+					id: 'useCss',
+					name: 'useCss',
+					on: form.useCss,
+					onLabel: "On"|t('sproutforms'),
+					offLabel: "Off"|t('sproutforms')
+				}) }}
+
+				{{ forms.selectField({
+					label: "Easing <span class='info'>The type of 'easing' to use during transitions.</span>"|t('enupalslider'),
+					id: 'easing',
+					name: 'easing',
+					options: easingOptions,
+					value: slider.easing,
+					errors: slider.getErrors('easing')
+				}) }}
+
+				{{ forms.selectField({
+					label: "Preload Images <span class='info'>If 'all', preloads all images before starting the slider. If 'visible', preloads only images in the initially visible slides before starting the slider (tip: use 'visible' if all slides are identical dimensions).</span>"|t('enupalslider'),
+					id: 'preloadImages',
+					name: 'preloadImages',
+					options: preloadImagesOptions,
+					value: slider.preloadImages,
+					errors: slider.getErrors('preloadImages')
 				}) }}
 
 				<div class="field" id="enabled-field">

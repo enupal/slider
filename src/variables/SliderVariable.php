@@ -39,13 +39,42 @@ class SliderVariable
 	 */
 	public function getModes()
 	{
-		$modes = [
+		$options = [
 			'horizontal' => 'Horizontal',
 			'vertical'   => 'Vertical',
 			'fade'       => 'Fade',
 		];
 
-		return $modes;
+		return $options;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getEasingOptions()
+	{
+		$options = [
+			'linear'      => 'Linear',
+			'ease'        => 'Ease',
+			'ease-in'     => 'Ease-in',
+			'ease-out'    => 'Ease-out',
+			'ease-in-out' => 'Ease-in-out',
+		];
+
+		return $options;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getPreloadImagesOptions()
+	{
+		$options = [
+			'all'     => 'All',
+			'visible' => 'Visible',
+		];
+
+		return $options;
 	}
 }
 

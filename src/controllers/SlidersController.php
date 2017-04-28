@@ -26,14 +26,14 @@ class SlidersController extends BaseController
 		{
 			@todo save as new feature
 			$slider->saveAsNew = true;
-			$duplicateForm = Slider::$app()->sliders->createNewForm(
+			$duplicateSlider = Slider::$app()->sliders->createNewSlider(
 				$request->getBodyParam('name'),
 				$request->getBodyParam('handle')
 			);
 
-			if ($duplicateForm)
+			if ($duplicateSlider)
 			{
-				$slider->id = $duplicateForm->id;
+				$slider->id = $duplicateSlider->id;
 			}
 			else
 			{
@@ -47,6 +47,7 @@ class SlidersController extends BaseController
 		$slider->name        = $request->getBodyParam('name');
 		$slider->handle      = $request->getBodyParam('handle');
 		$slider->slides      = $request->getBodyParam('slides');
+		$slider->mode        = $request->getBodyParam('mode');
 
 		// Save it
 		if (!Slider::$app->sliders->saveSlider($slider))
