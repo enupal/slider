@@ -6,6 +6,7 @@ use craft\web\Controller as BaseController;
 use craft\helpers\UrlHelper;
 use yii\web\NotFoundHttpException;
 use yii\db\Query;
+use craft\helpers\ArrayHelper;
 use craft\elements\Asset;
 
 use enupal\slider\Slider;
@@ -21,7 +22,7 @@ class SlidersController extends BaseController
 		$this->requirePostRequest();
 
 		$request = Craft::$app->getRequest();
-		$slider  = new SliderElement();
+		$slider  = new SliderElement;
 
 		// @todo - save as new
 		/*if ($request->getBodyParam('saveAsNew'))
@@ -43,7 +44,12 @@ class SlidersController extends BaseController
 			}
 		}*/
 
-		$slider->id = $request->getBodyParam('id');
+		$sliderId = $request->getBodyParam('sliderId');
+
+		if ($sliderId)
+		{
+			$slider = Slider::$app->sliders->getSliderById($sliderId);
+		}
 
 		//$slider->groupId     = $request->getBodyParam('groupId');
 		$slider->name        = $request->getBodyParam('name');
@@ -98,7 +104,7 @@ class SlidersController extends BaseController
 				}
 			}
 		}
-		else
+		if ($slider === null)
 		{
 			$slider = new SliderElement;
 		}
@@ -131,17 +137,19 @@ class SlidersController extends BaseController
 		$variables['elementType'] = Asset::class;
 
 		$variables['slidesElements']  = null;
-		$variables['slideElementId']  = null;
 
 		if ($slider->slides)
 		{
-			$slides = json_decode($slider->slides);
+			$slides = $slider->slides;
+			if (is_string($slides))
+			{
+				$slides = json_decode($slider->slides);
+			}
+
 			$slidesElements = [];
 
 			if (count($slides))
 			{
-				$variables['slideElementId'] = $slides[0];
-
 				foreach ($slides as $key => $slideId)
 				{
 					$slide = Craft::$app->elements->getElementById($slideId);
@@ -150,7 +158,6 @@ class SlidersController extends BaseController
 
 				$variables['slidesElements'] = $slidesElements;
 			}
-
 		}
 
 		// Set the "Continue Editing" URL

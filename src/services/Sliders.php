@@ -8,6 +8,8 @@ use craft\fields\Checkboxes;
 use craft\elements\Asset;
 use craft\volumes\Local;
 use craft\base\Field;
+use craft\models\FieldGroup;
+use yii\db\Query;
 use craft\records\Field as FieldRecord;
 use craft\records\Volume as VolumeRecord;
 use enupal\slider\Slider;
@@ -108,93 +110,132 @@ class Sliders extends Component
 	{
 		// Let's create the fields for the Slider Layout
 		$fieldsService = Craft::$app->getFields();
-		$slider        = new SliderElement;
+		$db            = Craft::$app->getDb();
 
-		$handle        = $this->getHandleAsNew("enupalSliderHtml");
-		$htmlField = $fieldsService->createField([
-			'type' => RichText::class,
-			'name' => Slider::t('Html'),
-			'handle' => $handle,
-			'instructions' => Slider::t('Override your image with custom HTML'),
-			'translationMethod' => Field::TRANSLATION_METHOD_NONE,
-		]);
-		// Save our field
-		Craft::$app->content->fieldContext = $slider->getFieldContext();
-		Craft::$app->fields->saveField($htmlField);
-
-		$handle        = $this->getHandleAsNew("enupalSliderSource");
-		$sourceField = $fieldsService->createField([
-			'type' => Checkboxes::class,
-			'name' => Slider::t('Source'),
-			'handle' => $handle,
-			'instructions' => Slider::t('What should display this slide?'),
-			'settings'  => '{"options":[{"label":"Image","value":"image","default":"1"},{"label":"Both (Image and Html)","value":"bothImageAndHtml","default":""},{"label":"Just hmtl","value":"justHmtl","default":""}]}',
-			'translationMethod' => Field::TRANSLATION_METHOD_NONE,
-		]);
-		// Save our field
-		Craft::$app->content->fieldContext = $slider->getFieldContext();
-		Craft::$app->fields->saveField($sourceField);
-
-		// Create a tab
-		$tabName           = Slider::t('Default');
-		$requiredFields    = array();
-		$postedFieldLayout = array();
-
-		// Add our new fields
-		if (isset($htmlField) && $htmlField->id != null)
+		$transaction = $db->beginTransaction();
+		try
 		{
-			$postedFieldLayout[$tabName][] = $htmlField->id;
-		}
+			$fieldGroupId = null;
 
-		if (isset($sourceField) && $sourceField->id != null)
+			$fieldGroup = (new Query())
+			->select('*')
+			->from(['{{%fieldgroups}}'])
+			->where(['name' => 'Enupal Slider'])
+			->one();
+
+			if (!isset($fieldGroup['id']))
+			{
+				$fieldGroup = new FieldGroup();
+				$fieldGroup->name = "Enupal Slider";
+				Craft::$app->getFields()->saveGroup($fieldGroup);
+
+				$fieldGroupId = $fieldGroup->id;
+			}
+			else
+			{
+				$fieldGroupId = $fieldGroup['id'];
+			}
+
+			$handle        = $this->getHandleAsNew("enupalSliderHtml");
+			$htmlField = $fieldsService->createField([
+				'type' => RichText::class,
+				'name' => Slider::t('Html'),
+				'groupId' => $fieldGroupId,
+				'handle' => $handle,
+				'instructions' => Slider::t('Override your image with custom HTML'),
+				'translationMethod' => Field::TRANSLATION_METHOD_NONE,
+			]);
+			// Save our field
+			#Craft::$app->content->fieldContext = $slider->getFieldContext();
+			Craft::$app->fields->saveField($htmlField);
+
+			$handle        = $this->getHandleAsNew("enupalSliderSource");
+			$sourceField = $fieldsService->createField([
+				'type' => Checkboxes::class,
+				'name' => Slider::t('Source'),
+				'handle' => $handle,
+				'groupId' => $fieldGroupId,
+				'instructions' => Slider::t('What should display this slide?'),
+				'settings'  => '{"options":[{"label":"Image","value":"image","default":"1"},{"label":"Both (Image and Html)","value":"bothImageAndHtml","default":""},{"label":"Just hmtl","value":"justHmtl","default":""}]}',
+				'translationMethod' => Field::TRANSLATION_METHOD_NONE,
+			]);
+			// Save our field
+			#Craft::$app->content->fieldContext = $slider->getFieldContext();
+			Craft::$app->fields->saveField($sourceField);
+
+			// Create a tab
+			$tabName           = Slider::t('Enupal Slider');
+			$requiredFields    = array();
+			$postedFieldLayout = array();
+
+			// Add our new fields
+			if (isset($htmlField) && $htmlField->id != null)
+			{
+				$postedFieldLayout[$tabName][] = $htmlField->id;
+			}
+
+			if (isset($sourceField) && $sourceField->id != null)
+			{
+				$postedFieldLayout[$tabName][] = $sourceField->id;
+			}
+
+			// Set the field layout
+			$fieldLayout = Craft::$app->fields->assembleLayout($postedFieldLayout, $requiredFields);
+
+			$fieldLayout->type = FormElement::class;
+			$volumeHandle = $this->getHandleAsNew('EnupalSlider', true);
+
+			/** @var Volume $volume */
+			$volumes = Craft::$app->getVolumes();
+			$volume = $volumes->createVolume([
+				'id' => null,
+				// let's add support for local just for now.
+				'type' => Local::class,
+				'name' => $volumeHandle,
+				'handle' => $volumeHandle,
+				'hasUrls' => true,
+				'url' => '/enupalslider/',
+				'settings' => '{"path":"enupalslider"}'
+			]);
+
+			// Set the field layout
+			$fieldLayout->type = Asset::class;
+			$volume->setFieldLayout($fieldLayout);
+			$volume->validate();
+			$errors = $volume->getErrors();
+
+
+			// save it
+			$response = $volumes->saveVolume($volume);
+
+			if ($response)
+			{
+				$settings = [
+					'pluginNameOverride'=>'',
+					'volumeId' => $volume->id
+				];
+
+				$settings = json_encode($settings);
+				$affectedRows = Craft::$app->getDb()->createCommand()->update('plugins', [
+					'settings' => $settings
+					],
+					[
+					'handle' => 'enupalslider'
+					]
+				)->execute();
+			}
+
+			$transaction->commit();
+
+			return $response;
+
+		}
+		catch (Exception $e)
 		{
-			$postedFieldLayout[$tabName][] = $sourceField->id;
+			$transaction->rollBack();
+			Slider::log('Failed to save element: '.$e->getMessage(), 'error');
+			throw $e;
 		}
-
-		// Set the field layout
-		$fieldLayout = Craft::$app->fields->assembleLayout($postedFieldLayout, $requiredFields);
-
-		$fieldLayout->type = FormElement::class;
-		$volumeHandle = $this->getHandleAsNew('enupalSlider', true);
-
-		/** @var Volume $volume */
-		$volumes = Craft::$app->getVolumes();
-		$volume = $volumes->createVolume([
-			'id' => null,
-			// let's add support for local just for now.
-			'type' => Local::class,
-			'name' => "Enupal Slider",
-			'handle' => $volumeHandle,
-			'hasUrls' => true,
-			'url' => '/enupalslider/',
-			'settings' => '{"path":"enupalslider"}'
-		]);
-
-		// Set the field layout
-		$fieldLayout->type = Asset::class;
-		$volume->setFieldLayout($fieldLayout);
-
-		// save it
-		$response = $volumes->saveVolume($volume);
-
-		if ($response)
-		{
-			$settings = [
-				'pluginNameOverride'=>'',
-				'volumeId' => $volume->id
-			];
-
-			$settings = json_encode($settings);
-			$affectedRows = Craft::$app->getDb()->createCommand()->update('plugins', [
-				'settings' => $settings
-				],
-				[
-				'handle' => 'enupalslider'
-				]
-			)->execute();
-		}
-
-		return $response;
 	}
 
 	/**
