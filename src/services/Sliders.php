@@ -177,7 +177,7 @@ class Sliders extends Component
 		// save it
 		$response = $volumes->saveVolume($volume);
 
-		if (isset($volume->id) && $volume->id)
+		if ($response)
 		{
 			$settings = [
 				'pluginNameOverride'=>'',
@@ -191,7 +191,7 @@ class Sliders extends Component
 				[
 				'handle' => 'enupalslider'
 				]
-			);
+			)->execute();
 		}
 
 		return $response;

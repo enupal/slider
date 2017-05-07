@@ -5,6 +5,7 @@ use Craft;
 use craft\web\Controller as BaseController;
 use craft\helpers\UrlHelper;
 use yii\web\NotFoundHttpException;
+use yii\db\Query;
 use craft\elements\Asset;
 
 use enupal\slider\Slider;
@@ -102,11 +103,33 @@ class SlidersController extends BaseController
 			$slider = new SliderElement;
 		}
 
+		$settings = (new Query())
+			->select('settings')
+			->from(['{{%plugins}}'])
+			->where(['handle' => 'enupalslider'])
+			->one();
+
+		$sources = null;
+		$settings = json_decode($settings['settings'], true);
+
+		if (isset($settings['volumeId']))
+		{
+			$folder = (new Query())
+			->select('*')
+			->from(['{{%volumefolders}}'])
+			->where(['volumeId' => $settings['volumeId']])
+			->one();
+
+			$sources = ['folder:'.$folder['id']];
+		}
+
+		$variables['sources']  = $sources;
 		$variables['sliderId'] = $sliderId;
 		$variables['slider']   = $slider;
 		$variables['name']     = $slider->name;
 		$variables['groupId']  = $slider->groupId;
 		$variables['elementType'] = Asset::class;
+
 		$variables['slidesElements']  = null;
 		$variables['slideElementId']  = null;
 
