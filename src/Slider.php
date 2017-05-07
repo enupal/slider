@@ -32,6 +32,11 @@ class Slider extends \craft\base\Plugin
 		);
 	}
 
+	protected function afterInstall()
+	{
+		self::$app->sliders->installDefaultVolume();
+	}
+
 	protected function createSettingsModel()
 	{
 		return new Settings();
