@@ -22,6 +22,7 @@ class SlidersController extends BaseController
 		$request = Craft::$app->getRequest();
 		$slider  = new SliderElement();
 
+		// @todo - save as new
 		/*if ($request->getBodyParam('saveAsNew'))
 		{
 			@todo save as new feature
