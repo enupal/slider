@@ -45,27 +45,23 @@ class SlidersController extends BaseController
 		}*/
 
 		$sliderId = $request->getBodyParam('sliderId');
+		$isNew    = true;
 
 		if ($sliderId)
 		{
-			$slider    = Slider::$app->sliders->getSliderById($sliderId);
-			$oldHandle = $request->getBodyParam('handle');
+			$slider = Slider::$app->sliders->getSliderById($sliderId);
+
 			if ($slider)
 			{
-				//lets update the subfolder
-				if ($slider->handle != $oldHandle)
-				{
-					if (!Slider::$app->sliders->updateSubfolder($slider, $oldHandle))
-					{
-						Slider::log("Unable to rename subfolder {$oldHandle} to {$slider->handle}", 'error');
-					}
-				}
+				$isNew = false;
 			}
 		}
 
 		//$slider->groupId     = $request->getBodyParam('groupId');
+		$oldHandle           = $slider->handle;
+		$newHandle           = $request->getBodyParam('handle');
 		$slider->name        = $request->getBodyParam('name');
-		$slider->handle      = $request->getBodyParam('handle');
+		$slider->handle      = $newHandle;
 		$slider->slides      = $request->getBodyParam('slides');
 		$slider->mode        = $request->getBodyParam('mode');
 
@@ -80,6 +76,15 @@ class SlidersController extends BaseController
 			);
 
 			return null;
+		}
+
+		//lets update the subfolder
+		if (!$isNew && $oldHandle != $newHandle)
+		{
+			if (!Slider::$app->sliders->updateSubfolder($slider, $oldHandle))
+			{
+				Slider::log("Unable to rename subfolder {$oldHandle} to {$slider->handle}", 'error');
+			}
 		}
 
 		Craft::$app->getSession()->setNotice(Slider::t('Slider saved.'));
@@ -135,39 +140,7 @@ class SlidersController extends BaseController
 			}
 		}
 
-		$settings = (new Query())
-			->select('settings')
-			->from(['{{%plugins}}'])
-			->where(['handle' => 'enupalslider'])
-			->one();
-
-		$sources = null;
-		$settings = json_decode($settings['settings'], true);
-
-		if (isset($settings['volumeId']))
-		{
-			$folder = (new Query())
-			->select('*')
-			->from(['{{%volumefolders}}'])
-			->where(['volumeId' => $settings['volumeId']])
-			->one();
-
-			$sources = ['folder:'.$folder['id']];
-
-			$subFolder = (new Query())
-			->select('*')
-			->from(['{{%volumefolders}}'])
-			->where([
-					'volumeId' => $settings['volumeId'],
-					'parentId' => $folder['id'],
-					'name' => $slider->handle])
-			->one();
-
-			if ($subFolder)
-			{
-				$sources = ['folder:'.$folder['id'].'/folder:'.$subFolder['id']];
-			}
-		}
+		$sources = Slider::$app->sliders->getVolumeFolder($slider);
 
 		$variables['sources']  = $sources;
 		$variables['sliderId'] = $sliderId;

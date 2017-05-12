@@ -282,11 +282,7 @@ class Sliders extends Component
 
 	public function updateSubFolder(SliderElement $slider, string $oldSubfolder): bool
 	{
-		$settings = (new Query())
-			->select('settings')
-			->from(['{{%plugins}}'])
-			->where(['handle' => 'enupalslider'])
-			->one();
+		$settings = $this->getSettings();
 
 		if (isset($settings['volumeId']))
 		{
@@ -430,5 +426,50 @@ class Sliders extends Component
 		return $result;
 	}
 
+	public function getSettings()
+	{
+		$settings = (new Query())
+			->select('settings')
+			->from(['{{%plugins}}'])
+			->where(['handle' => 'enupalslider'])
+			->one();
+
+		$settings = json_decode($settings['settings'], true);
+
+		return $settings;
+	}
+
+	public function getVolumeFolder($slider)
+	{
+		$settings = $this->getSettings();
+		$sources  = [];
+
+		if (isset($settings['volumeId']))
+		{
+			$folder = (new Query())
+			->select('*')
+			->from(['{{%volumefolders}}'])
+			->where(['volumeId' => $settings['volumeId']])
+			->one();
+
+			$sources = ['folder:'.$folder['id']];
+
+			$subFolder = (new Query())
+			->select('*')
+			->from(['{{%volumefolders}}'])
+			->where([
+					'volumeId' => $settings['volumeId'],
+					'parentId' => $folder['id'],
+					'name' => $slider->handle])
+			->one();
+
+			if ($subFolder)
+			{
+				$sources = ['folder:'.$folder['id'].'/folder:'.$subFolder['id']];
+			}
+		}
+
+		return $sources;
+	}
 
 }
