@@ -1,3 +1,9 @@
 {% extends "enupalslider/_layouts/elementindex" %}
 {% set title = "Entries"|t %}
 {% set elementType = 'enupal\\slider\\elements\\Slider' %}
+
+{% set extraPageHeaderHtml %}
+	<div class="buttons">
+		<a class="btn submit add icon" href="{{ url('enupalslider/slider/new') }}">{{ "New Slider"|t('enupalslider') }}</a>
+	</div>
+{% endset %}

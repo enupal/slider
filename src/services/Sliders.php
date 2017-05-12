@@ -12,6 +12,7 @@ use craft\models\FieldGroup;
 use yii\db\Query;
 use craft\records\Field as FieldRecord;
 use craft\records\Volume as VolumeRecord;
+use craft\records\VolumeFolder as VolumeFolderRecord;
 use enupal\slider\Slider;
 use enupal\slider\elements\Slider as SliderElement;
 use enupal\slider\records\Slider as SliderRecord;
@@ -236,6 +237,129 @@ class Sliders extends Component
 			Slider::log('Failed to save element: '.$e->getMessage(), 'error');
 			throw $e;
 		}
+	}
+
+	public function createNewSlider($name = null, $handle = null): SliderElement
+	{
+		$slider = new SliderElement();
+		$name   = empty($name) ? 'Slider' : $name ;
+		$handle = empty($handle) ? 'slider' : $handle;
+
+		$slider->name   = $this->getFieldAsNew('name', $name);
+		$slider->handle = $this->getFieldAsNew('handle', $handle);
+		$slider->slides = [];
+
+		if($this->saveSlider($slider))
+		{
+			$settings = (new Query())
+				->select('settings')
+				->from(['{{%plugins}}'])
+				->where(['handle' => 'enupalslider'])
+				->one();
+
+			$sources = null;
+			$settings = json_decode($settings['settings'], true);
+
+			if (isset($settings['volumeId']))
+			{
+				$folder = (new Query())
+				->select('*')
+				->from(['{{%volumefolders}}'])
+				->where(['volumeId' => $settings['volumeId']])
+				->one();
+
+				$defaultSubFolder = new VolumeFolderRecord();
+				$defaultSubFolder->parentId = $folder['id'];
+				$defaultSubFolder->volumeId = $settings['volumeId'];
+				$defaultSubFolder->name = $slider->handle;
+				$defaultSubFolder->path = $slider->handle."/";
+				$defaultSubFolder->save();
+			}
+		}
+
+		return $slider;
+	}
+
+	public function updateSubFolder(SliderElement $slider, string $oldSubfolder): bool
+	{
+		$settings = (new Query())
+			->select('settings')
+			->from(['{{%plugins}}'])
+			->where(['handle' => 'enupalslider'])
+			->one();
+
+		if (isset($settings['volumeId']))
+		{
+			$folder = (new Query())
+			->select('*')
+			->from(['{{%volumefolders}}'])
+			->where(['volumeId' => $settings['volumeId']])
+			->one();
+
+			if ($folder)
+			{
+				$subFolder = (new Query())
+				->select('*')
+				->from(['{{%volumefolders}}'])
+				->where([
+						'volumeId' => $settings['volumeId'],
+						'parentId' => $folder['id'],
+						'name' => $oldSubfolder])
+				->one();
+
+				if ($subFolder)
+				{
+					$volumeFolder = VolumeFolderRecord::findOne($subFolder['id']);
+					$volumeFolder->name = $slider->handle;
+					return $volumeFolder->save();
+				}
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Create a secuencial string for the "name" and "handle" fields if they are already taken
+	 *
+	 * @param string
+	 * @param string
+	 * return string
+	 */
+	public function getFieldAsNew($field, $value)
+	{
+		$newField = null;
+		$i        = 1;
+		$band     = true;
+		do
+		{
+			$newField = $field == "handle" ? $value . $i : $value . " " . $i;
+			$form     = $this->getFieldValue($field, $newField);
+			if (is_null($form))
+			{
+				$band = false;
+			}
+
+			$i++;
+		}
+		while ($band);
+
+		return $newField;
+	}
+
+	/**
+	 * Returns the value of a given field
+	 *
+	 * @param string $field
+	 * @param string $value
+	 *
+	 * @return $form
+	 */
+	public function getFieldValue($field, $value)
+	{
+		$result = SliderRecord::findOne([$field => $value]);
+
+		return $result;
 	}
 
 	/**

@@ -48,7 +48,19 @@ class SlidersController extends BaseController
 
 		if ($sliderId)
 		{
-			$slider = Slider::$app->sliders->getSliderById($sliderId);
+			$slider    = Slider::$app->sliders->getSliderById($sliderId);
+			$oldHandle = $request->getBodyParam('handle');
+			if ($slider)
+			{
+				//lets update the subfolder
+				if ($slider->handle != $oldHandle)
+				{
+					if (!Slider::$app->sliders->updateSubfolder($slider, $oldHandle))
+					{
+						Slider::log("Unable to rename subfolder {$oldHandle} to {$slider->handle}", 'error');
+					}
+				}
+			}
 		}
 
 		//$slider->groupId     = $request->getBodyParam('groupId');
@@ -88,25 +100,39 @@ class SlidersController extends BaseController
 	 */
 	public function actionEditSlider(int $sliderId = null, SliderElement $slider = null)
 	{
-		if ($sliderId !== null)
+		// Immediately create a new Form
+		if ($sliderId === null)
 		{
-			if ($slider === null)
+			$slider = Slider::$app->sliders->createNewSlider();
+
+			if ($slider->id)
 			{
-				$variables['groups']  = Slider::$app->groups->getAllSlidersGroups();
-				$variables['groupId'] = "";
-
-				// Get the Slider
-				$slider = Slider::$app->sliders->getSliderById($sliderId);
-
-				if (!$slider)
-				{
-					throw new NotFoundHttpException(Slider::t('Slider not found'));
-				}
+				$url = UrlHelper::cpUrl('enupalslider/slider/edit/' . $slider->id);
+				return $this->redirect($url);
+			}
+			else
+			{
+				throw new Exception(Craft::t('Error creating Slider'));
 			}
 		}
-		if ($slider === null)
+		else
 		{
-			$slider = new SliderElement;
+			if ($sliderId !== null)
+			{
+				if ($slider === null)
+				{
+					$variables['groups']  = Slider::$app->groups->getAllSlidersGroups();
+					$variables['groupId'] = "";
+
+					// Get the Slider
+					$slider = Slider::$app->sliders->getSliderById($sliderId);
+
+					if (!$slider)
+					{
+						throw new NotFoundHttpException(Slider::t('Slider not found'));
+					}
+				}
+			}
 		}
 
 		$settings = (new Query())
@@ -127,6 +153,20 @@ class SlidersController extends BaseController
 			->one();
 
 			$sources = ['folder:'.$folder['id']];
+
+			$subFolder = (new Query())
+			->select('*')
+			->from(['{{%volumefolders}}'])
+			->where([
+					'volumeId' => $settings['volumeId'],
+					'parentId' => $folder['id'],
+					'name' => $slider->handle])
+			->one();
+
+			if ($subFolder)
+			{
+				$sources = ['folder:'.$folder['id'].'/folder:'.$subFolder['id']];
+			}
 		}
 
 		$variables['sources']  = $sources;
