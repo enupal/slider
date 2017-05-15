@@ -480,7 +480,7 @@ class Sliders extends Component
 
 		foreach ($settings as $setting => $value)
 		{
-			$data += "data-{$setting}='{$value}' ";
+			$data .= "data-{$setting}='{$value}' ";
 		}
 
 		return $data;
@@ -502,6 +502,68 @@ class Sliders extends Component
 		#$query->enabledForSite(false);
 
 		return $query->one();
+	}
+
+	/**
+	 * Get default options
+	 *
+	 * @return array Default slide options data
+	 */
+	public function getDefaultOptions($slider)
+	{
+		return [
+			'mode' => $slider->mode ? $slider->mode : 'horizontal',
+			'speed' => 500,
+			'slide_margin' => 0,
+			'start_slide' => 0,
+			'random_start' => 'false',
+			'slide_selector' => '',
+			'infinite_loop' => 'true',
+			'hide_control_on_end' => 'false',
+			'captions' => 'true',
+			'ticker' => 'false',
+			'ticker_hover' => 'false',
+			'adaptive_height' => 'false',
+			'adaptive_height_speed' => 500,
+			'video' => 'false',
+			'responsive' => 'true',
+			'use_css' => 'true',
+			'easing' => 'null',
+			'preload_images' => 'visible',
+			'touch_enabled' => 'true',
+			'swipe_threshold' => 50,
+			'one_to_one_touch' => 'true',
+			'prevent_default_swipe_x' => 'true',
+			'prevent_default_swipe_y' => 'false',
+
+			'pager' => 'true',
+			'pager_type' => 'full',
+			'pager_short_separator' => ' / ',
+			'pager_selector' => '',
+
+			'controls' => 'true',
+			'next_text' => 'Next',
+			'prev_text' => 'Prev',
+			'next_selector' => 'null',
+			'prev_selector' => 'null',
+			'auto_controls' => 'false',
+			'start_text' => 'Start',
+			'stop_text' => 'Stop',
+			'auto_controls_combine' => 'false',
+			'auto_controls_selector' => 'null',
+
+			'auto' => 'false',
+			'pause' => 4000,
+			'auto_start' => 'true',
+			'auto_direction' => 'next',
+			'auto_hover' => 'false',
+			'auto_delay' => 0,
+
+			'min_slides' => 1,
+			'max_slides' => 1,
+			'move_slides' => 0,
+			'slide_width' => 0,
+		];
 	}
 
 }
