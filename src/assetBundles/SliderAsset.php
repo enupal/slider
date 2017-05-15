@@ -12,9 +12,7 @@ class SliderAsset extends AssetBundle
 		$this->sourcePath = '@enupal/slider/resources/bxslider-4/';
 
 		// define the dependencies
-		$this->depends = [
-			CpAsset::class,
-		];
+
 
 		// define the relative path to CSS/JS files that should be registered with the page
 		// when this asset bundle is registered
