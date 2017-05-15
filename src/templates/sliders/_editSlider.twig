@@ -61,10 +61,10 @@
 					id: 'slides',
 					name: 'slides',
 					jsClass: 'Craft.AssetSelectInput',
-					addButtonLabel: 'Select Image'|t('enupalslider'),
+					selectionLabel: 'Add Slides'|t('enupalslider'),
 					limit: null,
 					viewMode: 'large',
-					criteria: {siteId : null}
+					criteria: {kind: ['image'], siteId : null}
 				})) }}
 				{#limit: 1,
 					criteria: {"localeEnabled":null}

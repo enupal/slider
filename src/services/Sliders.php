@@ -4,7 +4,7 @@ namespace enupal\slider\services;
 use Craft;
 use yii\base\Component;
 use craft\fields\RichText;
-use craft\fields\Checkboxes;
+use craft\fields\RadioButtons;
 use craft\elements\Asset;
 use craft\volumes\Local;
 use craft\base\Field;
@@ -137,12 +137,12 @@ class Sliders extends Component
 				$fieldGroupId = $fieldGroup['id'];
 			}
 
-			$handle        = $this->getHandleAsNew("enupalSliderHtml");
+			$htmlHandle    = $this->getHandleAsNew("enupalSliderHtml");
 			$htmlField = $fieldsService->createField([
 				'type' => RichText::class,
 				'name' => Slider::t('Html'),
 				'groupId' => $fieldGroupId,
-				'handle' => $handle,
+				'handle' => $htmlHandle,
 				'instructions' => Slider::t('Override your image with custom HTML'),
 				'translationMethod' => Field::TRANSLATION_METHOD_NONE,
 			]);
@@ -150,11 +150,11 @@ class Sliders extends Component
 			#Craft::$app->content->fieldContext = $slider->getFieldContext();
 			Craft::$app->fields->saveField($htmlField);
 
-			$handle        = $this->getHandleAsNew("enupalSliderSource");
-			$sourceField = $fieldsService->createField([
-				'type' => Checkboxes::class,
+			$sourceHandle = $this->getHandleAsNew("enupalSliderSource");
+			$sourceField  = $fieldsService->createField([
+				'type' => RadioButtons::class,
 				'name' => Slider::t('Source'),
-				'handle' => $handle,
+				'handle' => $sourceHandle,
 				'groupId' => $fieldGroupId,
 				'instructions' => Slider::t('What should display this slide?'),
 				'settings'  => '{"options":[{"label":"Image","value":"image","default":"1"},{"label":"Both (Image and Html)","value":"bothImageAndHtml","default":""},{"label":"Just hmtl","value":"justHmtl","default":""}]}',
@@ -205,15 +205,16 @@ class Sliders extends Component
 			$volume->validate();
 			$errors = $volume->getErrors();
 
-
 			// save it
 			$response = $volumes->saveVolume($volume);
 
 			if ($response)
 			{
 				$settings = [
-					'pluginNameOverride'=>'',
-					'volumeId' => $volume->id
+					'pluginNameOverride' => '',
+					'volumeId'           => $volume->id,
+					'sourceHandle'       => $sourceHandle,
+					'htmlHandle'         => $htmlHandle
 				];
 
 				$settings = json_encode($settings);
@@ -470,6 +471,37 @@ class Sliders extends Component
 		}
 
 		return $sources;
+	}
+
+	public function getDataAttributes($slider)
+	{
+		$settings = get_class_vars(get_class($slider));
+		$data     = "";
+
+		foreach ($settings as $setting => $value)
+		{
+			$data += "data-{$setting}='{$value}' ";
+		}
+
+		return $data;
+	}
+
+	public function getEnupalSliderPath()
+	{
+		$defaultTemplate = Craft::$app->path->getPluginsPath() . '/enupalslider/src/templates/_frontend/';
+
+		return $defaultTemplate;
+	}
+
+	public function getSliderByHandle(string $handle, int $siteId = null)
+	{
+		$query = SliderElement::find();
+		$query->handle($handle);
+		$query->siteId($siteId);
+		// @todo - research next function
+		#$query->enabledForSite(false);
+
+		return $query->one();
 	}
 
 }
