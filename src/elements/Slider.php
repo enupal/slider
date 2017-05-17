@@ -40,71 +40,85 @@ class Slider extends Element
 	public $groupId;
 
 	// Type of transition between slides.
-	public $mode;
+	public $mode = 'horizontal';
 
 	// Slide transition duration (in ms).
-	public $speed;
+	public $speed = 500;
 
 	//  Start slider on a random slide.
-	public $randomStart;
+	public $randomStart = false;
 
 	//If checked, clicking "Next" while on the last slide will transition to the first slide and vice-versa.
-	public $infiniteLoop;
+	public $infiniteLoop = true;
 
 	// Include image captions.
-	public $hasCaptions;
+	public $captions = true;
 
 	// Use slider in ticker mode (similar to a news ticker).
-	public $isTicker;
+	public $ticker = false;
 
 	// Ticker will pause when mouse hovers over slider. Note: this functionality does NOT work if using CSS transitions!
-	public $tickerHover;
+	public $tickerHover = false;
 
 	// Dynamically adjust slider height based on each slide's height.
-	public $adaptiveHeight;
+	public $adaptiveHeight = false;
 
 	//  Slide height transition duration (in ms). Note: only used if Adaptive Height is checked.
-	public $adaptiveHeightSpeed;
+	public $adaptiveHeightSpeed = 500;
 
 	// Check this if any slides contain a video.
-	public $hasVideo;
+	public $video = false;
 
 	//  Enable or disable auto resize of the slider. Useful if you need to use fixed width sliders.
-	public $responsive;
+	public $responsive = true;
 
 	//  If checked, CSS transitions will be used for horizontal and vertical slide animations (this uses native hardware acceleration). If unchecked, jQuery animate() will be used.
-	public $useCss;
+	public $useCss = true;
 
 	// The type of "easing" to use during transitions.
-	public $easing;
+	public $easing = null;
 
 	//  If "all", preloads all images before starting the slider. If "visible", preloads only images in the initially visible slides before starting the slider (tip: use "visible" if all slides are identical dimensions).
-	public $preloadImages;
+	public $preloadImages = 'visible';
 
 	//  If checked, slider will allow touch swipe transitions.
-	public $touchEnabled;
+	public $touchEnabled = true;
 
 	// Amount of pixels a touch swipe needs to exceed in order to execute a slide transition. Note: Only used if Touch Enabled is checked.
-	public $swipeThreshold;
+	public $swipeThreshold = 50;
 
 	// If checked, touch screen will not move along the x-axis as the finger swipes.
-	public $preventDefaultSwipeX;
+	public $preventDefaultSwipeX = true;
 
 	// If checked, touch screen will not move along the y-axis as the finger swipes.
-	public $preventDefaultSwipeY;
+	public $preventDefaultSwipeY = false;
 
 	// Margin between each slide.
-	public $slideMargin;
+	public $slideMargin = 0;
 
 	// Element to use as slides (ex. 'div.slide'). Note: by default, bxSlider will use all immediate children of the slider element.
-	public $slideSelector;
+	public $slideSelector = '';
 
 	// Pager - Properties
 	// =========================================================================
-
+	/*public $pager               = true,
+	public $pagerType           = 'full',
+	public $pagerShortSeparator = ' / ',
+	public $pagerSelector       = '',*/
 
 	// Controls - Properties
 	// =========================================================================
+
+	/*public $controls = true,
+	public $next_text = 'Next',
+	public $prev_text = 'Prev',
+	public $next_selector = null,
+	public $prev_selector = null,
+	public $auto_controls = false,
+	public $start_text = 'Start',
+	public $stop_text = 'Stop',
+	public $auto_controls_combine = false,
+	public $auto_controls_selector = null,*/
 
 	// Auto - Properties
 	// =========================================================================
@@ -331,6 +345,26 @@ class Slider extends Element
 		$record->name   = $this->name;
 		$record->handle = $this->handle;
 		$record->slides = $this->slides;
+		$record->mode   = $this->mode;
+		$record->speed = $this->speed;
+		$record->slideMargin = $this->slideMargin;
+		$record->randomStart   = $this->randomStart;
+		$record->slideSelector = $this->slideSelector;
+		$record->infiniteLoop = $this->infiniteLoop;
+		$record->captions   = $this->captions;
+		$record->ticker = $this->ticker;
+		$record->tickerHover = $this->tickerHover;
+		$record->adaptiveHeight   = $this->adaptiveHeight;
+		$record->adaptiveHeightSpeed = $this->adaptiveHeightSpeed;
+		$record->video = $this->video;
+		$record->responsive = $this->responsive;
+		$record->useCss = $this->useCss;
+		$record->easing = $this->easing;
+		$record->preloadImages = $this->preloadImages;
+		$record->touchEnabled = $this->touchEnabled;
+		$record->swipeThreshold = $this->swipeThreshold;
+		$record->preventDefaultSwipeX = $this->preventDefaultSwipeX;
+		$record->preventDefaultSwipeY = $this->preventDefaultSwipeY;
 
 		$record->save(false);
 

@@ -475,12 +475,13 @@ class Sliders extends Component
 
 	public function getDataAttributes($slider)
 	{
-		$settings = get_class_vars(get_class($slider));
+		Craft::dd($slider);
+		$settings = $this->getDefaultOptions($slider);
 		$data     = "";
 
 		foreach ($settings as $setting => $value)
 		{
-			$data .= "data-{$setting}='{$value}' ";
+			$data .= "data-enupalslider-{$setting}='{$value}' ";
 		}
 
 		return $data;
@@ -512,57 +513,57 @@ class Sliders extends Component
 	public function getDefaultOptions($slider)
 	{
 		return [
-			'mode' => $slider->mode ? $slider->mode : 'horizontal',
-			'speed' => 500,
-			'slide_margin' => 0,
-			'start_slide' => 0,
-			'random_start' => 'false',
-			'slide_selector' => '',
-			'infinite_loop' => 'true',
-			'hide_control_on_end' => 'false',
-			'captions' => 'true',
-			'ticker' => 'false',
-			'ticker_hover' => 'false',
-			'adaptive_height' => 'false',
-			'adaptive_height_speed' => 500,
-			'video' => 'false',
-			'responsive' => 'true',
-			'use_css' => 'true',
-			'easing' => 'null',
-			'preload_images' => 'visible',
-			'touch_enabled' => 'true',
-			'swipe_threshold' => 50,
-			'one_to_one_touch' => 'true',
-			'prevent_default_swipe_x' => 'true',
-			'prevent_default_swipe_y' => 'false',
+			'mode' => $slider->mode,
+			'speed' => $slider->speed,
+			'slide-margin' => $slider->slideMargin,
+			'start-slide' => 0,
+			'random-start' => $slider->randomStart,
+			'slide-selector' => $slider->slideSelector,
+			'infinite-loop' => $slider->infiniteLoop,
+			'hide-control-on-end' => 'false',
+			'captions' => $slider->captions,
+			'ticker' => $slider->ticker,
+			'ticker-hover' => $slider->tickerHover,
+			'adaptive-height' => $slider->adaptiveHeight,
+			'adaptive-height-speed' => $slider->adaptiveHeightSpeed,
+			'video' => $slider->video,
+			'responsive' => $slider->responsive,
+			'use-css' => $slider->useCss,
+			'easing' => $slider->easing,
+			'preload-images' => $slider->preloadImages,
+			'touch-enabled' => $slider->touchEnabled,
+			'swipe-threshold' => $slider->swipeThreshold,
+			'one-to-one-touch' => 'true',
+			'prevent-default-swipe-x' => $slider->preventDefaultSwipeX,
+			'prevent-default-swipe-y' => $slider->preventDefaultSwipeY,
 
 			'pager' => 'true',
-			'pager_type' => 'full',
-			'pager_short_separator' => ' / ',
-			'pager_selector' => '',
+			'pager-type' => 'full',
+			'pager-short-separator' => ' / ',
+			'pager-selector' => '',
 
 			'controls' => 'true',
-			'next_text' => 'Next',
-			'prev_text' => 'Prev',
-			'next_selector' => 'null',
-			'prev_selector' => 'null',
-			'auto_controls' => 'false',
-			'start_text' => 'Start',
-			'stop_text' => 'Stop',
-			'auto_controls_combine' => 'false',
-			'auto_controls_selector' => 'null',
+			'next-text' => 'Next',
+			'prev-text' => 'Prev',
+			'next-selector' => 'null',
+			'prev-selector' => 'null',
+			'auto-controls' => 'false',
+			'start-text' => 'Start',
+			'stop-text' => 'Stop',
+			'auto-controls-combine' => 'false',
+			'auto-controls-selector' => 'null',
 
 			'auto' => 'false',
 			'pause' => 4000,
-			'auto_start' => 'true',
-			'auto_direction' => 'next',
-			'auto_hover' => 'false',
-			'auto_delay' => 0,
+			'auto-start' => 'true',
+			'auto-direction' => 'next',
+			'auto-hover' => 'false',
+			'auto-delay' => 0,
 
-			'min_slides' => 1,
-			'max_slides' => 1,
-			'move_slides' => 0,
-			'slide_width' => 0,
+			'min-slides' => 1,
+			'max-slides' => 1,
+			'move-slides' => 0,
+			'slide-width' => 0,
 		];
 	}
 

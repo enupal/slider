@@ -135,18 +135,18 @@
 				<div class="field enupal-field-heading">{{'Ticker Options'|t('enupalslider')}}</div>
 				{{ forms.lightswitchField({
 					label: "Captions <span class='info'>Include image captions.</span>"|t('sproutforms'),
-					id: 'hasCaptions',
-					name: 'hasCaptions',
-					on: slider.hasCaptions,
+					id: 'captions',
+					name: 'captions',
+					on: slider.captions,
 					onLabel: "On"|t('sproutforms'),
 					offLabel: "Off"|t('sproutforms')
 				}) }}
 
 				{{ forms.lightswitchField({
 					label: "Ticker <span class='info'>Use slider in ticker mode (similar to a news ticker).</span>"|t('sproutforms'),
-					id: 'isTicker',
-					name: 'isTicker',
-					on: slider.isTicker,
+					id: 'ticker',
+					name: 'ticker',
+					on: slider.ticker,
 					onLabel: "On"|t('sproutforms'),
 					offLabel: "Off"|t('sproutforms')
 				}) }}
@@ -179,9 +179,9 @@
 
 				{{ forms.lightswitchField({
 					label: "Has Video? <span class='info'>Check this if any slides contain a video.</span>"|t('sproutforms'),
-					id: 'hasVideo',
-					name: 'hasVideo',
-					on: slider.hasVideo,
+					id: 'video',
+					name: 'video',
+					on: slider.video,
 					onLabel: "On"|t('sproutforms'),
 					offLabel: "Off"|t('sproutforms')
 				}) }}

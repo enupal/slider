@@ -41,10 +41,10 @@ class SliderQuery extends ElementQuery
 	public $infiniteLoop;
 
 	// Include image captions.
-	public $hasCaptions;
+	public $captions;
 
 	// Use slider in ticker mode (similar to a news ticker).
-	public $isTicker;
+	public $ticker;
 
 	// Ticker will pause when mouse hovers over slider. Note: this functionality does NOT work if using CSS transitions!
 	public $tickerHover;
@@ -56,7 +56,7 @@ class SliderQuery extends ElementQuery
 	public $adaptiveHeightSpeed;
 
 	// Check this if any slides contain a video.
-	public $hasVideo;
+	public $video;
 
 	//  Enable or disable auto resize of the slider. Useful if you need to use fixed width sliders.
 	public $responsive;
@@ -156,12 +156,12 @@ class SliderQuery extends ElementQuery
 			'enupalslider_sliders.speed',
 			'enupalslider_sliders.randomStart',
 			'enupalslider_sliders.infiniteLoop',
-			'enupalslider_sliders.hasCaptions',
-			'enupalslider_sliders.isTicker',
+			'enupalslider_sliders.captions',
+			'enupalslider_sliders.ticker',
 			'enupalslider_sliders.tickerHover',
 			'enupalslider_sliders.adaptiveHeight',
 			'enupalslider_sliders.adaptiveHeightSpeed',
-			'enupalslider_sliders.hasVideo',
+			'enupalslider_sliders.video',
 			'enupalslider_sliders.responsive',
 			'enupalslider_sliders.useCss',
 			'enupalslider_sliders.easing',

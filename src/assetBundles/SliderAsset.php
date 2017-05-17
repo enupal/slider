@@ -17,13 +17,13 @@ class SliderAsset extends AssetBundle
 		// define the relative path to CSS/JS files that should be registered with the page
 		// when this asset bundle is registered
 		$this->js = [
-			'js/jquery.min.js',
-			'js/initialize.js',
-			'js/jquery.bxslider.min.js'
+			'jquery.min.js',
+			'initialize.js',
+			'jquery.bxslider.min.js'
 		];
 
 		$this->css = [
-			'css/jquery.bxslider.min.css'
+			'jquery.bxslider.min.css'
 		];
 
 		parent::init();

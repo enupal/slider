@@ -1,6 +1,6 @@
 {% do view.registerAssetBundle("enupal\\slider\\assetbundles\\SliderAsset") %}
 
-<ul class="enupal-slider" {{dataAttributes}}>
+<ul class="enupal-slider" {{dataAttributes|raw}}>
  {% for slide in slidesElements %}
  	{% if attribute(slide, sourceHandle) == 'justHmtl' %}
  		<li>{{attribute(slide, htmlHandle)|raw}}</li>
