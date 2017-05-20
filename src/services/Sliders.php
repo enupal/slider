@@ -475,7 +475,6 @@ class Sliders extends Component
 
 	public function getDataAttributes($slider)
 	{
-		Craft::dd($slider);
 		$settings = $this->getDefaultOptions($slider);
 		$data     = "";
 
@@ -553,7 +552,7 @@ class Sliders extends Component
 			'auto-controls-combine' => 'false',
 			'auto-controls-selector' => 'null',
 
-			'auto' => 'false',
+			'auto' => 'true',
 			'pause' => 4000,
 			'auto-start' => 'true',
 			'auto-direction' => 'next',

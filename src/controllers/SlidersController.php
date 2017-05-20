@@ -14,6 +14,14 @@ use enupal\slider\elements\Slider as SliderElement;
 
 class SlidersController extends BaseController
 {
+	/*
+	 * Redirect to sliders index page
+	*/
+	public function actionIndex()
+	{
+		return $this->renderTemplate('enupalslider/sliders/index');
+	}
+
 	/**
 	 * Save a slider
 	 */
@@ -58,12 +66,31 @@ class SlidersController extends BaseController
 		}
 
 		//$slider->groupId     = $request->getBodyParam('groupId');
-		$oldHandle           = $slider->handle;
-		$newHandle           = $request->getBodyParam('handle');
-		$slider->name        = $request->getBodyParam('name');
-		$slider->handle      = $newHandle;
-		$slider->slides      = $request->getBodyParam('slides');
-		$slider->mode        = $request->getBodyParam('mode');
+		$oldHandle              = $slider->handle;
+		$newHandle              = $request->getBodyParam('handle');
+		$slider->name           = $request->getBodyParam('name');
+		$slider->handle         = $newHandle;
+		$slider->slides         = $request->getBodyParam('slides');
+		$slider->mode           = $request->getBodyParam('mode');
+		$slider->speed          = $request->getBodyParam('speed');
+		$slider->slideMargin    = $request->getBodyParam('slideMargin');
+		$slider->randomStart    = $request->getBodyParam('randomStart');
+		$slider->slideSelector  = $request->getBodyParam('slideSelector');
+		$slider->infiniteLoop   = $request->getBodyParam('infiniteLoop');
+		$slider->captions       = $request->getBodyParam('captions');
+		$slider->ticker         = $request->getBodyParam('ticker');
+		$slider->tickerHover    = $request->getBodyParam('tickerHover');
+		$slider->adaptiveHeight = $request->getBodyParam('adaptiveHeight');
+		$slider->video          = $request->getBodyParam('video');
+		$slider->responsive     = $request->getBodyParam('responsive');
+		$slider->useCss         = $request->getBodyParam('useCss');
+		$slider->easing         = $request->getBodyParam('easing');
+		$slider->preloadImages  = $request->getBodyParam('preloadImages');
+		$slider->touchEnabled   = $request->getBodyParam('touchEnabled');
+		$slider->swipeThreshold = $request->getBodyParam('swipeThreshold');
+		$slider->adaptiveHeightSpeed  = $request->getBodyParam('adaptiveHeightSpeed');
+		$slider->preventDefaultSwipeX = $request->getBodyParam('preventDefaultSwipeX');
+		$slider->preventDefaultSwipeX = $request->getBodyParam('preventDefaultSwipeX');
 
 		// Save it
 		if (!Slider::$app->sliders->saveSlider($slider))
