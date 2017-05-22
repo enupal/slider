@@ -16,6 +16,7 @@ use craft\records\VolumeFolder as VolumeFolderRecord;
 use enupal\slider\Slider;
 use enupal\slider\elements\Slider as SliderElement;
 use enupal\slider\records\Slider as SliderRecord;
+use craft\helpers\FileHelper;
 
 class Sliders extends Component
 {
@@ -138,16 +139,29 @@ class Sliders extends Component
 			}
 
 			$htmlHandle    = $this->getHandleAsNew("enupalSliderHtml");
+			$redactorPath = Craft::$app->path->getPluginsPath() . '/enupalslider/src/redactor/enupalslider';
+			$redactorConfigPath = Craft::$app->path->getConfigPath();
+			$redactorConfigPath = FileHelper::normalizePath($redactorConfigPath."/redactor");
+			FileHelper::copyDirectory($redactorPath, $redactorConfigPath);
+			$richTextSettings = [
+				"redactorConfig"=> "EnupalSlider.json",
+				"purifierConfig"=>"",
+				"cleanupHtml"=>"1",
+				"purifyHtml"=>"1",
+				"columnType"=>"text",
+				"availableVolumes"=>"*",
+				"availableTransforms"=>"*"
+			];
 			$htmlField = $fieldsService->createField([
 				'type' => RichText::class,
 				'name' => Slider::t('Html'),
 				'groupId' => $fieldGroupId,
 				'handle' => $htmlHandle,
+				'settings' => json_encode($richTextSettings),
 				'instructions' => Slider::t('Override your image with custom HTML'),
 				'translationMethod' => Field::TRANSLATION_METHOD_NONE,
 			]);
 			// Save our field
-			#Craft::$app->content->fieldContext = $slider->getFieldContext();
 			Craft::$app->fields->saveField($htmlField);
 
 			$sourceHandle = $this->getHandleAsNew("enupalSliderSource");
@@ -161,7 +175,6 @@ class Sliders extends Component
 				'translationMethod' => Field::TRANSLATION_METHOD_NONE,
 			]);
 			// Save our field
-			#Craft::$app->content->fieldContext = $slider->getFieldContext();
 			Craft::$app->fields->saveField($sourceField);
 
 			// Create a tab
@@ -185,9 +198,15 @@ class Sliders extends Component
 
 			$fieldLayout->type = FormElement::class;
 			$volumeHandle = $this->getHandleAsNew('EnupalSlider', true);
+			// Let's reuse the same handle if the volume already exists
 
 			/** @var Volume $volume */
 			$volumes = Craft::$app->getVolumes();
+			// get the full path of the web/enupalslider folder
+			$enupalSliderPath = $this->getSliderPath();
+			$volumeSettings = [
+				'path' => $enupalSliderPath
+			];
 			$volume = $volumes->createVolume([
 				'id' => null,
 				// let's add support for local just for now.
@@ -196,7 +215,7 @@ class Sliders extends Component
 				'handle' => $volumeHandle,
 				'hasUrls' => true,
 				'url' => '/enupalslider/',
-				'settings' => '{"path":"enupalslider"}'
+				'settings' => json_encode($volumeSettings)
 			]);
 
 			// Set the field layout
@@ -368,13 +387,17 @@ class Sliders extends Component
 	 */
 	public function getHandleAsNew($value, $isVolume = false)
 	{
-		$newHandle = null;
+		$newHandle = $value;
 		$aux       = true;
 		$i         = 1;
 		do
 		{
-			$newHandle = $value . $i;
-			$field     = $this->getFieldHandle($newHandle);
+			if ($i > 1)
+			{
+				$newHandle = $value . $i;
+			}
+
+			$field = $this->getFieldHandle($newHandle);
 
 			if ($isVolume)
 			{
@@ -564,6 +587,18 @@ class Sliders extends Component
 			'move-slides' => 0,
 			'slide-width' => 0,
 		];
+	}
+
+	public function getSliderPath()
+	{
+		// Get the public path of Craft CMS
+		$debugTrace = debug_backtrace();
+		$initialCalledFile = count($debugTrace) ? $debugTrace[count($debugTrace) - 1]['file'] : __FILE__;
+		$publicFolderPath = dirname($initialCalledFile);
+		$publicFolderPath = $publicFolderPath."/enupalslider";
+		$publicFolderPath = FileHelper::normalizePath($publicFolderPath);
+
+		return $publicFolderPath;
 	}
 
 }

@@ -209,22 +209,22 @@ class SlidersController extends BaseController
 	}
 
 	/**
-	 * Delete a form.
+	 * Delete a slider.
 	 *
 	 * @return void
 	 */
-	public function actionDeleteForm()
+	public function actionDeleteSlider()
 	{
 		$this->requirePostRequest();
 
 		$request = Craft::$app->getRequest();
 
 		// Get the Form these fields are related to
-		$formId = $request->getRequiredBodyParam('id');
-		$form   = Slider::$app->sliders->getFormById($formId);
+		$sliderId = $request->getRequiredBodyParam('id');
+		$slider   = Slider::$app->sliders->getSliderById($sliderId);
 
 		// @TODO - handle errors
-		$success = Slider::$app->sliders->deleteForm($form);
+		$success = Slider::$app->sliders->deleteSlider($slider);
 
 		return $this->redirectToPostedUrl($form);
 	}
