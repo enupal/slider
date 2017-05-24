@@ -4,6 +4,7 @@ namespace enupal\slider\variables;
 
 use Craft;
 use craft\helpers\Template as TemplateHelper;
+use craft\helpers\FileHelper;
 use enupal\slider\Slider;
 use enupal\slider\models\Settings;
 
@@ -78,6 +79,32 @@ class SliderVariable
 	}
 
 	/**
+	 * @return mixed
+	 */
+	public function getPagerTypeOptions()
+	{
+		$options = [
+			'full'  => 'All',
+			'short' => 'Short',
+		];
+
+		return $options;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getAutoDirectionOptions()
+	{
+		$options = [
+			'next'  => 'Next',
+			'prev' => 'Prev',
+		];
+
+		return $options;
+	}
+
+	/**
 	 * Returns a complete enupal slider for display in template
 	 *
 	 * @param string     $sliderHandle
@@ -128,5 +155,14 @@ class SliderVariable
 
 		return TemplateHelper::raw($sliderHtml);
 	}
+
+	/**
+	 * @return string
+	 */
+	public function getResourcesPath()
+	{
+		return Craft::$app->path->getPluginsPath() . '/enupalslider/src/resources/';
+	}
+
 }
 

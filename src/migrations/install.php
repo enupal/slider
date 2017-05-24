@@ -48,7 +48,7 @@ class Install extends Migration
 			'randomStart'          => $this->boolean()->defaultValue(false),
 			'infiniteLoop'         => $this->boolean()->defaultValue(true),
 			'captions'             => $this->boolean()->defaultValue(true),
-			'ticker'             => $this->boolean()->defaultValue(false),
+			'ticker'               => $this->boolean()->defaultValue(false),
 			'tickerHover'          => $this->boolean()->defaultValue(false),
 			'adaptiveHeight'       => $this->boolean()->defaultValue(false),
 			'adaptiveHeightSpeed'  => $this->integer(),
@@ -63,17 +63,49 @@ class Install extends Migration
 			'preventDefaultSwipeY' => $this->boolean()->defaultValue(false),
 			'slideMargin'          => $this->integer(),
 			'slideSelector'        => $this->string(),
+			// Pager
+			'pager'                => $this->boolean()->defaultValue(true),
+			'pagerType'            => $this->string(),
+			'pagerShortSeparator'  => $this->string(),
+			'pagerSelector'        => $this->string(),
+			//Controls
+			'controls'             => $this->boolean()->defaultValue(true),
+			'nextText'             => $this->string(),
+			'prevText'             => $this->string(),
+			'nextSelector'         => $this->string(),
+			'prevSelector'         => $this->string(),
+			'autoControls'         => $this->boolean()->defaultValue(false),
+			'startText'            => $this->string(),
+			'stopText'             => $this->string(),
+			'autoControlsCombine'  => $this->boolean()->defaultValue(false),
+			'autoControlsSelector' => $this->string(),
+			'keyboardEnabled'      => $this->boolean()->defaultValue(false),
+			//Auto
+			'auto'                 => $this->boolean()->defaultValue(false),
+			'stopAutoOnClick'      => $this->boolean()->defaultValue(false),
+			'pause'                => $this->integer(),
+			'autoStart'            => $this->boolean()->defaultValue(false),
+			'autoDirection'        => $this->string(),
+			'autoHover'            => $this->boolean()->defaultValue(false),
+			'autoDelay'            => $this->integer(),
+			//Carousel
+			'minSlides'            => $this->integer(),
+			'maxSlides'            => $this->integer(),
+			'moveSlides'           => $this->integer(),
+			'slideWidth'           => $this->float(),
+			'shrinkItems'          => $this->boolean()->defaultValue(false),
+			//
 			'dateCreated'          => $this->dateTime()->notNull(),
 			'dateUpdated'          => $this->dateTime()->notNull(),
 			'uid'                  => $this->uid(),
 		]);
 
 		$this->createTable('{{%enupalslider_groups}}', [
-			'id'                       => $this->primaryKey(),
-			'name'                     => $this->string()->notNull(),
-			'dateCreated'              => $this->dateTime()->notNull(),
-			'dateUpdated'              => $this->dateTime()->notNull(),
-			'uid'                      => $this->uid(),
+			'id'                   => $this->primaryKey(),
+			'name'                 => $this->string()->notNull(),
+			'dateCreated'          => $this->dateTime()->notNull(),
+			'dateUpdated'          => $this->dateTime()->notNull(),
+			'uid'                  => $this->uid(),
 		]);
 	}
 

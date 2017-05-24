@@ -101,30 +101,45 @@ class Slider extends Element
 
 	// Pager - Properties
 	// =========================================================================
-	/*public $pager               = true,
-	public $pagerType           = 'full',
-	public $pagerShortSeparator = ' / ',
-	public $pagerSelector       = '',*/
+	public $pager               = true;
+	public $pagerType           = 'full';
+	public $pagerShortSeparator = ' / ';
+	public $pagerSelector       = '';
 
 	// Controls - Properties
 	// =========================================================================
 
-	/*public $controls = true,
-	public $next_text = 'Next',
-	public $prev_text = 'Prev',
-	public $next_selector = null,
-	public $prev_selector = null,
-	public $auto_controls = false,
-	public $start_text = 'Start',
-	public $stop_text = 'Stop',
-	public $auto_controls_combine = false,
-	public $auto_controls_selector = null,*/
+	public $controls             = true;
+	public $nextText             = 'Next';
+	public $prevText             = 'Prev';
+	public $nextSelector         = null;
+	public $prevSelector         = null;
+	public $autoControls         = false;
+	public $startText            = 'Start';
+	public $stopText             = 'Stop';
+	public $autoControlsCombine  = false;
+	public $autoControlsSelector = null;
+	public $keyboardEnabled      = false;
 
 	// Auto - Properties
 	// =========================================================================
 
+	public $auto            = false;
+	public $stopAutoOnClick = false;
+	public $pause           = 4000;
+	public $autoStart       = false;
+	public $autoDirection   = 'next';
+	public $autoHover       = false;
+	public $autoDelay       = 0;
+
 	// Carousel - Properties
 	// =========================================================================
+
+	public $minSlides  = 1;
+	public $maxSlides  = 1;
+	public $moveSlides = 0;
+	public $slideWidth = 0;
+	public $shrinkItems = false;
 
 	/**
 	 * Returns the field context this element's content uses.
