@@ -357,29 +357,60 @@ class Slider extends Element
 			$record->id = $this->id;
 		}
 
-		$record->name   = $this->name;
-		$record->handle = $this->handle;
-		$record->slides = $this->slides;
-		$record->mode   = $this->mode;
-		$record->speed = $this->speed;
-		$record->slideMargin = $this->slideMargin;
-		$record->randomStart   = $this->randomStart;
-		$record->slideSelector = $this->slideSelector;
-		$record->infiniteLoop = $this->infiniteLoop;
-		$record->captions   = $this->captions;
-		$record->ticker = $this->ticker;
-		$record->tickerHover = $this->tickerHover;
-		$record->adaptiveHeight   = $this->adaptiveHeight;
-		$record->adaptiveHeightSpeed = $this->adaptiveHeightSpeed;
-		$record->video = $this->video;
-		$record->responsive = $this->responsive;
-		$record->useCss = $this->useCss;
-		$record->easing = $this->easing;
-		$record->preloadImages = $this->preloadImages;
-		$record->touchEnabled = $this->touchEnabled;
-		$record->swipeThreshold = $this->swipeThreshold;
+		$record->name                 = $this->name;
+		$record->handle               = $this->handle;
+		$record->slides               = $this->slides;
+		$record->mode                 = $this->mode;
+		$record->speed                = $this->speed;
+		$record->slideMargin          = $this->slideMargin;
+		$record->randomStart          = $this->randomStart;
+		$record->slideSelector        = $this->slideSelector;
+		$record->infiniteLoop         = $this->infiniteLoop;
+		$record->captions             = $this->captions;
+		$record->ticker               = $this->ticker;
+		$record->tickerHover          = $this->tickerHover;
+		$record->adaptiveHeight       = $this->adaptiveHeight;
+		$record->adaptiveHeightSpeed  = $this->adaptiveHeightSpeed;
+		$record->video                = $this->video;
+		$record->responsive           = $this->responsive;
+		$record->useCss               = $this->useCss;
+		$record->easing               = $this->easing;
+		$record->preloadImages        = $this->preloadImages;
+		$record->touchEnabled         = $this->touchEnabled;
+		$record->swipeThreshold       = $this->swipeThreshold;
 		$record->preventDefaultSwipeX = $this->preventDefaultSwipeX;
 		$record->preventDefaultSwipeY = $this->preventDefaultSwipeY;
+		//Pager
+		$record->pager                = $this->pager;
+		$record->pagerType            = $this->pagerType;
+		$record->pagerShortSeparator  = $this->pagerShortSeparator;
+		$record->pagerSelector        = $this->pagerSelector;
+		//Controls
+		$record->controls             = $this->controls;
+		$record->nextText             = $this->nextText;
+		$record->prevText             = $this->prevText;
+		$record->nextSelector         = $this->nextSelector;
+		$record->prevSelector         = $this->prevSelector;
+		$record->autoControls         = $this->autoControls;
+		$record->startText            = $this->startText;
+		$record->stopText             = $this->stopText;
+		$record->autoControlsCombine  = $this->autoControlsCombine;
+		$record->autoControlsSelector = $this->autoControlsSelector;
+		$record->keyboardEnabled      = $this->keyboardEnabled;
+		//Auto
+		$record->auto                 = $this->auto;
+		$record->stopAutoOnClick      = $this->stopAutoOnClick;
+		$record->pause                = $this->pause;
+		$record->autoStart            = $this->autoStart;
+		$record->autoDirection        = $this->autoDirection;
+		$record->autoHover            = $this->autoHover;
+		$record->autoDelay            = $this->autoDelay;
+		//Carousel
+		$record->minSlides            = $this->minSlides;
+		$record->maxSlides            = $this->maxSlides;
+		$record->moveSlides           = $this->moveSlides;
+		$record->slideWidth           = $this->slideWidth;
+		$record->shrinkItems          = $this->shrinkItems;
 
 		$record->save(false);
 

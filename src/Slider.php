@@ -58,6 +58,16 @@ class Slider extends \craft\base\Plugin
 		Craft::$type(self::t($message), __METHOD__);
 	}
 
+	public static function info($message)
+	{
+		Craft::info(self::t($message), __METHOD__);
+	}
+
+	public static function error($message)
+	{
+		Craft::error(self::t($message), __METHOD__);
+	}
+
 	/**
 	 * @return array
 	 */

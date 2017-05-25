@@ -154,6 +154,7 @@ class SliderQuery extends ElementQuery
 			'enupalslider_sliders.groupId',
 			'enupalslider_sliders.mode',
 			'enupalslider_sliders.speed',
+			'enupalslider_sliders.slideMargin',
 			'enupalslider_sliders.randomStart',
 			'enupalslider_sliders.infiniteLoop',
 			'enupalslider_sliders.captions',
@@ -170,7 +171,38 @@ class SliderQuery extends ElementQuery
 			'enupalslider_sliders.swipeThreshold',
 			'enupalslider_sliders.preventDefaultSwipeX',
 			'enupalslider_sliders.preventDefaultSwipeY',
-			'enupalslider_sliders.uid'
+			//Pager
+			'enupalslider_sliders.pager',
+			'enupalslider_sliders.pagerType',
+			'enupalslider_sliders.pagerShortSeparator',
+			'enupalslider_sliders.pagerSelector',
+			//Controls
+			'enupalslider_sliders.controls',
+			'enupalslider_sliders.nextText',
+			'enupalslider_sliders.prevText',
+			'enupalslider_sliders.nextSelector',
+			'enupalslider_sliders.prevSelector',
+			'enupalslider_sliders.autoControls',
+			'enupalslider_sliders.startText',
+			'enupalslider_sliders.stopText',
+			'enupalslider_sliders.autoControlsCombine',
+			'enupalslider_sliders.autoControlsSelector',
+			'enupalslider_sliders.keyboardEnabled',
+			//Auto
+			'enupalslider_sliders.auto',
+			'enupalslider_sliders.stopAutoOnClick',
+			'enupalslider_sliders.pause',
+			'enupalslider_sliders.autoStart',
+			'enupalslider_sliders.autoDirection',
+			'enupalslider_sliders.autoHover',
+			'enupalslider_sliders.autoDelay',
+			//Carousel
+			'enupalslider_sliders.minSlides',
+			'enupalslider_sliders.maxSlides',
+			'enupalslider_sliders.moveSlides',
+			'enupalslider_sliders.slideWidth',
+			'enupalslider_sliders.shrinkItems',
+			'enupalslider_sliders.uid',
 		]);
 
 		if ($this->id) {

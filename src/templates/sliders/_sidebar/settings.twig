@@ -60,6 +60,14 @@
 		}) }}
 
 		{{ forms.textField({
+			label: "Slide Margin <span class='info'>Margin between each slide</span>"|t('enupalslider'),
+			id: 'slideMargin',
+			name: 'slideMargin',
+			value: slider.slideMargin,
+			errors: slider.getErrors('slideMargin')
+		}) }}
+
+		{{ forms.textField({
 			label: "Speed <span class='info'>Slide transition duration (in ms).</span>"|t('enupalslider'),
 			id: 'speed',
 			name: 'speed',

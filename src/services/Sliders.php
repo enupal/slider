@@ -81,31 +81,28 @@ class Sliders extends Component
 
 		$slider->validate();
 
-		if (!$slider->hasErrors())
+		if ($slider->hasErrors())
 		{
-			$transaction = Craft::$app->db->getTransaction() === null ? Craft::$app->db->beginTransaction() : null;
-			try
-			{
-				if (Craft::$app->elements->saveElement($slider, false))
-				{
-					if ($transaction !== null)
-					{
-						$transaction->commit();
-					}
+			return false;
+		}
 
-					return true;
-				}
-			}
-			catch (\Exception $e)
-			{
-				if ($transaction !== null)
-				{
-					$transaction->rollback();
-				}
+		$transaction = Craft::$app->db->beginTransaction();
 
-				throw $e;
+		try
+		{
+			if (Craft::$app->elements->saveElement($slider))
+			{
+				$transaction->commit();
 			}
 		}
+		catch (\Exception $e)
+		{
+			$transaction->rollback();
+
+			throw $e;
+		}
+
+		return true;
 	}
 
 	public function installDefaultVolume()
@@ -227,36 +224,38 @@ class Sliders extends Component
 			// save it
 			$response = $volumes->saveVolume($volume);
 
-			if ($response)
+			if (!$response)
 			{
-				$settings = [
-					'pluginNameOverride' => '',
-					'volumeId'           => $volume->id,
-					'sourceHandle'       => $sourceHandle,
-					'htmlHandle'         => $htmlHandle
-				];
-
-				$settings = json_encode($settings);
-				$affectedRows = Craft::$app->getDb()->createCommand()->update('plugins', [
-					'settings' => $settings
-					],
-					[
-					'handle' => 'enupalslider'
-					]
-				)->execute();
+				Slider::error('Unable to save the volume');
+				return false;
 			}
 
+			$settings = [
+				'pluginNameOverride' => '',
+				'volumeId'           => $volume->id,
+				'sourceHandle'       => $sourceHandle,
+				'htmlHandle'         => $htmlHandle
+			];
+
+			$settings = json_encode($settings);
+			$affectedRows = Craft::$app->getDb()->createCommand()->update('plugins', [
+				'settings' => $settings
+				],
+				[
+				'handle' => 'enupalslider'
+				]
+			)->execute();
+
 			$transaction->commit();
-
-			return $response;
-
 		}
 		catch (Exception $e)
 		{
 			$transaction->rollBack();
-			Slider::log('Failed to save element: '.$e->getMessage(), 'error');
+			Slider::error('Failed to save element: '.$e->getMessage());
 			throw $e;
 		}
+
+		return true;
 	}
 
 	public function createNewSlider($name = null, $handle = null): SliderElement
@@ -559,33 +558,35 @@ class Sliders extends Component
 			'prevent-default-swipe-x' => $slider->preventDefaultSwipeX,
 			'prevent-default-swipe-y' => $slider->preventDefaultSwipeY,
 
-			'pager' => 'true',
-			'pager-type' => 'full',
-			'pager-short-separator' => ' / ',
-			'pager-selector' => '',
+			'pager' => $slider->pager,
+			'pager-type' => $slider->pagerType,
+			'pager-short-separator' => $slider->pagerShortSeparator,
+			'pager-selector' => $slider->pagerSelector,
 
-			'controls' => 'true',
-			'next-text' => 'Next',
-			'prev-text' => 'Prev',
-			'next-selector' => 'null',
-			'prev-selector' => 'null',
-			'auto-controls' => 'false',
-			'start-text' => 'Start',
-			'stop-text' => 'Stop',
-			'auto-controls-combine' => 'false',
-			'auto-controls-selector' => 'null',
+			'controls' =>  $slider->controls ,
+			'next-text' =>  $slider->nextText ,
+			'prev-text' =>  $slider->prevText,
+			'next-selector' =>  $slider->nextSelector,
+			'prev-selector' =>  $slider->prevSelector,
+			'auto-controls' =>  $slider->autoControls,
+			'start-text' =>  $slider->startText,
+			'stop-text' =>  $slider->stopText,
+			'auto-controls-combine' =>  $slider->autoControlsCombine,
+			'auto-controls-selector' =>  $slider->autoControlsSelector,
+			'auto-keyboard-enabled' =>  $slider->keyboardEnabled,
 
-			'auto' => 'true',
-			'pause' => 4000,
-			'auto-start' => 'true',
-			'auto-direction' => 'next',
-			'auto-hover' => 'false',
-			'auto-delay' => 0,
+			'auto' => $slider->auto,
+			'pause' => $slider->pause,
+			'auto-start' => $slider->autoStart,
+			'auto-direction' => $slider->autoDirection,
+			'auto-hover' => $slider->autoHover,
+			'auto-delay' => $slider->autoDelay,
 
-			'min-slides' => 1,
-			'max-slides' => 1,
-			'move-slides' => 0,
-			'slide-width' => 0,
+			'min-slides' => $slider->minSlides,
+			'max-slides' => $slider->maxSlides,
+			'move-slides' => $slider->moveSlides,
+			'slide-width' => $slider->slideWidth,
+			'slide-shrink-items' => $slider->shrinkItems,
 		];
 	}
 
