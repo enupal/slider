@@ -17,6 +17,7 @@ class EditSliderAsset extends AssetBundle
 		// when this asset bundle is registered
 		$this->js = [
 			'clipboard/clipboard.min.js',
+			'js/enupalslider.js'
 		];
 
 		$this->css = [

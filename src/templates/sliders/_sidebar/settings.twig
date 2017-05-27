@@ -47,7 +47,7 @@
 		<div class="field enupal-field-heading">{{'General Options'|t('enupalslider')}}</div>
 
 		{% set modeOptions = craft.enupalslider.getModes() %}
-		{% set easingOptions = craft.enupalslider.getEasingOptions() %}
+		{% set easingOptions = craft.enupalslider.getEasingOptions(slider.useCss) %}
 		{% set preloadImagesOptions = craft.enupalslider.getPreloadImagesOptions() %}
 
 		{{ forms.selectField({

@@ -103,5 +103,20 @@
 
 	{% do view.registerAssetBundle("enupal\\slider\\assetbundles\\EditSliderAsset") %}
 
+	{% js %}
+	{% if not slider.handle %}
+		new Craft.HandleGenerator('#name', '#handle');
+	{% endif %}
+	$(document).ready(function() {
+
+		var cssEasingOptions = {{ craft.enupalslider.getEasingOptions(true)|json_encode()|raw }};
+
+		var easingOptions = {{ craft.enupalslider.getEasingOptions(false)|json_encode()|raw }};
+
+		new EnupalSlider(cssEasingOptions, easingOptions);
+
+	});
+{% endjs %}
+
 {% endblock %}
 
