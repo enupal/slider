@@ -6,7 +6,7 @@
 	{% if attribute(slide, sourceHandle) == 'justHmtl' %}
 		<li>{{attribute(slide, htmlHandle)|raw}}</li>
 	{% else %}
-		<li><img title="{{slide.title}}" src="{{slide.getUrl()}}"> </li>
+		<li><img src="{{slide.getUrl()}}" title="{{slide.title}}"> </li>
 	{% endif %}
  {% endfor %}
 </ul>
