@@ -12,16 +12,14 @@ class SliderAsset extends AssetBundle
 		$this->sourcePath = '@enupal/slider/resources/bxslider-4/';
 
 		// define the dependencies
-
-
 		// define the relative path to CSS/JS files that should be registered with the page
 		// when this asset bundle is registered
 		$this->js = [
 			'jquery.min.js',
-			'initialize.js',
+			'vendor/jquery.easing.1.3.js',
 			'jquery.bxslider.min.js',
+			'initialize.js',
 			'vendor/jquery.fitvids.js',
-			'vendor/jquery.easing.1.3.js'
 		];
 
 		$this->css = [

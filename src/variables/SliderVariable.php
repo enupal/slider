@@ -56,7 +56,7 @@ class SliderVariable
 	{
 		$options = [
 			'linear'      => 'Linear',
-			'ease'        => 'Ease',
+			'easeOutElastic'        => 'Ease',
 			'ease-in'     => 'Ease-in',
 			'ease-out'    => 'Ease-out',
 			'ease-in-out' => 'Ease-in-out',
