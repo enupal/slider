@@ -3,7 +3,7 @@
 <ul class="enupal-slider" {{dataAttributes|raw}}
  {% if slider.thumbnailPager %} data-enupalslider-pager-custom = 'enupalslider-{{slider.handle}}-pager' {% endif %}>
  {% for slide in slidesElements %}
-	{% if attribute(slide, sourceHandle) == 'justHmtl' %}
+	{% if attribute(slide, htmlHandle) and attribute(slide, htmlHandle)!='' %}
 		<li>{{attribute(slide, htmlHandle)|raw}}</li>
 	{% else %}
 		<li><img src="{{slide.getUrl()}}" title="{{slide.title}}"> </li>

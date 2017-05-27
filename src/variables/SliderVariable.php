@@ -178,7 +178,8 @@ class SliderVariable
 					'slidesElements' => $slidesElements,
 					'dataAttributes' => $dataAttributes,
 					'htmlHandle'     => $settings['htmlHandle'],
-					'sourceHandle'   => $settings['sourceHandle'],
+					'linkHandle'     => $settings['linkHandle'],
+					'openLinkHandle' => $settings['openLinkHandle'],
 					'options'        => $options
 				]
 			);

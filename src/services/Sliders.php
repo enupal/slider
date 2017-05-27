@@ -4,7 +4,8 @@ namespace enupal\slider\services;
 use Craft;
 use yii\base\Component;
 use craft\fields\RichText;
-use craft\fields\RadioButtons;
+use craft\fields\PlainText;
+use craft\fields\Dropdown;
 use craft\elements\Asset;
 use craft\volumes\Local;
 use craft\base\Field;
@@ -155,24 +156,37 @@ class Sliders extends Component
 				'groupId' => $fieldGroupId,
 				'handle' => $htmlHandle,
 				'settings' => json_encode($richTextSettings),
-				'instructions' => Slider::t('Override your image with custom HTML'),
+				'instructions' => Slider::t('Override your image with custom HTML. Leave it blank to disable'),
 				'translationMethod' => Field::TRANSLATION_METHOD_NONE,
 			]);
 			// Save our field
 			Craft::$app->fields->saveField($htmlField);
 
-			$sourceHandle = $this->getHandleAsNew("enupalSliderSource");
-			$sourceField  = $fieldsService->createField([
-				'type' => RadioButtons::class,
-				'name' => Slider::t('Source'),
-				'handle' => $sourceHandle,
+			$linkHandle = $this->getHandleAsNew("enupalSliderLink");
+			$linkField  = $fieldsService->createField([
+				'type' => PlainText::class,
+				'name' => Slider::t('Link'),
+				'handle' => $linkHandle,
 				'groupId' => $fieldGroupId,
-				'instructions' => Slider::t('What should display this slide?'),
-				'settings'  => '{"options":[{"label":"Image","value":"image","default":"1"},{"label":"Both (Image and Html)","value":"bothImageAndHtml","default":""},{"label":"Just hmtl","value":"justHmtl","default":""}]}',
+				'instructions' => Slider::t('Open Link on same window or new tab'),
+				'settings'  => '{"placeholder":"Leave it blank to disable","multiline":"","initialRows":"4","charLimit":"","columnType":"text"}',
 				'translationMethod' => Field::TRANSLATION_METHOD_NONE,
 			]);
 			// Save our field
-			Craft::$app->fields->saveField($sourceField);
+			Craft::$app->fields->saveField($linkField);
+
+			$openLinkHandle = $this->getHandleAsNew("enupalSliderOpenLink");
+			$openLinkField    = $fieldsService->createField([
+				'type' => Dropdown::class,
+				'name' => Slider::t('Open Link In'),
+				'handle' => $openLinkHandle,
+				'groupId' => $fieldGroupId,
+				'instructions' => Slider::t('Where should be opened the link?'),
+				'settings'  => '{"options":[{"label":"Same window","value":"sameWindow","default":"1"},{"label":"New Tab or Window","value":"newTabOrWindow","default":""}]}',
+				'translationMethod' => Field::TRANSLATION_METHOD_NONE,
+			]);
+			// Save our field
+			Craft::$app->fields->saveField($openLinkField);
 
 			// Create a tab
 			$tabName           = Slider::t('Enupal Slider');
@@ -185,9 +199,14 @@ class Sliders extends Component
 				$postedFieldLayout[$tabName][] = $htmlField->id;
 			}
 
-			if (isset($sourceField) && $sourceField->id != null)
+			if (isset($linkField) && $linkField->id != null)
 			{
-				$postedFieldLayout[$tabName][] = $sourceField->id;
+				$postedFieldLayout[$tabName][] = $linkField->id;
+			}
+
+			if (isset($openLinkField) && $openLinkField->id != null)
+			{
+				$postedFieldLayout[$tabName][] = $openLinkField->id;
 			}
 
 			// Set the field layout
@@ -233,8 +252,9 @@ class Sliders extends Component
 			$settings = [
 				'pluginNameOverride' => '',
 				'volumeId'           => $volume->id,
-				'sourceHandle'       => $sourceHandle,
-				'htmlHandle'         => $htmlHandle
+				'linkHandle'         => $linkHandle,
+				'openLinkHandle'     => $openLinkHandle,
+				'htmlHandle'         => $htmlHandle,
 			];
 
 			$settings = json_encode($settings);
