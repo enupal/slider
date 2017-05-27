@@ -96,6 +96,7 @@ class SlidersController extends BaseController
 		$slider->pagerType            = $request->getBodyParam('pagerType');
 		$slider->pagerShortSeparator  = $request->getBodyParam('pagerShortSeparator');
 		$slider->pagerSelector        = $request->getBodyParam('pagerSelector');
+		$slider->thumbnailPager       = $request->getBodyParam('thumbnailPager');
 		//Controls
 		$slider->controls             = $request->getBodyParam('controls');
 		$slider->nextText             = $request->getBodyParam('nextText');

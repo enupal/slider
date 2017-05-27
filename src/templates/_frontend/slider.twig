@@ -1,11 +1,28 @@
 {% do view.registerAssetBundle("enupal\\slider\\assetbundles\\SliderAsset") %}
 
-<ul class="enupal-slider" {{dataAttributes|raw}}>
+<ul class="enupal-slider" {{dataAttributes|raw}}
+ {% if slider.thumbnailPager %} data-enupalslider-pager-custom = 'enupalslider-{{slider.handle}}-pager' {% endif %}>
  {% for slide in slidesElements %}
- 	{% if attribute(slide, sourceHandle) == 'justHmtl' %}
- 		<li>{{attribute(slide, htmlHandle)|raw}}</li>
- 	{% else %}
- 		<li><img title="{{slide.title}}" src="{{slide.getUrl()}}"> </li>
- 	{% endif %}
+	{% if attribute(slide, sourceHandle) == 'justHmtl' %}
+		<li>{{attribute(slide, htmlHandle)|raw}}</li>
+	{% else %}
+		<li><img title="{{slide.title}}" src="{{slide.getUrl()}}"> </li>
+	{% endif %}
  {% endfor %}
 </ul>
+
+{% if slider.thumbnailPager %}
+	{% set thumb = {
+		mode: 'fit',
+		width: 80,
+		height: 80,
+		quality: 100
+	} %}
+	<div id="enupalslider-{{slider.handle}}-pager">
+	 {% for slide in slidesElements %}
+			<a data-slide-index="{{loop.index0}}" href="">
+				<img src="{{slide.getUrl(thumb)}}" />
+			</a>
+	 {% endfor %}
+	</div>
+{% endif %}

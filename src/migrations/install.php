@@ -68,6 +68,7 @@ class Install extends Migration
 			'pagerType'            => $this->string(),
 			'pagerShortSeparator'  => $this->string(),
 			'pagerSelector'        => $this->string(),
+			'thumbnailPager'       => $this->boolean()->defaultValue(false),
 			//Controls
 			'controls'             => $this->boolean()->defaultValue(true),
 			'nextText'             => $this->string(),

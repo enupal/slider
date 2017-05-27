@@ -105,6 +105,7 @@ class Slider extends Element
 	public $pagerType           = 'full';
 	public $pagerShortSeparator = ' / ';
 	public $pagerSelector       = '';
+	public $thumbnailPager      = false;
 
 	// Controls - Properties
 	// =========================================================================
@@ -385,6 +386,7 @@ class Slider extends Element
 		$record->pagerType            = $this->pagerType;
 		$record->pagerShortSeparator  = $this->pagerShortSeparator;
 		$record->pagerSelector        = $this->pagerSelector;
+		$record->thumbnailPager       = $this->thumbnailPager;
 		//Controls
 		$record->controls             = $this->controls;
 		$record->nextText             = $this->nextText;

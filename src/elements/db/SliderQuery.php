@@ -176,6 +176,7 @@ class SliderQuery extends ElementQuery
 			'enupalslider_sliders.pagerType',
 			'enupalslider_sliders.pagerShortSeparator',
 			'enupalslider_sliders.pagerSelector',
+			'enupalslider_sliders.thumbnailPager',
 			//Controls
 			'enupalslider_sliders.controls',
 			'enupalslider_sliders.nextText',

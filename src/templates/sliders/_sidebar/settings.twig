@@ -220,6 +220,15 @@
 			errors: slider.getErrors('pagerSelector')
 		}) }}
 
+		{{ forms.lightswitchField({
+			label: "Thumbnail Pager <span class='info'>Enable thumbnails images as pager</span>"|t('enupalslider'),
+			id: 'thumbnailPager',
+			name: 'thumbnailPager',
+			on: slider.thumbnailPager,
+			onLabel: "On"|t('sproutforms'),
+			offLabel: "Off"|t('sproutforms')
+		}) }}
+
 		<div class="field enupal-field-heading">{{'Controls Options'|t('enupalslider')}}</div>
 
 		{{ forms.lightswitchField({
@@ -398,7 +407,7 @@
 		}) }}
 
 		{{ forms.textField({
-			label: "Move Slides <span class='info'>The width of each slide. This setting is required for all horizontal carousels!</span>"|t('enupalslider'),
+			label: "Slide Width <span class='info'>The width of each slide. This setting is required for all horizontal carousels!</span>"|t('enupalslider'),
 			id: 'slideWidth',
 			name: 'slideWidth',
 			value: slider.slideWidth,
