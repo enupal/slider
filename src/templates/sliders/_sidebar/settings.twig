@@ -54,6 +54,7 @@
 			label: "Mode <span class='info'>Type of transition between slides.</span>"|t('enupalslider'),
 			id: 'mode',
 			name: 'mode',
+			class: 'enupalslider',
 			options: modeOptions,
 			value: slider.mode,
 			errors: slider.getErrors('mode')
@@ -63,6 +64,7 @@
 			label: "Slide Margin <span class='info'>Margin between each slide</span>"|t('enupalslider'),
 			id: 'slideMargin',
 			name: 'slideMargin',
+			class: 'enupalslider',
 			value: slider.slideMargin,
 			errors: slider.getErrors('slideMargin')
 		}) }}
@@ -71,6 +73,7 @@
 			label: "Speed <span class='info'>Slide transition duration (in ms).</span>"|t('enupalslider'),
 			id: 'speed',
 			name: 'speed',
+			class: 'enupalslider',
 			value: slider.speed,
 			errors: slider.getErrors('speed')
 		}) }}
@@ -79,6 +82,7 @@
 			label: "Random Start <span class='info'>Start slider on a random slide</span>"|t('enupalslider'),
 			id: 'randomStart',
 			name: 'randomStart',
+			class: 'enupalslider',
 			on: slider.randomStart,
 			onLabel: "On"|t('enupalslider'),
 			offLabel: "Off"|t('enupalslider')
@@ -88,6 +92,7 @@
 			label: "Infinite Loop <span class='info'>If checked, clicking 'Next' while on the last slide will transition to the first slide and vice-versa.</span>"|t('enupalslider'),
 			id: 'infiniteLoop',
 			name: 'infiniteLoop',
+			class: 'enupalslider',
 			on: slider.infiniteLoop,
 			onLabel: "On"|t('enupalslider'),
 			offLabel: "Off"|t('enupalslider')
@@ -96,6 +101,7 @@
 			label: "Captions <span class='info'>Include image captions.</span>"|t('enupalslider'),
 			id: 'captions',
 			name: 'captions',
+			class: 'enupalslider',
 			on: slider.captions,
 			onLabel: "On"|t('enupalslider'),
 			offLabel: "Off"|t('enupalslider')
@@ -105,6 +111,7 @@
 			label: "Ticker <span class='info'>Use slider in ticker mode (similar to a news ticker).</span>"|t('enupalslider'),
 			id: 'ticker',
 			name: 'ticker',
+			class: 'enupalslider',
 			on: slider.ticker,
 			onLabel: "On"|t('enupalslider'),
 			offLabel: "Off"|t('enupalslider')
@@ -114,6 +121,7 @@
 			label: "Ticker Hover <span class='info'>Ticker will pause when mouse hovers over slider. Note: this functionality does NOT work if using CSS transitions!</span>"|t('enupalslider'),
 			id: 'tickerHover',
 			name: 'tickerHover',
+			class: 'enupalslider',
 			on: slider.tickerHover,
 			onLabel: "On"|t('enupalslider'),
 			offLabel: "Off"|t('enupalslider')
@@ -123,6 +131,7 @@
 			label: "Adaptive Height <span class='info'>Dynamically adjust slider height based on each slide's height.</span>"|t('enupalslider'),
 			id: 'adaptiveHeight',
 			name: 'adaptiveHeight',
+			class: 'enupalslider',
 			on: slider.adaptiveHeight,
 			onLabel: "On"|t('enupalslider'),
 			offLabel: "Off"|t('enupalslider')
@@ -132,6 +141,7 @@
 			label: "Adaptive Height Speed <span class='info'>Slide height transition duration (in ms). Note: only used if Adaptive Height is checked.</span>"|t('enupalslider'),
 			id: 'adaptiveHeightSpeed',
 			name: 'adaptiveHeightSpeed',
+			class: 'enupalslider',
 			on: slider.adaptiveHeightSpeed,
 			onLabel: "On"|t('enupalslider'),
 			offLabel: "Off"|t('enupalslider')
@@ -141,6 +151,7 @@
 			label: "Has Video? <span class='info'>Check this if any slides contain a video.</span>"|t('enupalslider'),
 			id: 'video',
 			name: 'video',
+			class: 'enupalslider',
 			on: slider.video,
 			onLabel: "On"|t('enupalslider'),
 			offLabel: "Off"|t('enupalslider')
@@ -150,6 +161,7 @@
 			label: "Responsive <span class='info'>Enable or disable auto resize of the slider. Useful if you need to use fixed width sliders.</span>"|t('enupalslider'),
 			id: 'responsive',
 			name: 'responsive',
+			class: 'enupalslider',
 			on: slider.responsive,
 			onLabel: "On"|t('enupalslider'),
 			offLabel: "Off"|t('enupalslider')
@@ -159,6 +171,7 @@
 			label: "Use Css <span class='info'>If checked, CSS transitions will be used for horizontal and vertical slide animations (this uses native hardware acceleration). If unchecked, jQuery animate() will be used.</span>"|t('enupalslider'),
 			id: 'useCss',
 			name: 'useCss',
+			class: 'enupalslider',
 			on: slider.useCss,
 			onLabel: "On"|t('enupalslider'),
 			offLabel: "Off"|t('enupalslider')
@@ -168,6 +181,7 @@
 			label: "Easing <span class='info'>The type of 'easing' to use during transitions.</span>"|t('enupalslider'),
 			id: 'easing',
 			name: 'easing',
+			class: 'enupalslider',
 			options: easingOptions,
 			value: slider.easing,
 			errors: slider.getErrors('easing')
@@ -177,6 +191,7 @@
 			label: "Preload Images <span class='info'>If 'all', preloads all images before starting the slider. If 'visible', preloads only images in the initially visible slides before starting the slider (tip: use 'visible' if all slides are identical dimensions).</span>"|t('enupalslider'),
 			id: 'preloadImages',
 			name: 'preloadImages',
+			class: 'enupalslider',
 			options: preloadImagesOptions,
 			value: slider.preloadImages,
 			errors: slider.getErrors('preloadImages')
@@ -190,6 +205,7 @@
 			label: "Pager <span class='info'>If enabled, a pager will be added.</span>"|t('enupalslider'),
 			id: 'pager',
 			name: 'pager',
+			class: 'enupalslider',
 			on: slider.pager,
 			onLabel: "On"|t('enupalslider'),
 			offLabel: "Off"|t('enupalslider')
@@ -199,6 +215,7 @@
 			label: "Pager Type <span class='info'>If 'full', a pager link will be generated for each slide. If 'short', a x / y pager will be used (ex. 1 / 5)."|t('enupalslider'),
 			id: 'pagerType',
 			name: 'pagerType',
+			class: 'enupalslider',
 			options: pagerTypeOptions,
 			value: slider.pagerType,
 			errors: slider.getErrors('pagerType')
@@ -208,6 +225,7 @@
 			label: "Pager Short Separator <span class='info'>If 'short', pager will use this value as the separating character</span>"|t('enupalslider'),
 			id: 'pagerShortSeparator',
 			name: 'pagerShortSeparator',
+			class: 'enupalslider',
 			value: slider.pagerShortSeparator,
 			errors: slider.getErrors('pagerShortSeparator')
 		}) }}
@@ -216,6 +234,7 @@
 			label: "Pager Selector <span class='info'>Element used to populate the pager. By default, the pager is appended to the bx-viewport. Note: Use jQuery selectors.</span>"|t('enupalslider'),
 			id: 'pagerSelector',
 			name: 'pagerSelector',
+			class: 'enupalslider',
 			value: slider.pagerSelector,
 			errors: slider.getErrors('pagerSelector')
 		}) }}
@@ -224,6 +243,7 @@
 			label: "Thumbnail Pager <span class='info'>Enable thumbnails images as pager</span>"|t('enupalslider'),
 			id: 'thumbnailPager',
 			name: 'thumbnailPager',
+			class: 'enupalslider',
 			on: slider.thumbnailPager,
 			onLabel: "On"|t('enupalslider'),
 			offLabel: "Off"|t('enupalslider')
@@ -235,6 +255,7 @@
 			label: "Controls <span class='info'>If enabled, 'Next' / 'Prev' controls will be added.</span>"|t('enupalslider'),
 			id: 'controls',
 			name: 'controls',
+			class: 'enupalslider',
 			on: slider.controls,
 			onLabel: "On"|t('enupalslider'),
 			offLabel: "Off"|t('enupalslider')
@@ -244,6 +265,7 @@
 			label: "Next Text <span class='info'>Text to be used for the 'Next' control.</span>"|t('enupalslider'),
 			id: 'nextText',
 			name: 'nextText',
+			class: 'enupalslider',
 			value: slider.nextText,
 			errors: slider.getErrors('nextText')
 		}) }}
@@ -252,6 +274,7 @@
 			label: "Prev Text <span class='info'>Text to be used for the 'Prev' control.</span>"|t('enupalslider'),
 			id: 'prevText',
 			name: 'prevText',
+			class: 'enupalslider',
 			value: slider.prevText,
 			errors: slider.getErrors('prevText')
 		}) }}
@@ -260,6 +283,7 @@
 			label: "Next Selector <span class='info'>Element used to populate the 'Next' control.</span>"|t('enupalslider'),
 			id: 'nextSelector',
 			name: 'nextSelector',
+			class: 'enupalslider',
 			value: slider.nextSelector,
 			errors: slider.getErrors('nextSelector')
 		}) }}
@@ -268,6 +292,7 @@
 			label: "Prev Selector <span class='info'>Element used to populate the 'Prev' control.</span>"|t('enupalslider'),
 			id: 'prevSelector',
 			name: 'prevSelector',
+			class: 'enupalslider',
 			value: slider.prevSelector,
 			errors: slider.getErrors('prevSelector')
 		}) }}
@@ -276,6 +301,7 @@
 			label: "Auto Controls <span class='info'>If enabled, 'Start' / 'Stop' controls will be added.</span>"|t('enupalslider'),
 			id: 'autoControls',
 			name: 'autoControls',
+			class: 'enupalslider',
 			on: slider.autoControls,
 			onLabel: "On"|t('enupalslider'),
 			offLabel: "Off"|t('enupalslider')
@@ -285,6 +311,7 @@
 			label: "Start Text <span class='info'>Text to be used for the 'Start' control.</span>"|t('enupalslider'),
 			id: 'startText',
 			name: 'startText',
+			class: 'enupalslider',
 			value: slider.startText,
 			errors: slider.getErrors('startText')
 		}) }}
@@ -293,6 +320,7 @@
 			label: "Stop Text <span class='info'>Text to be used for the 'Stop' control.</span>"|t('enupalslider'),
 			id: 'stopText',
 			name: 'stopText',
+			class: 'enupalslider',
 			value: slider.stopText,
 			errors: slider.getErrors('stopText')
 		}) }}
@@ -301,6 +329,7 @@
 			label: "Auto Controls Combine <span class='info'>When slideshow is playing only 'Stop' control is displayed and vice-versa.</span>"|t('enupalslider'),
 			id: 'autoControlsCombine',
 			name: 'autoControlsCombine',
+			class: 'enupalslider',
 			on: slider.autoControlsCombine,
 			onLabel: "On"|t('enupalslider'),
 			offLabel: "Off"|t('enupalslider')
@@ -310,6 +339,7 @@
 			label: "Auto Controls Selector <span class='info'>Element used to populate the auto controls.</span>"|t('enupalslider'),
 			id: 'autoControlsSelector',
 			name: 'autoControlsSelector',
+			class: 'enupalslider',
 			value: slider.autoControlsSelector,
 			errors: slider.getErrors('autoControlsSelector')
 		}) }}
@@ -318,6 +348,7 @@
 			label: "Keyboard Enabled <span class='info'>Enable keyboard navigation for visible sliders</span>"|t('enupalslider'),
 			id: 'keyboardEnabled',
 			name: 'keyboardEnabled',
+			class: 'enupalslider',
 			on: slider.keyboardEnabled,
 			onLabel: "On"|t('enupalslider'),
 			offLabel: "Off"|t('enupalslider')
@@ -332,6 +363,7 @@
 			label: "Auto <span class='info'>Slides will automatically transition</span>"|t('enupalslider'),
 			id: 'auto',
 			name: 'auto',
+			class: 'enupalslider',
 			on: slider.auto,
 			onLabel: "On"|t('enupalslider'),
 			offLabel: "Off"|t('enupalslider')
@@ -341,6 +373,7 @@
 			label: "Pause <span class='info'>The amount of time (in ms) between each auto transition</span>"|t('enupalslider'),
 			id: 'pause',
 			name: 'pause',
+			class: 'enupalslider',
 			value: slider.pause,
 			errors: slider.getErrors('pause')
 		}) }}
@@ -349,6 +382,7 @@
 			label: "Auto Start <span class='info'>Auto show starts playing on load. If disabled, slideshow will start when the 'Start' control is clicked</span>"|t('enupalslider'),
 			id: 'autoStart',
 			name: 'autoStart',
+			class: 'enupalslider',
 			on: slider.autoStart,
 			onLabel: "On"|t('enupalslider'),
 			offLabel: "Off"|t('enupalslider')
@@ -358,6 +392,7 @@
 			label: "Auto Direction <span class='info'>The direction of auto show slide transitions"|t('enupalslider'),
 			id: 'autoDirection',
 			name: 'autoDirection',
+			class: 'enupalslider',
 			options: autoDirectionOptions,
 			value: slider.autoDirection,
 			errors: slider.getErrors('autoDirection')
@@ -367,6 +402,7 @@
 			label: "Auto Hover <span class='info'>Auto show will pause when mouse hovers over slider</span>"|t('enupalslider'),
 			id: 'autoHover',
 			name: 'autoHover',
+			class: 'enupalslider',
 			on: slider.autoHover,
 			onLabel: "On"|t('enupalslider'),
 			offLabel: "Off"|t('enupalslider')
@@ -376,6 +412,7 @@
 			label: "Auto Delay <span class='info'>Time (in ms) auto show should wait before starting</span>"|t('enupalslider'),
 			id: 'autoDelay',
 			name: 'autoDelay',
+			class: 'enupalslider',
 			value: slider.autoDelay,
 			errors: slider.getErrors('autoDelay')
 		}) }}
@@ -386,6 +423,7 @@
 			label: "Min Slides <span class='info'>The maximum number of slides to be shown. Slides will be sized up if carousel becomes larger than the original size.</span>"|t('enupalslider'),
 			id: 'minSlides',
 			name: 'minSlides',
+			class: 'enupalslider',
 			value: slider.minSlides,
 			errors: slider.getErrors('minSlides')
 		}) }}
@@ -394,6 +432,7 @@
 			label: "Max Slides <span class='info'>The maximum number of slides to be shown. Slides will be sized up if carousel becomes larger than the original size.</span>"|t('enupalslider'),
 			id: 'maxSlides',
 			name: 'maxSlides',
+			class: 'enupalslider',
 			value: slider.maxSlides,
 			errors: slider.getErrors('maxSlides')
 		}) }}
@@ -402,6 +441,7 @@
 			label: "Move Slides <span class='info'>The number of slides to move on transition. This value must be >= minSlides, and <= maxSlides. If zero (default), the number of fully-visible slides will be used.</span>"|t('enupalslider'),
 			id: 'moveSlides',
 			name: 'moveSlides',
+			class: 'enupalslider',
 			value: slider.moveSlides,
 			errors: slider.getErrors('moveSlides')
 		}) }}
@@ -410,6 +450,7 @@
 			label: "Slide Width <span class='info'>The width of each slide. This setting is required for all horizontal carousels!</span>"|t('enupalslider'),
 			id: 'slideWidth',
 			name: 'slideWidth',
+			class: 'enupalslider',
 			value: slider.slideWidth,
 			errors: slider.getErrors('slideWidth')
 		}) }}
@@ -418,6 +459,7 @@
 			label: "Shrink Items <span class='info'>The Carousel will only show whole items and shrink the images to fit the viewport based on maxSlides/MinSlides.</span>"|t('enupalslider'),
 			id: 'shrinkItems',
 			name: 'shrinkItems',
+			class: 'enupalslider',
 			on: slider.shrinkItems,
 			onLabel: "On"|t('enupalslider'),
 			offLabel: "Off"|t('enupalslider')
