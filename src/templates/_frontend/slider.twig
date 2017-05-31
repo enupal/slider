@@ -4,9 +4,26 @@
  {% if slider.thumbnailPager %} data-enupalslider-pager-custom = 'enupalslider-{{slider.handle}}-pager' {% endif %}>
  {% for slide in slidesElements %}
 	{% if attribute(slide, htmlHandle) and attribute(slide, htmlHandle)!='' %}
-		<li>{{attribute(slide, htmlHandle)|raw}}</li>
+		<li>
+			{% if attribute(slide, linkHandle) and attribute(slide, linkHandle)!='' %}
+				{% set openNewTab = attribute(slide, openLinkHandle) == 'newTabOrWindow' ? "_blank" : "_self" %}
+				<div style="cursor: pointer;" onclick="window.open('{{attribute(slide, linkHandle)}}','{{openNewTab}}'); return false;">
+			{% endif %}
+			{{attribute(slide, htmlHandle)|raw}}
+			{% if attribute(slide, linkHandle) and attribute(slide, linkHandle)!='' %}
+				</div>
+			{% endif %}
+		</li>
 	{% else %}
-		<li><img src="{{slide.getUrl()}}" title="{{slide.title}}"> </li>
+		<li>
+			{% if attribute(slide, linkHandle) and attribute(slide, linkHandle)!='' %}
+				<a href="{{attribute(slide, linkHandle)}}" {% if attribute(slide, openLinkHandle) == 'newTabOrWindow' %} target="_blank" {% endif %}>
+			{% endif %}
+			<img src="{{slide.getUrl()}}" title="{{slide.title}}">
+			{% if attribute(slide, linkHandle) and attribute(slide, linkHandle)!='' %}
+				</a>
+			{% endif %}
+		</li>
 	{% endif %}
  {% endfor %}
 </ul>
