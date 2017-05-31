@@ -202,5 +202,13 @@ class SliderVariable
 		return Craft::$app->path->getPluginsPath() . '/enupalslider/src/resources/';
 	}
 
+	/**
+	 * @return string
+	 */
+	public function getSettings()
+	{
+		return Slider::$app->sliders->getSettings();
+	}
+
 }
 

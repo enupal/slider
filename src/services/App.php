@@ -9,10 +9,12 @@ class App extends Component
 {
 	public $sliders;
 	public $groups;
+	public $settings;
 
 	public function init()
 	{
 		$this->sliders = new Sliders();
 		$this->groups  = new Groups();
+		$this->settings  = new Settings();
 	}
 }

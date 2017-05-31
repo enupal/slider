@@ -21,7 +21,8 @@ class EditSliderAsset extends AssetBundle
 		];
 
 		$this->css = [
-			'css/enupalslider.css'
+			'css/enupalslider.css',
+			'css/font/css/font-awesome.min.css'
 		];
 
 		parent::init();

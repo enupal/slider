@@ -19,7 +19,7 @@
 {% set fullPageForm = true %}
 {% set saveShortcutRedirect = continueEditingUrl %}
 
-{% set saveButton %}
+{% block saveButton %}
 	<input type="hidden" name="action" value="enupalslider/sliders/save-slider">
 	{{ redirectInput('enupalslider/sliders') }}
 	<input type="hidden" id="sliderId" name="id" value="{{ slider.id is defined ? slider.id : '' }}">
@@ -31,12 +31,12 @@
 		<div class="menu">
 			<ul>
 				<li><a class="formsubmit" data-redirect="{{('enupalslider/sliders/edit/'~slider.id)|hash}}">{{ "Save and continue editing"|t }} <span class="shortcut">⌘S</span></a></li>
-				<li><a class="formsubmit" data-redirect="{{'enupalslider/sliders/edit/'~slider.id|hash}}" data-param='saveAsNew' data-value="true">{{ "Save as a new slider"|t('enupalslider') }}</a></li>
+				{#<li><a class="formsubmit" data-redirect="{{'enupalslider/sliders/edit/'~slider.id|hash}}" data-param='saveAsNew' data-value="true">{{ "Save as a new slider"|t('enupalslider') }}</a></li>#}
 			</ul>
 		</div>
 		{% endif %}
 	</div>
-{% endset %}
+{% endblock %}
 
 {% block main %}
 	<input type="hidden" name="action" value="enupalslider/sliders/save-slider">
@@ -48,19 +48,7 @@
 	<div class="grid first" data-max-cols="3">
 		<div class="item" data-position="left" data-min-colspan="2" data-max-colspan="3">
 			<div id="fields" class="pane">
-
-				<div class="header" style="display: flex;align-items: center;">
-					<div style="flex-grow: 1;">
-						<h3 style="text-transform: uppercase;">{{ "Slides"|t }} <span class="info">{{ "Manage all your Slides, Reorder, Add HTML, and more."|t }}</h3>
-						{#<div class="clipboard">
-							<input id="foo" value="https://github.com/zenorocha/clipboard.js.git">
-							<!-- Trigger -->
-							<span class="enupalslider-icon" data-clipboard-target="#foo">
-							   <img src="{{craft.enupalslider.getResourcesPath()}}assets/clippy.png">
-							</span>
-						</div>#}
-					</div>
-				</div>
+				{% set oneline = "{{ craft.enupalslider.displaySlider('"~slider.handle~"') }}"%}
 
 				{{ forms.field({
 					label: 'Slides'|t('enupalslider'),
@@ -81,6 +69,14 @@
 				{#limit: 1,
 					criteria: {"localeEnabled":null}
 				#}
+			</div>
+
+
+			<div class="header" style="display: flex;text-align: center;">
+				<div style="flex-grow: 1;">
+					<h3 style="text-transform: uppercase; display: inline-block;">{{ "One line of code:"|t }} </h3>
+					<span id="one-line" class ="short-url"> {{oneline}} </span><button type="button" class="clipbtn" data-clipboard-target="#one-line" ><i class="fa fa-files-o fa-lg" aria-hidden="true" alt="Copy to clipboard"></i></button>
+				</div>
 			</div>
 		</div>
 		<div class="item" data-position="right" data-colspan="1">
@@ -108,6 +104,12 @@
 		new Craft.HandleGenerator('#name', '#handle');
 	{% endif %}
 	$(document).ready(function() {
+		var clipboard = new Clipboard('.clipbtn');
+
+		clipboard.on('success', function(e) {
+			Craft.cp.displayNotice(Craft.t('enupalslider','Copied!'));
+			e.clearSelection();
+		})
 
 		var cssEasingOptions = {{ craft.enupalslider.getEasingOptions(true)|json_encode()|raw }};
 
