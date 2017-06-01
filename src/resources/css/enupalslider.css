@@ -56,9 +56,6 @@
 }
 
 /**/
-.btngroup li {
-  display: inline-block;
-}
 .enupalslider-previewbody {
   display: flex;
   align-items: center;
@@ -67,21 +64,4 @@
 }
 .enupalslider-previewbody div {
   max-width:600px;
-}
-.enupalslider-preview-btns {
-  text-align: right;
-  margin-bottom: -1px;
-}
-.enupalslider-preview-btns li {
-  display: inline-block;
-  box-shadow: 0 0 0 1px #e3e5e8;
-  padding: 3px 5px 2px;
-  font-size: 12px;
-  margin-right: -3px;
-  background-image: linear-gradient(#f7f7f8, #f4f5f6);
-}
-.enupalslider-preview-btns li.selected {
-  background-color: #fff;
-  background-image: none;
-  border-bottom: 1px solid #fff;
 }

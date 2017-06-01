@@ -69,6 +69,8 @@
 				{#limit: 1,
 					criteria: {"localeEnabled":null}
 				#}
+
+
 			</div>
 
 
@@ -91,7 +93,8 @@
 				</div>
 
 				<div id ="enupalslider-previewbody" class="body enupalslider-previewbody" style="text-align: center;width:50%; height: 60%">
-					<h1>hello world</h1>
+					<ul class="bxslider">
+					</ul>
 				</div>
 
 			</div>
@@ -112,7 +115,7 @@
 	</div>
 
 	{% do view.registerAssetBundle("enupal\\slider\\assetbundles\\EditSliderAsset") %}
-	{% do view.registerAssetBundle("enupal\\slider\\assetbundles\\SliderAsset") %}
+	{% do view.registerAssetBundle("enupal\\slider\\assetbundles\\LivePreviewAsset") %}
 
 	{% js %}
 	{% if not slider.handle %}
@@ -126,11 +129,15 @@
 			e.clearSelection();
 		})
 
+		var slider = $('.bxslider').bxSlider({
+		  mode: 'horizontal'
+		});
+
 		var cssEasingOptions = {{ craft.enupalslider.getEasingOptions(true)|json_encode()|raw }};
 
 		var easingOptions = {{ craft.enupalslider.getEasingOptions(false)|json_encode()|raw }};
 
-		new EnupalSlider(cssEasingOptions, easingOptions);
+		new EnupalSlider(cssEasingOptions, easingOptions, slider);
 
 	});
 {% endjs %}

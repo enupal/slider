@@ -7,7 +7,6 @@ use craft\helpers\Template as TemplateHelper;
 use craft\helpers\FileHelper;
 use enupal\slider\Slider;
 use enupal\slider\models\Settings;
-use enupal\slider\elements\Slider as SliderElement;
 
 /**
  * EnupalSlider provides an API for accessing information about sliders. It is accessible from templates via `craft.enupalslider`.
@@ -150,7 +149,7 @@ class SliderVariable
 	 *
 	 * @return string
 	 */
-	public function displaySlider($sliderHandle, array $options = null, SliderElement $sliderElement = null)
+	public function displaySlider($sliderHandle, array $options = null)
 	{
 		$slider         = Slider::$app->sliders->getSliderByHandle($sliderHandle);
 		$templatePath   = Slider::$app->sliders->getEnupalSliderPath();
@@ -158,21 +157,10 @@ class SliderVariable
 		$sliderHtml     = null;
 		$settings       = Slider::$app->sliders->getSettings();
 
-		if ($sliderElement != null)
-		{
-			$slider = $sliderElement;
-		}
-
 		if ($slider)
 		{
 			$dataAttributes = Slider::$app->sliders->getDataAttributes($slider);
-
-			$slides = $slider->slides;
-
-			if (is_string($slider->slides))
-			{
-				$slides = json_decode($slider->slides);
-			}
+			$slides = json_decode($slider->slides);
 
 			foreach ($slides as $key => $slideId)
 			{
