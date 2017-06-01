@@ -80,8 +80,22 @@
 			</div>
 		</div>
 		<div class="item" data-position="right" data-colspan="1">
-			<div class="pane meta">
+			<div id="enupalslider-preview-button" class="btn big enupalslider-livepreviewbtn" style="margin-top:0"> 	{{ "Preview"|t('enupalslider') }}
+				<div class="spinner hidden"></div>
+			</div>
+			<div id="enupalslider-preview" class="modal hidden">
 
+				<div class="header">
+					<h2 class="left" style="margin:0;">{{ "Slider Preview"|t|upper }}</h2><br>
+					<p style="margin:0;width:50%;">{{ "An example of how your slider will look"|t('enupalslider') }}</p>
+				</div>
+
+				<div id ="enupalslider-previewbody" class="body enupalslider-previewbody" style="text-align: center;width:50%; height: 60%">
+					<h1>hello world</h1>
+				</div>
+
+			</div>
+			<div class="pane meta">
 			{% include 'enupalslider/sliders/_sidebar/settings' %}
 
 				<div class="field" id="enabled-field">
@@ -98,6 +112,7 @@
 	</div>
 
 	{% do view.registerAssetBundle("enupal\\slider\\assetbundles\\EditSliderAsset") %}
+	{% do view.registerAssetBundle("enupal\\slider\\assetbundles\\SliderAsset") %}
 
 	{% js %}
 	{% if not slider.handle %}

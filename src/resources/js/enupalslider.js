@@ -7,6 +7,7 @@
 
 		cssEasingOptions: null,
 		easingOptions: null,
+		previewModal: null,
 		/**
 		 * The constructor.
 		 * @param - The easing options
@@ -16,6 +17,34 @@
 			this.easingOptions = easingOptions;
 			this.cssEasingOptions = cssEasingOptions;
 			this.addListener($("#useCss"), 'activate', 'changeOptions');
+			var that = this;
+			$('#enupalslider-preview-button').on('click', function(e) {
+				e.preventDefault();
+
+				var datastring = $("#container").serialize();
+				var data = datastring;
+
+				Craft.postActionRequest('enupalslider/sliders/live-preview', data, $.proxy(function(response)
+				{
+					if (response.success == true)
+					{
+						$('#enupalslider-previewbody').html(response.html);
+					}
+				}, this));
+
+				if (!that.previewModal)
+				{
+					$('#enupalslider-preview').removeClass('hidden');
+					that.previewModal = new Garnish.Modal($('#enupalslider-preview'), {
+						resizable: true
+					});
+				}
+				else
+				{
+					that.previewModal.show();
+				}
+
+			});
 		},
 
 		changeOptions: function(option)

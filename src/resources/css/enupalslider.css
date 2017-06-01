@@ -34,3 +34,54 @@
   position: relative;
   border-radius: 50%;
 }
+
+.enupalslider-livepreviewbtn {
+  display: block;
+  position: relative;
+  margin-top:13px;
+  margin-bottom: 10px;
+}
+
+.enupalslider-livepreviewbtn:before {
+  content: 'view';
+  font-family: 'Craft';
+  font-size: 13px;
+  margin-left: -2px;
+  vertical-align: middle;
+}
+
+.clear-button {
+  display: block;
+  margin-left: 5px;
+}
+
+/**/
+.btngroup li {
+  display: inline-block;
+}
+.enupalslider-previewbody {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 60%;
+}
+.enupalslider-previewbody div {
+  max-width:600px;
+}
+.enupalslider-preview-btns {
+  text-align: right;
+  margin-bottom: -1px;
+}
+.enupalslider-preview-btns li {
+  display: inline-block;
+  box-shadow: 0 0 0 1px #e3e5e8;
+  padding: 3px 5px 2px;
+  font-size: 12px;
+  margin-right: -3px;
+  background-image: linear-gradient(#f7f7f8, #f4f5f6);
+}
+.enupalslider-preview-btns li.selected {
+  background-color: #fff;
+  background-image: none;
+  border-bottom: 1px solid #fff;
+}
