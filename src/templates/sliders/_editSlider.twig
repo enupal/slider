@@ -69,11 +69,7 @@
 				{#limit: 1,
 					criteria: {"localeEnabled":null}
 				#}
-
-
 			</div>
-
-
 			<div class="header" style="display: flex;text-align: center;">
 				<div style="flex-grow: 1;">
 					<h3 style="text-transform: uppercase; display: inline-block;">{{ "One line of code:"|t }} </h3>
@@ -83,19 +79,18 @@
 		</div>
 		<div class="item" data-position="right" data-colspan="1">
 			<div id="enupalslider-preview-button" class="btn big enupalslider-livepreviewbtn" style="margin-top:0"> 	{{ "Preview"|t('enupalslider') }}
-				<div class="spinner hidden"></div>
 			</div>
 			<div id="enupalslider-preview" class="modal hidden">
+					<div class="header">
+						<h2 class="left" style="margin:0;">{{ "Slider Preview"|t|upper }}</h2><br>
+						<p style="margin:0;width:50%;">{{ "An example of how your slider will look"|t('enupalslider') }}</p>
+					</div>
+					<div class="spinner big hidden enupalspinner"></div>
 
-				<div class="header">
-					<h2 class="left" style="margin:0;">{{ "Slider Preview"|t|upper }}</h2><br>
-					<p style="margin:0;width:50%;">{{ "An example of how your slider will look"|t('enupalslider') }}</p>
-				</div>
-
-				<div id ="enupalslider-previewbody" class="body enupalslider-previewbody" style="text-align: center;width:50%; height: 60%">
-					<ul class="bxslider">
-					</ul>
-				</div>
+					<div id ="enupalslider-previewbody" class="body enupalslider-previewbody enupalslider-content" style="width:100%; height: 80%; margin-top: 10px;">
+						<ul class="bxslider">
+						</ul>
+					</div>
 
 			</div>
 			<div class="pane meta">

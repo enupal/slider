@@ -63,5 +63,12 @@
   min-height: 60%;
 }
 .enupalslider-previewbody div {
-  max-width:600px;
+  max-width:800px;
+}
+.enupalspinner{
+  margin-top: 25%;
+  margin-left: 50%;
+}
+.enupalslider-content{
+  margin-left: -100%;
 }

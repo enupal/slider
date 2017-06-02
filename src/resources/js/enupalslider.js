@@ -9,6 +9,8 @@
 		easingOptions: null,
 		previewModal: null,
 		slider: null,
+		$loadSpinner: null,
+		$container: null,
 		/**
 		 * The constructor.
 		 * @param - The easing options
@@ -19,9 +21,12 @@
 			this.cssEasingOptions = cssEasingOptions;
 			this.addListener($("#useCss"), 'activate', 'changeOptions');
 			this.slider = enupalSlider;
+			console.log(this.slider);
 			var that = this;
 			var pagerCustom = {};
 			var pager = $(this).data('enupalslider-pager-custom');
+			this.$container = $('#enupalslider-preview');
+			this.$loadSpinner = $('.spinner');
 
 			if (pager)
 			{
@@ -38,7 +43,11 @@
 
 				if (!that.previewModal)
 				{
-					$('#enupalslider-preview').removeClass('hidden');
+					that.$container.removeClass('hidden');
+					that.previewModal = new Garnish.Modal(that.$container, {
+						resizable: true
+					});
+					that.$loadSpinner.removeClass('hidden');
 					Craft.postActionRequest('enupalslider/sliders/live-preview', data, $.proxy(function(response)
 					{
 						if (response.success == true)
@@ -47,25 +56,32 @@
 							console.log(response.slides.length);
 							for (var i = response.slides.length - 1; i >= 0; i--)
 							{
-								$(".bxslider").append('<li><img src="/enupalslider/slider1/Copia-de-Week-32-6.png" title="Copia-De-Week-32-6"></li>');
+								$(".bxslider").append('<li><img src="'+response.slides[i].url+'" title="'+response.slides[i].title+'"></li>');
 							}
-							that.slider.reloadSlider();
+							setTimeout(function() {that.reload(that.slider, that.$loadSpinner);}, 2500);
 						}
 					}, this));
 					/*$(".bxslider").append('<li>HEEEEE2</li>');
 					$(".bxslider").append('<li>HEEEEE2</li>');
 					$(".bxslider").append('<li>HEEEEE2</li>');*/
 					//that.slider.reloadSlider();
-					that.previewModal = new Garnish.Modal($('#enupalslider-preview'), {
-						resizable: true
-					});
+
 				}
 				else
 				{
 					that.previewModal.show();
+					that.slider.reloadSlider();
 				}
 
 			});
+		},
+
+		reload: function(slider, $loadSpinner){
+			console.log("reloading...");
+			console.log(slider);
+			slider.reloadSlider();
+			$('#enupalslider-previewbody').removeClass('enupalslider-content');
+			$loadSpinner.addClass('hidden');
 		},
 
 		changeOptions: function(option)
