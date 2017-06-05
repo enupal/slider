@@ -76,6 +76,7 @@
 
 		reload: function(options, slider, $loadSpinner){
 			console.log("reloading...");
+			console.log(options);
 			console.log(slider);
 			slider.reloadSlider(options);
 			$('#enupalslider-previewbody').removeClass('enupalslider-content');

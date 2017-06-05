@@ -633,7 +633,7 @@ class Sliders extends Component
 			'adaptiveHeightSpeed' => $slider->adaptiveHeightSpeed,
 			'video' => $slider->video,
 			'responsive' => $slider->responsive,
-			'useCss' => $slider->useCss,
+			'useCSS' => $slider->useCss ? 1 : 0,
 			'easing' => $slider->easing,
 			'preloadImages' => $slider->preloadImages,
 			'touchEnabled' => $slider->touchEnabled,
