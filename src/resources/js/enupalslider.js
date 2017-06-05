@@ -40,46 +40,44 @@
 
 				var datastring = $("#container").serialize();
 				var data = datastring;
-
-				if (!that.previewModal)
+				if (that.previewModal)
 				{
-					that.$container.removeClass('hidden');
-					that.previewModal = new Garnish.Modal(that.$container, {
-						resizable: true
-					});
-					that.$loadSpinner.removeClass('hidden');
-					Craft.postActionRequest('enupalslider/sliders/live-preview', data, $.proxy(function(response)
+					$(".bxslider").empty();
+					$('#enupalslider-previewbody').addClass('enupalslider-content');
+					that.slider.destroySlider();
+					that.previewModal.destroy();
+				}
+
+				that.$container.removeClass('hidden');
+				that.previewModal = new Garnish.Modal(that.$container, {
+					resizable: true
+				});
+				that.$loadSpinner.removeClass('hidden');
+				Craft.postActionRequest('enupalslider/sliders/live-preview', data, $.proxy(function(response)
+				{
+					if (response.success == true)
 					{
-						if (response.success == true)
+						//REMOVE ALL THIS CODE AND ADD it to a separate tab net to slides :D
+						console.log(response.slides.length);
+						for (var i = response.slides.length - 1; i >= 0; i--)
 						{
-							//REMOVE ALL THIS CODE AND ADD it to a separate tab net to slides :D
-							console.log(response.slides.length);
-							for (var i = response.slides.length - 1; i >= 0; i--)
-							{
-								$(".bxslider").append('<li><img src="'+response.slides[i].url+'" title="'+response.slides[i].title+'"></li>');
-							}
-							setTimeout(function() {that.reload(that.slider, that.$loadSpinner);}, 2500);
+							$(".bxslider").append('<li><img src="'+response.slides[i].url+'" title="'+response.slides[i].title+'"></li>');
 						}
-					}, this));
+						setTimeout(function() {that.reload(response.options,that.slider, that.$loadSpinner);}, 2500);
+					}
+				}, this));
 					/*$(".bxslider").append('<li>HEEEEE2</li>');
 					$(".bxslider").append('<li>HEEEEE2</li>');
 					$(".bxslider").append('<li>HEEEEE2</li>');*/
 					//that.slider.reloadSlider();
 
-				}
-				else
-				{
-					that.previewModal.show();
-					that.slider.reloadSlider();
-				}
-
 			});
 		},
 
-		reload: function(slider, $loadSpinner){
+		reload: function(options, slider, $loadSpinner){
 			console.log("reloading...");
 			console.log(slider);
-			slider.reloadSlider();
+			slider.reloadSlider(options);
 			$('#enupalslider-previewbody').removeClass('enupalslider-content');
 			$loadSpinner.addClass('hidden');
 		},

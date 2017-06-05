@@ -221,6 +221,7 @@ class SlidersController extends BaseController
 		$slider = new SliderElement;
 
 		$slider = Slider::$app->sliders->populateSliderFromPost($slider);
+		$sliderOptions = Slider::$app->sliders->getDefaultOptionsByAjax($slider);
 		$slidesElements = [];
 		$settings       = Slider::$app->sliders->getSettings();
 		$htmlHandle     = $settings['htmlHandle'];
@@ -232,7 +233,7 @@ class SlidersController extends BaseController
 			$slide = Craft::$app->elements->getElementById($slideId);
 			$slideData = [
 				'url'      => $slide->getUrl(),
-				'title'      => $slide->title,
+				'title'    => $slide->title,
 				'html'     => $slider->{$htmlHandle},
 				'link'     => $slider->{$linkHandle},
 				'openLink' => $slider->{$openLinkHandle},
@@ -241,8 +242,9 @@ class SlidersController extends BaseController
 		}
 
 		return $this->asJson([
-			'success'            => true,
-			'slides'     => $slidesElements
+			'success' => true,
+			'options' => $sliderOptions,
+			'slides'  => $slidesElements
 		]);
 	}
 }

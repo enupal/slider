@@ -610,6 +610,70 @@ class Sliders extends Component
 		];
 	}
 
+	/**
+	 * Get default options
+	 *
+	 * @return array Default slide options data
+	 */
+	public function getDefaultOptionsByAjax($slider)
+	{
+		return [
+			'mode' => $slider->mode,
+			'speed' => $slider->speed,
+			'slideMargin' => $slider->slideMargin,
+			'startSlide' => 0,
+			'randomStart' => $slider->randomStart,
+			'slideSelector' => $slider->slideSelector,
+			'infiniteLoop' => $slider->infiniteLoop,
+			'hideControlOnEnd' => 'false',
+			'captions' => $slider->captions,
+			'ticker' => $slider->ticker,
+			'tickerHover' => $slider->tickerHover,
+			'adaptiveHeight' => $slider->adaptiveHeight,
+			'adaptiveHeightSpeed' => $slider->adaptiveHeightSpeed,
+			'video' => $slider->video,
+			'responsive' => $slider->responsive,
+			'useCss' => $slider->useCss,
+			'easing' => $slider->easing,
+			'preloadImages' => $slider->preloadImages,
+			'touchEnabled' => $slider->touchEnabled,
+			'swipeThreshold' => $slider->swipeThreshold,
+			'oneToOneTouch' => 'true',
+			'preventDefaultSwipeX' => $slider->preventDefaultSwipeX,
+			'preventDefaultSwipeY' => $slider->preventDefaultSwipeY,
+
+			'pager' => $slider->pager,
+			'pagerType' => $slider->pagerType,
+			'pagerShortSeparator' => $slider->pagerShortSeparator,
+			'pagerSelector' => $slider->pagerSelector,
+
+			'controls' =>  $slider->controls ,
+			'nextText' =>  $slider->nextText ,
+			'prevText' =>  $slider->prevText,
+			'nextSelector' =>  $slider->nextSelector,
+			'prevSelector' =>  $slider->prevSelector,
+			'autoControls' =>  $slider->autoControls,
+			'startText' =>  $slider->startText,
+			'stopText' =>  $slider->stopText,
+			'autoControlsCombine' =>  $slider->autoControlsCombine,
+			'autoControlsSelector' =>  $slider->autoControlsSelector,
+			'autoKeyboardEnabled' =>  $slider->keyboardEnabled,
+
+			'auto' => $slider->auto,
+			'pause' => $slider->pause,
+			'autoStart' => $slider->autoStart,
+			'autoDirection' => $slider->autoDirection,
+			'autoHover' => $slider->autoHover,
+			'autoDelay' => $slider->autoDelay,
+
+			'minSlides' => $slider->minSlides,
+			'maxSlides' => $slider->maxSlides,
+			'moveSlides' => $slider->moveSlides,
+			'slideWidth' => $slider->slideWidth,
+			'slideS0hrinkItems' => $slider->shrinkItems,
+		];
+	}
+
 	public function getSliderPath()
 	{
 		// Get the public path of Craft CMS
