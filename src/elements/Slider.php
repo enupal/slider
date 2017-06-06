@@ -280,8 +280,8 @@ class Slider extends Element
 		// Delete
 		$actions[] = Craft::$app->getElements()->createAction([
 			'type' => Delete::class,
-			'confirmationMessage' => Slider::t('Are you sure you want to delete the selected entries?'),
-			'successMessage' => Slider::t('Entries deleted.'),
+			'confirmationMessage' => Slider::t('Are you sure you want to delete the selected sliders?'),
+			'successMessage' => Slider::t('Sliders deleted.'),
 		]);
 
 		return $actions;

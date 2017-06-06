@@ -3,7 +3,7 @@
 {% set bodyClass = craft.app.request.getSegments()|slice(0, 3)|join(' ') %}
 
 {% set subnav = {
-	entries: {
+	sliders: {
 		label: "Sliders"|t,
 		url: url('enupalslider/sliders')
 	},
@@ -13,7 +13,7 @@
 	}
 } %}
 
-{% set selectedSubnavItem = craft.request.segment(2) %}
+{% set selectedSubnavItem = craft.request.segment(2) == 'slider' ? 'sliders' : craft.request.segment(2)  %}
 
 {% block content %}
 
