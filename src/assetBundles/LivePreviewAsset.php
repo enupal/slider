@@ -9,20 +9,17 @@ class LivePreviewAsset extends AssetBundle
 	public function init()
 	{
 		// define the path that your publishable resources live
-		$this->sourcePath = '@enupal/slider/resources/bxslider-4/';
+		$this->sourcePath = '@enupal/slider/resources/';
 
 		// define the dependencies
 		// define the relative path to CSS/JS files that should be registered with the page
 		// when this asset bundle is registered
 		$this->js = [
-			'jquery.min.js',
-			'vendor/jquery.easing.1.3.js',
-			'jquery.bxslider.min.js',
-			'vendor/jquery.fitvids.js',
+			'preview/boostrap.min.js'
 		];
 
 		$this->css = [
-			'jquery.bxslider.min.css'
+			'preview/boostrap.min.css',
 		];
 
 		parent::init();
