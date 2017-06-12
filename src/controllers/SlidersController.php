@@ -8,6 +8,8 @@ use yii\web\NotFoundHttpException;
 use yii\db\Query;
 use craft\helpers\ArrayHelper;
 use craft\elements\Asset;
+use craft\helpers\Json;
+use craft\helpers\Template as TemplateHelper;
 
 use enupal\slider\variables\SliderVariable;
 use enupal\slider\Slider;
@@ -181,6 +183,23 @@ class SlidersController extends BaseController
 			}
 		}
 
+		$variables['showPreviewBtn'] = false;
+		// Enable Live Preview?
+		if (!Craft::$app->getRequest()->isMobileBrowser(true))
+		{
+
+			//#title-field, #fields > div > div > .field
+			$this->getView()->registerJs('Craft.LivePreview.init('.Json::encode([
+					'fields' => '.field',
+					'previewAction' => 'enupalslider/sliders/live-preview',
+					'previewParams' => [
+						'sliderId' => $slider->id
+					]
+				]).');');
+
+			$variables['showPreviewBtn'] = true;
+		}
+
 		// Set the "Continue Editing" URL
 		$variables['continueEditingUrl'] = 'enupalslider/slider/edit/{id}';
 
@@ -217,34 +236,35 @@ class SlidersController extends BaseController
 	 */
 	public function actionLivePreview()
 	{
-		$this->requireAcceptsJson();
+		$this->requirePostRequest();
 		$slider = new SliderElement;
 
-		$slider = Slider::$app->sliders->populateSliderFromPost($slider);
-		$sliderOptions = Slider::$app->sliders->getDefaultOptionsByAjax($slider);
+		$slider         = Slider::$app->sliders->populateSliderFromPost($slider);
+		$sliderOptions  = Slider::$app->sliders->getDefaultOptionsByAjax($slider);
 		$slidesElements = [];
 		$settings       = Slider::$app->sliders->getSettings();
-		$htmlHandle     = $settings['htmlHandle'];
-		$linkHandle     = $settings['linkHandle'];
-		$openLinkHandle = $settings['openLinkHandle'];
+		$sliderHtml     = null;
+		$templatePath   = Slider::$app->sliders->getEnupalSliderPath();
+		$dataAttributes = Slider::$app->sliders->getDataAttributes($slider);
 
 		foreach ($slider->slides as $key => $slideId)
 		{
 			$slide = Craft::$app->elements->getElementById($slideId);
-			$slideData = [
-				'url'      => $slide->getUrl(),
-				'title'    => $slide->title,
-				'html'     => $slider->{$htmlHandle},
-				'link'     => $slider->{$linkHandle},
-				'openLink' => $slider->{$openLinkHandle},
-			];
-			array_push($slidesElements, $slideData);
+			array_push($slidesElements, $slide);
 		}
 
-		return $this->asJson([
-			'success' => true,
-			'options' => $sliderOptions,
-			'slides'  => $slidesElements
+		$this->getView()->getTwig()->disableStrictVariables();
+		$this->getView()->registerAssetBundle('enupal\\slider\\assetbundles\\SliderAsset');
+		$this->getView()->registerAssetBundle('enupal\\slider\\assetbundles\\LivePreviewAsset');
+
+		return $this->renderTemplate('enupalslider/_preview', [
+			'slider'         => $slider,
+			'slidesElements' => $slidesElements,
+			'dataAttributes' => $dataAttributes,
+			'htmlHandle'     => $settings['htmlHandle'],
+			'linkHandle'     => $settings['linkHandle'],
+			'openLinkHandle' => $settings['openLinkHandle'],
+			'options'        => []
 		]);
 	}
 }

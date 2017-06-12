@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="">
+	<meta name="author" content="">
+
+	<title>Enupal Slider - Preview Template</title>
+
+	<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+		<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+		<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+	<![endif]-->
+
+</head>
+
+<body>
+	<!-- Navigation -->
+	<!-- Page Content -->
+	<div class="container">
+
+		<div class="row">
+			<div class="col-lg-12">
+
+				<ul class="enupal-slider" {{dataAttributes|raw}}
+				 {% if slider.thumbnailPager %} data-enupalslider-pager-custom = 'enupalslider-{{slider.handle}}-pager' {% endif %}>
+				 {% for slide in slidesElements %}
+					{% if attribute(slide, htmlHandle) and attribute(slide, htmlHandle)!='' %}
+						<li>
+							{% if attribute(slide, linkHandle) and attribute(slide, linkHandle)!='' %}
+								{% set openNewTab = attribute(slide, openLinkHandle) == 'newTabOrWindow' ? "_blank" : "_self" %}
+								<div style="cursor: pointer;" onclick="window.open('{{attribute(slide, linkHandle)}}','{{openNewTab}}'); return false;">
+							{% endif %}
+							{{attribute(slide, htmlHandle)|raw}}
+							{% if attribute(slide, linkHandle) and attribute(slide, linkHandle)!='' %}
+								</div>
+							{% endif %}
+						</li>
+					{% else %}
+						<li>
+							{% if attribute(slide, linkHandle) and attribute(slide, linkHandle)!='' %}
+								<a href="{{attribute(slide, linkHandle)}}" {% if attribute(slide, openLinkHandle) == 'newTabOrWindow' %} target="_blank" {% endif %}>
+							{% endif %}
+							<img src="{{slide.getUrl()}}" title="{{slide.title}}">
+							{% if attribute(slide, linkHandle) and attribute(slide, linkHandle)!='' %}
+								</a>
+							{% endif %}
+						</li>
+					{% endif %}
+				 {% endfor %}
+				</ul>
+
+				{% if slider.thumbnailPager %}
+					{% set thumb = {
+						mode: 'fit',
+						width: 80,
+						height: 80,
+						quality: 100
+					} %}
+					<div id="enupalslider-{{slider.handle}}-pager">
+					 {% for slide in slidesElements %}
+							<a data-slide-index="{{loop.index0}}" href="">
+								<img src="{{slide.getUrl(thumb)}}" />
+							</a>
+					 {% endfor %}
+					</div>
+				{% endif %}
+		</div>
+
+		<div class="row">
+			<div class="col-lg-12">
+				<h1>Full Slider by Start Bootstrap</h1>
+				<p>The background images for the slider are set directly in the HTML using inline CSS. The rest of the styles for this template are contained within the <code>full-slider.css</code>file.</p>
+			</div>
+		</div>
+
+		<hr>
+
+		<!-- Footer -->
+		<footer>
+			<div class="row">
+				<div class="col-lg-12">
+					<p>Copyright &copy;</p>
+				</div>
+			</div>
+			<!-- /.row -->
+		</footer>
+
+	</div>
+	<!-- /.container -->
+
+</body>
+
+</html>
+
+{% do view.registerAssetBundle("enupal\\slider\\assetbundles\\SliderAsset") %}
+{% do view.registerAssetBundle("enupal\\slider\\assetbundles\\LivePreviewAsset") %}
