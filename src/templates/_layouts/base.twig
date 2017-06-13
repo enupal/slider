@@ -2,17 +2,6 @@
 
 {% set bodyClass = craft.app.request.getSegments()|slice(0, 3)|join(' ') %}
 
-{% set subnav = {
-	sliders: {
-		label: "Sliders"|t,
-		url: url('enupalslider/sliders')
-	},
-	settings: {
-		label: "Settings"|t,
-		url: url('enupalslider/settings')
-	}
-} %}
-
 {% set selectedSubnavItem = craft.request.segment(2) == 'slider' ? 'sliders' : craft.request.segment(2)  %}
 
 {% block content %}

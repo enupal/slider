@@ -48,6 +48,23 @@ class Slider extends \craft\base\Plugin
 		return new Settings();
 	}
 
+	public function getCpNavItem()
+	{
+		$parent = parent::getCpNavItem();
+		return array_merge($parent,[
+			'subnav' => [
+				'sliders' => [
+					"label" => Slider::t("Sliders"),
+					"url"   => 'enupalslider/sliders'
+				],
+				'settings' =>[
+					"label" => Slider::t("Settings"),
+					"url" => 'enupalslider/settings'
+				]
+			]
+		]);
+	}
+
 	/**
 	 * @param string $message
 	 * @param array  $params

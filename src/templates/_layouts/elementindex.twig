@@ -1,14 +1,3 @@
 {% extends "_layouts/elementindex" %}
 
-{% set subnav = {
-	sliders: {
-		label: "Sliders"|t,
-		url: url('enupalslider/sliders')
-	},
-	settings: {
-		label: "Settings"|t,
-		url: url('enupalslider/settings')
-	}
-} %}
-
 {% set selectedSubnavItem = craft.app.request.segment(2) %}

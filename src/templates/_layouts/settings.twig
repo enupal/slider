@@ -3,17 +3,6 @@
 {% set title  = "Settings"|t %}
 {% set bodyClass = craft.request.getSegments()|slice(0, 3)|join(' ') %}
 
-{% set subnav = {
-	sliders: {
-		label: "Sliders"|t,
-		url: url('enupalslider/sliders')
-	},
-	settings: {
-		label: "Settings"|t,
-		url: url('enupalslider/settings')
-	}
-} %}
-
 {% set selectedSubnavItem = craft.request.getSegment(2) %}
 {% set selectedSidebarItem = craft.request.getSegment(3) %}
 

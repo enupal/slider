@@ -22,7 +22,7 @@
     "rss": "http://enupal.com/plugins/slider/commits/master.atom"
   },
   "extra": {
-    "name": "Slider",
+    "name": "Enupal Slider",
     "handle": "enupalslider",
     "version": "0.0.1",
     "schemaVersion": "0.0.1",

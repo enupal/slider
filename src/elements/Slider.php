@@ -317,14 +317,14 @@ class Slider extends Element
 		$attributes['name']        = ['label' => Slider::t('Slider Name')];
 		$attributes['handle']      = ['label' => Slider::t('Slider Handle')];
 		// @todo - $attributes['numberOfSlides'] = ['label' => Slider::t('Date Created')];
-		$attributes['dateUpdated'] = ['label' => Slider::t('Date Updated')];
+		$attributes['dateUpdated'] = ['label' => Slider::t('Number of Slides')];
 
 		return $attributes;
 	}
 
 	protected static function defineDefaultTableAttributes(string $source): array
 	{
-		$attributes = ['name', 'handle', 'dateCreated', 'dateUpdated'];
+		$attributes = ['name', 'handle', 'dateUpdated'];
 
 		return $attributes;
 	}
@@ -334,6 +334,20 @@ class Slider extends Element
 	 */
 	protected function tableAttributeHtml(string $attribute): string
 	{
+		switch ($attribute)
+		{
+			case 'handle':
+			{
+				return '<code>' . $this->handle . '</code>';
+			}
+			case 'dateUpdated':
+			{
+				$slides = json_decode($this->slides, true);
+
+				return count($slides);
+			}
+		}
+
 		return parent::tableAttributeHtml($attribute);
 	}
 
