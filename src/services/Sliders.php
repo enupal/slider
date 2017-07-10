@@ -530,7 +530,7 @@ class Sliders extends Component
 
 	public function getEnupalSliderPath()
 	{
-		$defaultTemplate = Craft::$app->path->getPluginsPath() . '/enupalslider/src/templates/_frontend/';
+		$defaultTemplate = Craft::getAlias('@enupal/slider/templates/_frontend/');
 
 		return $defaultTemplate;
 	}

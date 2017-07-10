@@ -35,26 +35,6 @@ class SlidersController extends BaseController
 		$request = Craft::$app->getRequest();
 		$slider  = new SliderElement;
 
-		// @todo - save as new
-		/*if ($request->getBodyParam('saveAsNew'))
-		{
-			@todo save as new feature
-			$slider->saveAsNew = true;
-			$duplicateSlider = Slider::$app()->sliders->createNewSlider(
-				$request->getBodyParam('name'),
-				$request->getBodyParam('handle')
-			);
-
-			if ($duplicateSlider)
-			{
-				$slider->id = $duplicateSlider->id;
-			}
-			else
-			{
-				throw new Exception(Craft::t('Error creating Form'));
-			}
-		}*/
-
 		$sliderId = $request->getBodyParam('sliderId');
 		$isNew    = true;
 
@@ -99,8 +79,6 @@ class SlidersController extends BaseController
 
 		Craft::$app->getSession()->setNotice(Slider::t('Slider saved.'));
 
-		#$_POST['redirect'] = str_replace('{id}', $form->id, $_POST['redirect']);
-
 		return $this->redirectToPostedUrl($slider);
 	}
 
@@ -115,7 +93,7 @@ class SlidersController extends BaseController
 	 */
 	public function actionEditSlider(int $sliderId = null, SliderElement $slider = null)
 	{
-		// Immediately create a new Form
+		// Immediately create a new Slider
 		if ($sliderId === null)
 		{
 			$slider = Slider::$app->sliders->createNewSlider();
@@ -219,14 +197,13 @@ class SlidersController extends BaseController
 
 		$request = Craft::$app->getRequest();
 
-		// Get the Form these fields are related to
 		$sliderId = $request->getRequiredBodyParam('id');
 		$slider   = Slider::$app->sliders->getSliderById($sliderId);
 
 		// @TODO - handle errors
 		$success = Slider::$app->sliders->deleteSlider($slider);
 
-		return $this->redirectToPostedUrl($form);
+		return $success;
 	}
 
 	/**

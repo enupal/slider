@@ -1,7 +1,7 @@
 {
   "name": "enupal/slider",
   "description": "Best Slider Plugin for Craft CMS",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "type": "craft-plugin",
   "autoload": {
     "psr-4": {
@@ -23,7 +23,7 @@
   },
   "extra": {
     "name": "Enupal Slider",
-    "handle": "enupalslider",
+    "handle": "enupal-slider",
     "version": "1.0.0",
     "schemaVersion": "1.0.0",
     "hasSettings": true,

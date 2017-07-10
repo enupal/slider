@@ -73,7 +73,7 @@ class Slider extends \craft\base\Plugin
 	 */
 	public static function t($message, array $params = [])
 	{
-		return Craft::t('enupalslider', $message, $params);
+		return Craft::t('enupal-slider', $message, $params);
 	}
 
 	public static function log($message, $type = 'info')
