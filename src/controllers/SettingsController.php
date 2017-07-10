@@ -15,6 +15,15 @@ use enupal\slider\elements\Slider as SliderElement;
 
 class SettingsController extends BaseController
 {
+
+	/*
+	 * Redirect to sliders settings
+	*/
+	public function actionIndex()
+	{
+		return $this->renderTemplate('enupal-slider/settings/index');
+	}
+
 	/**
 	 * Save Plugin Settings
 	 *

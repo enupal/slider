@@ -137,7 +137,7 @@ class Sliders extends Component
 			}
 
 			$htmlHandle    = $this->getHandleAsNew("enupalSliderHtml");
-			$redactorPath = Craft::$app->path->getPluginsPath() . '/enupalslider/src/redactor/enupalslider';
+			$redactorPath = Craft::getAlias('@enupal/slider/redactor/enupalslider');
 			$redactorConfigPath = Craft::$app->path->getConfigPath();
 			$redactorConfigPath = FileHelper::normalizePath($redactorConfigPath."/redactor");
 			FileHelper::copyDirectory($redactorPath, $redactorConfigPath);
@@ -262,7 +262,7 @@ class Sliders extends Component
 				'settings' => $settings
 				],
 				[
-				'handle' => 'enupalslider'
+				'handle' => 'enupal-slider'
 				]
 			)->execute();
 
@@ -290,14 +290,8 @@ class Sliders extends Component
 
 		if($this->saveSlider($slider))
 		{
-			$settings = (new Query())
-				->select('settings')
-				->from(['{{%plugins}}'])
-				->where(['handle' => 'enupalslider'])
-				->one();
-
-			$sources = null;
-			$settings = json_decode($settings['settings'], true);
+			$settings = $this->getSettings();
+			$sources  = null;
 
 			if (isset($settings['volumeId']))
 			{
@@ -474,7 +468,7 @@ class Sliders extends Component
 		$settings = (new Query())
 			->select('settings')
 			->from(['{{%plugins}}'])
-			->where(['handle' => 'enupalslider'])
+			->where(['handle' => 'enupal-slider'])
 			->one();
 
 		$settings = json_decode($settings['settings'], true);

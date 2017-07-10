@@ -22,7 +22,7 @@ class SlidersController extends BaseController
 	*/
 	public function actionIndex()
 	{
-		return $this->renderTemplate('enupalslider/sliders/index');
+		return $this->renderTemplate('enupal-slider/sliders/index');
 	}
 
 	/**
@@ -169,7 +169,7 @@ class SlidersController extends BaseController
 			//#title-field, #fields > div > div > .field
 			$this->getView()->registerJs('Craft.LivePreview.init('.Json::encode([
 					'fields' => '.field',
-					'previewAction' => 'enupalslider/sliders/live-preview',
+					'previewAction' => 'enupal-slider/sliders/live-preview',
 					'previewParams' => [
 						'sliderId' => $slider->id
 					]
@@ -181,9 +181,9 @@ class SlidersController extends BaseController
 		// Set the "Continue Editing" URL
 		$variables['continueEditingUrl'] = 'enupalslider/slider/edit/{id}';
 
-		$variables['settings'] = Craft::$app->plugins->getPlugin('enupalslider')->getSettings();
+		$variables['settings'] = Craft::$app->plugins->getPlugin('enupal-slider')->getSettings();
 
-		return $this->renderTemplate('enupalslider/sliders/_editSlider', $variables);
+		return $this->renderTemplate('enupal-slider/sliders/_editSlider', $variables);
 	}
 
 	/**
@@ -234,7 +234,7 @@ class SlidersController extends BaseController
 		$this->getView()->registerAssetBundle('enupal\\slider\\assetbundles\\SliderAsset');
 		$this->getView()->registerAssetBundle('enupal\\slider\\assetbundles\\LivePreviewAsset');
 
-		return $this->renderTemplate('enupalslider/_preview', [
+		return $this->renderTemplate('enupal-slider/_preview', [
 			'slider'         => $slider,
 			'slidesElements' => $slidesElements,
 			'dataAttributes' => $dataAttributes,

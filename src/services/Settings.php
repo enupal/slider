@@ -31,7 +31,7 @@ class Settings extends Component
 			'settings' => $settings
 			],
 			[
-			'handle' => 'enupalslider'
+			'handle' => 'enupal-slider'
 			]
 		)->execute();
 

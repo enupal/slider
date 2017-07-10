@@ -9,7 +9,7 @@ use enupal\slider\Slider;
 use enupal\slider\models\Settings;
 
 /**
- * EnupalSlider provides an API for accessing information about sliders. It is accessible from templates via `craft.enupalslider`.
+ * EnupalSlider provides an API for accessing information about sliders. It is accessible from templates via `craft.enupal-slider`.
  *
  */
 class SliderVariable
@@ -20,7 +20,7 @@ class SliderVariable
 	 */
 	public function getName()
 	{
-		$plugin = Craft::$app->plugins->getPlugin('enupalslider');
+		$plugin = Craft::$app->plugins->getPlugin('enupal-slider');
 
 		return $plugin->getName();
 	}
@@ -30,7 +30,7 @@ class SliderVariable
 	 */
 	public function getVersion()
 	{
-		$plugin = Craft::$app->plugins->getPlugin('enupalslider');
+		$plugin = Craft::$app->plugins->getPlugin('enupal-slider');
 
 		return $plugin->getVersion();
 	}

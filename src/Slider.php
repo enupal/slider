@@ -5,6 +5,8 @@ use Craft;
 use craft\events\RegisterUrlRulesEvent;
 use craft\web\UrlManager;
 use yii\base\Event;
+use craft\events\DefineComponentsEvent;
+use craft\web\twig\variables\CraftVariable;
 
 use enupal\slider\variables\SliderVariable;
 use enupal\slider\models\Settings;
@@ -34,6 +36,14 @@ class Slider extends \craft\base\Plugin
 
 		Event::on(UrlManager::class, UrlManager::EVENT_REGISTER_CP_URL_RULES, function(RegisterUrlRulesEvent $event) {
 				$event->rules = array_merge($event->rules, $this->getCpUrlRules());
+			}
+		);
+
+		Event::on(
+			CraftVariable::class,
+			CraftVariable::EVENT_DEFINE_COMPONENTS,
+			function (DefineComponentsEvent $event) {
+					$event->components['enupalslider'] = SliderVariable::class;
 			}
 		);
 	}
@@ -97,23 +107,21 @@ class Slider extends \craft\base\Plugin
 	private function getCpUrlRules()
 	{
 		return [
+			'enupalslider/sliders'            =>
+			'enupal-slider/sliders/index',
+
 			'enupalslider'            =>
-			'enupalslider/sliders/index',
+			'enupal-slider/sliders/index',
 
 			'enupalslider/slider/new'            =>
-			'enupalslider/sliders/edit-slider',
+			'enupal-slider/sliders/edit-slider',
 
 			'enupalslider/slider/edit/<sliderId:\d+>'            =>
-			'enupalslider/sliders/edit-slider',
-		];
-	}
+			'enupal-slider/sliders/edit-slider',
 
-	/**
-	 * @return string
-	 */
-	public function defineTemplateComponent()
-	{
-		return SliderVariable::class;
+			'enupalslider/settings'            =>
+			'enupal-slider/settings',
+		];
 	}
 }
 
