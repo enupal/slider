@@ -73,7 +73,11 @@
 			<div class="header" style="display: flex;text-align: center;">
 				<div style="flex-grow: 1;">
 					<h3 style="text-transform: uppercase; display: inline-block;">{{ "One line of code:"|t }} </h3>
-					<span id="one-line" class ="short-url"> {{oneline}} </span><button type="button" class="clipbtn" data-clipboard-target="#one-line" ><i class="fa fa-files-o fa-lg" aria-hidden="true" alt="Copy to clipboard"></i></button>
+					<span id="one-line" class ="short-url"> {{oneline}} </span>
+					<span class="fa-stack fa-lg clipbtn" data-clipboard-target="#one-line" alt="Copy to clipboard">
+					  <i class="fa fa-square-o fa-stack-2x"></i>
+					  <i class="fa fa-files-o fa-stack-1x"></i>
+					</span>
 				</div>
 			</div>
 		</div>
