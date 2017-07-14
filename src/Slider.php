@@ -65,11 +65,11 @@ class Slider extends \craft\base\Plugin
 			'subnav' => [
 				'sliders' => [
 					"label" => Slider::t("Sliders"),
-					"url"   => 'enupalslider/sliders'
+					"url"   => 'enupal-slider/sliders'
 				],
 				'settings' =>[
 					"label" => Slider::t("Settings"),
-					"url" => 'enupalslider/settings'
+					"url" => 'enupal-slider/settings'
 				]
 			]
 		]);
@@ -107,19 +107,16 @@ class Slider extends \craft\base\Plugin
 	private function getCpUrlRules()
 	{
 		return [
-			'enupalslider/sliders'            =>
+			'enupal-slider'            =>
 			'enupal-slider/sliders/index',
 
-			'enupalslider'            =>
-			'enupal-slider/sliders/index',
-
-			'enupalslider/slider/new'            =>
+			'enupal-slider/slider/new'            =>
 			'enupal-slider/sliders/edit-slider',
 
-			'enupalslider/slider/edit/<sliderId:\d+>'            =>
+			'enupal-slider/slider/edit/<sliderId:\d+>'            =>
 			'enupal-slider/sliders/edit-slider',
 
-			'enupalslider/settings'            =>
+			'enupal-slider/settings'            =>
 			'enupal-slider/settings',
 		];
 	}

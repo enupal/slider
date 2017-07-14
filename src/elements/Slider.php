@@ -209,7 +209,7 @@ class Slider extends Element
 	public function getCpEditUrl()
 	{
 		return UrlHelper::cpUrl(
-			'enupalslider/slider/edit/'.$this->id
+			'enupal-slider/slider/edit/'.$this->id
 		);
 	}
 

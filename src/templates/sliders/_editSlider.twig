@@ -11,7 +11,7 @@
 	}
 {% endcss %}
 {% set crumbs = [
-	{ label: "Sliders"|t, url: url('enupalslider/sliders') }
+	{ label: "Sliders"|t, url: cpUrl('enupal-slider/sliders') }
 ] %}
 
 {% set title = sliderId ? 'Edit Slider' : 'New Slider' %}
@@ -30,7 +30,7 @@
 		<div class="btn submit menubtn"></div>
 		<div class="menu">
 			<ul>
-				<li><a class="formsubmit" data-redirect="{{('enupalslider/slider/edit/'~slider.id)|hash}}">{{ "Save and continue editing"|t }} <span class="shortcut">⌘S</span></a></li>
+				<li><a class="formsubmit" data-redirect="{{('enupal-slider/slider/edit/'~slider.id)|hash}}">{{ "Save and continue editing"|t }} <span class="shortcut">⌘S</span></a></li>
 				{#<li><a class="formsubmit" data-redirect="{{'enupalslider/sliders/edit/'~slider.id|hash}}" data-param='saveAsNew' data-value="true">{{ "Save as a new slider"|t('enupal-slider') }}</a></li>#}
 			</ul>
 		</div>

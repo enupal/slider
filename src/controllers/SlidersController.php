@@ -10,6 +10,7 @@ use craft\helpers\ArrayHelper;
 use craft\elements\Asset;
 use craft\helpers\Json;
 use craft\helpers\Template as TemplateHelper;
+use yii\web\Response;
 
 use enupal\slider\variables\SliderVariable;
 use enupal\slider\Slider;
@@ -100,7 +101,7 @@ class SlidersController extends BaseController
 
 			if ($slider->id)
 			{
-				$url = UrlHelper::cpUrl('enupalslider/slider/edit/' . $slider->id);
+				$url = UrlHelper::cpUrl('enupal-slider/slider/edit/' . $slider->id);
 				return $this->redirect($url);
 			}
 			else
@@ -179,7 +180,7 @@ class SlidersController extends BaseController
 		}
 
 		// Set the "Continue Editing" URL
-		$variables['continueEditingUrl'] = 'enupalslider/slider/edit/{id}';
+		$variables['continueEditingUrl'] = 'enupal-slider/slider/edit/{id}';
 
 		$variables['settings'] = Craft::$app->plugins->getPlugin('enupal-slider')->getSettings();
 
@@ -211,7 +212,7 @@ class SlidersController extends BaseController
 	 *
 	 * @return void
 	 */
-	public function actionLivePreview()
+	public function actionLivePreview(): Response
 	{
 		$this->requirePostRequest();
 		$slider = new SliderElement;
@@ -233,8 +234,13 @@ class SlidersController extends BaseController
 		$this->getView()->getTwig()->disableStrictVariables();
 		$this->getView()->registerAssetBundle('enupal\\slider\\assetbundles\\SliderAsset');
 		$this->getView()->registerAssetBundle('enupal\\slider\\assetbundles\\LivePreviewAsset');
+		// set path
+		$templatePath = Craft::getAlias('@enupal/slider/templates/');
+		$originalTemplatesPath = Craft::$app->getView()->getTemplatesPath();
 
-		return $this->renderTemplate('enupal-slider/_preview', [
+		Craft::$app->getView()->setTemplatesPath($templatePath);
+
+		$rendered = $this->renderTemplate('_preview/index', [
 			'slider'         => $slider,
 			'slidesElements' => $slidesElements,
 			'dataAttributes' => $dataAttributes,
@@ -243,5 +249,9 @@ class SlidersController extends BaseController
 			'openLinkHandle' => $settings['openLinkHandle'],
 			'options'        => []
 		]);
+
+		Craft::$app->getView()->setTemplatesPath($originalTemplatesPath);
+
+		return $rendered;
 	}
 }
