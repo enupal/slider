@@ -136,11 +136,15 @@ class Sliders extends Component
 				$fieldGroupId = $fieldGroup['id'];
 			}
 
-			$htmlHandle    = $this->getHandleAsNew("enupalSliderHtml");
+			$htmlHandle   = $this->getHandleAsNew("enupalSliderHtml");
 			$redactorPath = Craft::getAlias('@enupal/slider/redactor/enupalslider');
 			$redactorConfigPath = Craft::$app->path->getConfigPath();
 			$redactorConfigPath = FileHelper::normalizePath($redactorConfigPath."/redactor");
 			FileHelper::copyDirectory($redactorPath, $redactorConfigPath);
+
+			// SET ENUPAL SLIDER CONTEXT
+			Craft::$app->content->fieldContext = "enupalSlider:";
+
 			$richTextSettings = [
 				"redactorConfig"=> "EnupalSlider.json",
 				"purifierConfig"=>"",
@@ -212,22 +216,25 @@ class Sliders extends Component
 			// Set the field layout
 			$fieldLayout = Craft::$app->fields->assembleLayout($postedFieldLayout, $requiredFields);
 
-			$fieldLayout->type = FormElement::class;
-			$volumeHandle = $this->getHandleAsNew('EnupalSlider', true);
-			// Let's reuse the same handle if the volume already exists
-
 			/** @var Volume $volume */
 			$volumes = Craft::$app->getVolumes();
 			// get the full path of the web/enupalslider folder
 			$enupalSliderPath = $this->getSliderPath();
-			$volumeSettings = [
+			$volumeSettings   = [
 				'path' => $enupalSliderPath
 			];
+
+			$createNewVolume = true;
+			$volumeHandle    = $this->getHandleAsNew("enupalSlider", true);
+			// We need validate if the volume exists(unistall) but nothing is override in the settings
+			$volume = null;
+
+
 			$volume = $volumes->createVolume([
 				'id' => null,
 				// let's add support for local just for now.
 				'type' => Local::class,
-				'name' => $volumeHandle,
+				'name' => "Enupal Slider",
 				'handle' => $volumeHandle,
 				'hasUrls' => true,
 				'url' => '/enupalslider/',
@@ -235,7 +242,7 @@ class Sliders extends Component
 			]);
 
 			// Set the field layout
-			$fieldLayout->type = Asset::class;
+			$fieldLayout->type = SliderElement::class;
 			$volume->setFieldLayout($fieldLayout);
 			$volume->validate();
 			$errors = $volume->getErrors();
@@ -363,8 +370,8 @@ class Sliders extends Component
 		do
 		{
 			$newField = $field == "handle" ? $value . $i : $value . " " . $i;
-			$form     = $this->getFieldValue($field, $newField);
-			if (is_null($form))
+			$slider   = $this->getFieldValue($field, $newField);
+			if (is_null($slider))
 			{
 				$band = false;
 			}
@@ -382,7 +389,7 @@ class Sliders extends Component
 	 * @param string $field
 	 * @param string $value
 	 *
-	 * @return $form
+	 * @return $slider
 	 */
 	public function getFieldValue($field, $value)
 	{
@@ -741,4 +748,22 @@ class Sliders extends Component
 		return $slider;
 	}
 
+	public function removeVolumeAndFields()
+	{
+		$plugin = Craft::$app->getPlugins()->getPlugin('enupal-slider');
+		$fields = Craft::$app->getFields();
+
+		$fieldsToDelete = $fields->getFieldsByElementType(SliderElement::class);
+
+		foreach ($fieldsToDelete as $key => $field)
+		{
+			$fields->deleteFieldById($field->id);
+		}
+
+		// Let's delete the volume
+		if (isset($plugin->settings['volumeId']))
+		{
+			Craft::$app->getVolumes()->deleteVolumeById($plugin->settings['volumeId']);
+		}
+	}
 }

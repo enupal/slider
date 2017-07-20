@@ -26,8 +26,8 @@ class Install extends Migration
 	 */
 	public function safeDown()
 	{
-		$this->dropTable('{{%enupalslider_sliders}}');
-		$this->dropTable('{{%enupalslider_groups}}');
+		$this->dropTableIfExists('{{%enupalslider_sliders}}');
+		$this->dropTableIfExists('{{%enupalslider_groups}}');
 	}
 
 	/**
