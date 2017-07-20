@@ -53,6 +53,14 @@ class Slider extends \craft\base\Plugin
 		self::$app->sliders->installDefaultVolume();
 	}
 
+	/**
+	 * Performs actions after the plugin is installed.
+	 */
+	protected function afterUninstall()
+	{
+		self::$app->sliders->removeVolumeAndFields();
+	}
+
 	protected function createSettingsModel()
 	{
 		return new Settings();
