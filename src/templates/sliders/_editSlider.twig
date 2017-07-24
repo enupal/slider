@@ -51,7 +51,7 @@
 				{% set oneline = "{{ craft.enupalslider.displaySlider('"~slider.handle~"') }}"%}
 
 				{{ forms.field({
-					label: 'Slides'|t('enupal-slider'),
+					label: '<i class="fa fa-picture-o" aria-hidden="true"></i> '~'Slides'|t('enupal-slider'),
 					instructions: 'Slides that represents your content that will display in the slider. Double click if you want add HTML instead.'|t('enupal-slider'),
 					id: 'slides'
 					}, forms.elementSelect({
@@ -60,6 +60,7 @@
 					sources: sources,
 					id: 'slides',
 					name: 'slides',
+					class: 'slides-field',
 					jsClass: 'Craft.AssetSelectInput',
 					selectionLabel: 'Add Slides'|t('enupal-slider'),
 					limit: null,
