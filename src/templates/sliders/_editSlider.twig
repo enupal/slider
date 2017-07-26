@@ -18,7 +18,6 @@
 
 {% set fullPageForm = true %}
 {% set saveShortcutRedirect = continueEditingUrl %}
-
 {% block saveButton %}
 	<input type="hidden" name="action" value="enupal-slider/sliders/save-slider">
 	{{ redirectInput('enupal-slider/sliders') }}
@@ -70,14 +69,23 @@
 				{#limit: 1,
 					criteria: {"localeEnabled":null}
 				#}
+				<form id="download-default" class="utility" method="post" accept-charset="UTF-8">
+					<input type="hidden" name="action" value="enupal-slider/sliders/download-default">
+					{{ csrfInput() }}
+
+					<div class="buttons">
+						<input type="submit" class="btn submit" value='{{" Download Default Image"|t("enupal-slider") }}' />
+						<div class="utility-status"></div>
+					</div>
+				</form>
 			</div>
 			<div class="header" style="display: flex;text-align: center;">
 				<div style="flex-grow: 1;">
 					<h3 style="text-transform: uppercase; display: inline-block;">{{ "One line of code:"|t }} </h3>
 					<span id="one-line" class ="short-url"> {{oneline}} </span>
 					<span class="fa-stack fa-lg clipbtn" data-clipboard-target="#one-line" alt="Copy to clipboard">
-					  <i class="fa fa-square-o fa-stack-2x"></i>
-					  <i class="fa fa-files-o fa-stack-1x"></i>
+						<i class="fa fa-square-o fa-stack-2x"></i>
+						<i class="fa fa-files-o fa-stack-1x"></i>
 					</span>
 				</div>
 			</div>

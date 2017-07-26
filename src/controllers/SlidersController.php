@@ -254,4 +254,27 @@ class SlidersController extends BaseController
 
 		return $rendered;
 	}
+
+	/*
+	 * Download Default Image
+	*/
+	public function actionDownloadDefault()
+	{
+		$this->requirePostRequest();
+
+		$date = date('Y-m-d_H_i_s');
+		$imagePath = Craft::getAlias('@enupal/slider/resources/default.png');
+		$tempPath  = Craft::$app->getPath()->getTempPath().DIRECTORY_SEPARATOR.pathinfo('Default_'.$date, PATHINFO_FILENAME).'.png';
+
+		copy($imagePath, $tempPath);
+
+		if (!is_file($tempPath))
+		{
+			throw new NotFoundHttpException(Backup::t('Invalid default image name: {filename}', [
+				'filename' => $tempPath
+			]));
+		}
+
+		return Craft::$app->getResponse()->sendFile($tempPath);
+	}
 }
