@@ -115,16 +115,13 @@ class Slider extends \craft\base\Plugin
 	private function getCpUrlRules()
 	{
 		return [
-			'enupal-slider'            =>
-			'enupal-slider/sliders/index',
-
-			'enupal-slider/slider/new'            =>
+			'enupal-slider/slider/new'                 =>
 			'enupal-slider/sliders/edit-slider',
 
-			'enupal-slider/slider/edit/<sliderId:\d+>'            =>
+			'enupal-slider/slider/edit/<sliderId:\d+>' =>
 			'enupal-slider/sliders/edit-slider',
 
-			'enupal-slider/settings'            =>
+			'enupal-slider/settings'                   =>
 			'enupal-slider/settings',
 		];
 	}

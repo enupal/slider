@@ -18,14 +18,6 @@ use enupal\slider\elements\Slider as SliderElement;
 
 class SlidersController extends BaseController
 {
-	/*
-	 * Redirect to sliders index page
-	*/
-	public function actionIndex()
-	{
-		return $this->renderTemplate('enupal-slider/sliders/index');
-	}
-
 	/**
 	 * Save a slider
 	 */

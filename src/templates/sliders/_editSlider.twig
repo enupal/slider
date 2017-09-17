@@ -69,15 +69,19 @@
 				{#limit: 1,
 					criteria: {"localeEnabled":null}
 				#}
+
+				{# todo add defulat button#}
+				{#
 				<form id="download-default" class="utility" method="post" accept-charset="UTF-8">
 					<input type="hidden" name="action" value="enupal-slider/sliders/download-default">
 					{{ csrfInput() }}
 
 					<div class="buttons">
-						<input type="submit" class="btn submit" value='{{" Download Default Image"|t("enupal-slider") }}' />
+						<input id="download-default-button" type="submit" class="btn submit" value='{{" Download Default Image"|t("enupal-slider") }}' />
 						<div class="utility-status"></div>
 					</div>
 				</form>
+				#}
 			</div>
 			<div class="header" style="display: flex;text-align: center;">
 				<div style="flex-grow: 1;">
