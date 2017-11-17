@@ -149,7 +149,7 @@ class Sliders extends Component
 			FileHelper::copyDirectory($redactorPath, $redactorConfigPath);
 
 			// SET ENUPAL SLIDER CONTEXT
-			Craft::$app->content->fieldContext = "enupalSlider:";
+			Craft::$app->content->fieldContext = "global";
 
 			$richTextSettings = [
 				"redactorConfig"=> "EnupalSlider.json",
@@ -167,7 +167,7 @@ class Sliders extends Component
 				'handle' => $htmlHandle,
 				'settings' => json_encode($richTextSettings),
 				'instructions' => Slider::t('Override your image with custom HTML. Leave it blank to disable'),
-				'translationMethod' => Field::TRANSLATION_METHOD_NONE,
+				'translationMethod' => Field::TRANSLATION_METHOD_LANGUAGE,
 			]);
 			// Save our field
 			Craft::$app->fields->saveField($htmlField);
@@ -180,7 +180,7 @@ class Sliders extends Component
 				'groupId' => $fieldGroupId,
 				'instructions' => Slider::t('Open Link on same window or new tab'),
 				'settings'  => '{"placeholder":"Leave it blank to disable","multiline":"","initialRows":"4","charLimit":"","columnType":"text"}',
-				'translationMethod' => Field::TRANSLATION_METHOD_NONE,
+				'translationMethod' => Field::TRANSLATION_METHOD_LANGUAGE,
 			]);
 			// Save our field
 			Craft::$app->fields->saveField($linkField);
@@ -193,7 +193,7 @@ class Sliders extends Component
 				'groupId' => $fieldGroupId,
 				'instructions' => Slider::t('Where should be opened the link?'),
 				'settings'  => '{"options":[{"label":"Same window","value":"sameWindow","default":"1"},{"label":"New Tab or Window","value":"newTabOrWindow","default":""}]}',
-				'translationMethod' => Field::TRANSLATION_METHOD_NONE,
+				'translationMethod' => Field::TRANSLATION_METHOD_LANGUAGE,
 			]);
 			// Save our field
 			Craft::$app->fields->saveField($openLinkField);

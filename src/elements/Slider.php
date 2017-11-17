@@ -156,7 +156,7 @@ class Slider extends Element
 	 */
 	public function getFieldContext(): string
 	{
-		return 'enupalSlider:' . $this->id;
+		return 'global';
 	}
 
 	/**
