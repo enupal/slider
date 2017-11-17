@@ -1,8 +1,18 @@
 {
   "name": "enupal/slider",
   "description": "Best Slider Plugin for Craft CMS",
-  "version": "1.0.0",
   "type": "craft-plugin",
+  "version": "1.0.0",
+  "keywords": [
+    "craft",
+    "cms",
+    "craftcms",
+    "craft-plugin",
+    "image",
+    "carousel",
+    "slider",
+    "slide"
+  ],
   "autoload": {
     "psr-4": {
       "enupal\\slider\\": "src/"
@@ -16,10 +26,8 @@
   ],
   "support": {
     "email": "info@enupal.com",
-    "issues": "http://enupal.com/plugins/slider/issues?state=open",
-    "source": "http://enupal.com/plugins/slider/",
-    "docs": "http://enupal.com/plugins/slider/",
-    "rss": "http://enupal.com/plugins/slider/commits/master.atom"
+    "issues": "https://github.com/enupal/slider/issues",
+    "docs": "https://enupal.com/craft-plugins/enupal-slider/docs/getting-started/overview"
   },
   "extra": {
     "name": "Enupal Slider",
