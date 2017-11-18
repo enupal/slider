@@ -27,6 +27,7 @@ class Slider extends \craft\base\Plugin
 	public static $app;
 
 	public $hasCpSection = true;
+	public $hasCpSettings = true;
 
 	public function init()
 	{
