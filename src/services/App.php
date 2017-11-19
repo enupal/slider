@@ -6,7 +6,6 @@
  * @copyright Copyright (c) 2017 Enupal
  */
 
-
 namespace enupal\slider\services;
 
 use Craft;
