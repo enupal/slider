@@ -11,7 +11,10 @@
     "image",
     "carousel",
     "slider",
-    "slide"
+    "slide",
+    "responsive",
+    "html",
+    "link"
   ],
   "autoload": {
     "psr-4": {
@@ -27,7 +30,7 @@
   "support": {
     "email": "info@enupal.com",
     "issues": "https://github.com/enupal/slider/issues",
-    "docs": "https://enupal.com/craft-plugins/enupal-slider/docs/getting-started/overview"
+    "docs": "https://enupal.com/en/craft-plugins/enupal-slider/docs/getting-started/overview"
   },
   "extra": {
     "name": "Enupal Slider",

@@ -1,17 +1,16 @@
 # Enupal Slider Plugin for CraftCMS
 
-This plugin allows create Sliders.
+Best Slider Plugin for Craft CMS
+
+###Documentation
+------------------------------------------------------------
+
+https://enupal.com/en/craft-plugins/enupal-backup/docs/getting-started/installation
 
 ###Enupal Slider Support
 ------------------------------------------------------------
 
 Via Email:
 Send us a note at: info@enupal.com
-
-
-###Enupal Slider License Terms
-------------------------------------------------------------
-Use of Enupal Slider is subject to the license agreement available here:
-http://enupal.com/plugins/license
 
 

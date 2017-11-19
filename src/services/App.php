@@ -1,9 +1,11 @@
 <?php
 /**
+ * EnupalSlider plugin for Craft CMS 3.x
+ *
  * @link      https://enupal.com/
- * @copyright Copyright (c) Enupal
- * @license   http://enupal.com/craft-plugins/license
+ * @copyright Copyright (c) 2017 Enupal
  */
+
 
 namespace enupal\slider\services;
 
