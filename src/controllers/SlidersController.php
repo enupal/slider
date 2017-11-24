@@ -93,6 +93,7 @@ class SlidersController extends BaseController
 	 */
 	public function actionEditSlider(int $sliderId = null, SliderElement $slider = null)
 	{
+		$redactor = Craft::$app->plugins->getPlugin('redactor');
 		// Immediately create a new Slider
 		if ($sliderId === null)
 		{

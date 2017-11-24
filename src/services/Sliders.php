@@ -10,7 +10,6 @@ namespace enupal\slider\services;
 
 use Craft;
 use yii\base\Component;
-use craft\fields\RichText;
 use craft\fields\PlainText;
 use craft\fields\Dropdown;
 use craft\elements\Asset;
@@ -25,6 +24,7 @@ use enupal\slider\Slider;
 use enupal\slider\elements\Slider as SliderElement;
 use enupal\slider\records\Slider as SliderRecord;
 use craft\helpers\FileHelper;
+use craft\redactor\Field as RichText;
 
 class Sliders extends Component
 {
@@ -152,21 +152,38 @@ class Sliders extends Component
 			// SET ENUPAL SLIDER CONTEXT
 			Craft::$app->content->fieldContext = "global";
 
-			$richTextSettings = [
-				"redactorConfig"=> "EnupalSlider.json",
-				"purifierConfig"=>"",
-				"cleanupHtml"=>"1",
-				"purifyHtml"=>"1",
-				"columnType"=>"text",
-				"availableVolumes"=>"*",
-				"availableTransforms"=>"*"
+			//Rich text was moved to a plugin
+			$redactor = Craft::$app->plugins->getPlugin('redactor');
+			$htmlType = PlainText::class;
+
+			$htmlSettings = [
+				"placeholder"=> "",
+				"multiline"=>"1",
+				"initialRows"=>"6",
+				"charLimit"=>"",
+				"columnType"=>"text"
 			];
+
+			if ($redactor)
+			{
+				$htmlType     = RichText::class;
+				$htmlSettings = [
+					"redactorConfig"=> "EnupalSlider.json",
+					"purifierConfig"=>"",
+					"cleanupHtml"=>"1",
+					"purifyHtml"=>"1",
+					"columnType"=>"text",
+					"availableVolumes"=>"*",
+					"availableTransforms"=>"*"
+				];
+			}
+
 			$htmlField = $fieldsService->createField([
-				'type' => RichText::class,
+				'type' => $htmlType,
 				'name' => Slider::t('Html'),
 				'groupId' => $fieldGroupId,
 				'handle' => $htmlHandle,
-				'settings' => json_encode($richTextSettings),
+				'settings' => json_encode($htmlSettings),
 				'instructions' => Slider::t('Override your image with custom HTML. Leave it blank to disable'),
 				'translationMethod' => Field::TRANSLATION_METHOD_LANGUAGE,
 			]);
@@ -235,7 +252,6 @@ class Sliders extends Component
 			$volumeHandle    = $this->getHandleAsNew("enupalSlider", true);
 			// We need validate if the volume exists(unistall) but nothing is override in the settings
 			$volume = null;
-
 
 			$volume = $volumes->createVolume([
 				'id' => null,
@@ -758,6 +774,13 @@ class Sliders extends Component
 	public function removeVolumeAndFields()
 	{
 		$plugin = Craft::$app->getPlugins()->getPlugin('enupal-slider');
+
+		// Let's delete the volume
+		if (isset($plugin->settings['volumeId']))
+		{
+			Craft::$app->getVolumes()->deleteVolumeById((int)$plugin->settings['volumeId']);
+		}
+
 		$fields = Craft::$app->getFields();
 
 		$fieldsToDelete = $fields->getFieldsByElementType(SliderElement::class);
@@ -765,12 +788,6 @@ class Sliders extends Component
 		foreach ($fieldsToDelete as $key => $field)
 		{
 			$fields->deleteFieldById($field->id);
-		}
-
-		// Let's delete the volume
-		if (isset($plugin->settings['volumeId']))
-		{
-			Craft::$app->getVolumes()->deleteVolumeById($plugin->settings['volumeId']);
 		}
 	}
 }

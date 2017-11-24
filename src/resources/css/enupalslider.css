@@ -72,3 +72,11 @@
 .enupalslider-content{
   margin-left: -150%;
 }
+
+.enupal-field-heading {
+  color: rgb(85, 85, 85);
+  font-size: .8em;
+  min-height: auto;
+  text-transform: uppercase;
+  font-weight: 800;
+}
