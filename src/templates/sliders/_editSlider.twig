@@ -80,7 +80,7 @@
 				criteria: {"localeEnabled":null}
 			#}
 
-			{# todo add defulat button#}
+			{# todo add default button#}
 			{#
 			<form id="download-default" class="utility" method="post" accept-charset="UTF-8">
 				<input type="hidden" name="action" value="enupal-slider/sliders/download-default">
@@ -93,15 +93,15 @@
 			</form>
 			#}
 		</div>
-		<div class="header" style="display: flex;text-align: center;">
+		<div class="header" style="text-align: center;">
 			<div style="flex-grow: 1;">
-				<h3 style="text-transform: uppercase; display: inline-block;">{{ "One line of code:"|t }} </h3>
 				<span id="one-line" class ="short-url"> {{oneline}} </span>
 				<span class="fa-stack fa-lg clipbtn" data-clipboard-target="#one-line" alt="Copy to clipboard">
 					<i class="fa fa-square-o fa-stack-2x"></i>
 					<i class="fa fa-files-o fa-stack-1x"></i>
 				</span>
 			</div>
+			<span class="slider-instructions"><p>{{ "One line of code, use it on your templates."|t }}</p> </span>
 		</div>
 
 	{% do view.registerAssetBundle("enupal\\slider\\assetbundles\\EditSliderAsset") %}

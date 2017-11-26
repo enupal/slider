@@ -59,7 +59,7 @@ class Slider extends Element
 	public $infiniteLoop = true;
 
 	// Include image captions.
-	public $captions = true;
+	public $captions = false;
 
 	// Use slider in ticker mode (similar to a news ticker).
 	public $ticker = false;

@@ -33,6 +33,7 @@
   padding: 8px 8px 9px 8px;
   position: relative;
   border-radius: 50%;
+  color: #333f4dcc;
 }
 
 .enupalslider-livepreviewbtn {
@@ -79,4 +80,9 @@
   min-height: auto;
   text-transform: uppercase;
   font-weight: 800;
+}
+
+.slider-instructions{
+  margin-top: 2px;
+  color: #8f98a3;
 }
