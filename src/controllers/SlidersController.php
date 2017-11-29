@@ -166,10 +166,9 @@ class SlidersController extends BaseController
 		// Enable Live Preview?
 		if (!Craft::$app->getRequest()->isMobileBrowser(true))
 		{
-
 			//#title-field, #fields > div > div > .field
 			$this->getView()->registerJs('Craft.LivePreview.init('.Json::encode([
-					'fields' => '#tab-enupalslider-settings .field, #tab-enupalslider-controls .field, #tab-enupalslider-slides .field, #slides-field',
+					'fields' => '#fields-tab-enupalslider-settings .field, #fields-tab-enupalslider-controls .field, #fields-tab-enupalslider-slides .field, #fields-slides-field',
 					'previewAction' => 'enupal-slider/sliders/live-preview',
 					'previewParams' => [
 						'sliderId' => $slider->id

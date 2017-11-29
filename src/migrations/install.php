@@ -53,6 +53,7 @@ class Install extends Migration
 			'mode'                 => $this->string(),
 			'speed'                => $this->integer(),
 			'randomStart'          => $this->boolean()->defaultValue(false),
+			'startSlide'           => $this->string(),
 			'infiniteLoop'         => $this->boolean()->defaultValue(true),
 			'captions'             => $this->boolean()->defaultValue(true),
 			'ticker'               => $this->boolean()->defaultValue(false),
@@ -102,6 +103,9 @@ class Install extends Migration
 			'moveSlides'           => $this->integer(),
 			'slideWidth'           => $this->float(),
 			'shrinkItems'          => $this->boolean()->defaultValue(false),
+			//Develop
+			'wrapperClass'         => $this->string(),
+			'thumbClass'           => $this->string(),
 			//
 			'dateCreated'          => $this->dateTime()->notNull(),
 			'dateUpdated'          => $this->dateTime()->notNull(),

@@ -631,6 +631,7 @@ class Sliders extends Component
 			'move-slides' => $slider->moveSlides,
 			'slide-width' => $slider->slideWidth,
 			'slide-shrink-items' => $slider->shrinkItems,
+			'wrapper-class' => $slider->wrapperClass
 		];
 	}
 
@@ -695,6 +696,7 @@ class Sliders extends Component
 			'moveSlides' => $slider->moveSlides,
 			'slideWidth' => $slider->slideWidth,
 			'slideS0hrinkItems' => $slider->shrinkItems,
+			'wrapperClass' => $slider->wrapperClass
 		];
 	}
 
@@ -714,59 +716,9 @@ class Sliders extends Component
 	{
 		$request = Craft::$app->getRequest();
 
-		$slider->slides         = $request->getBodyParam('slides');
-		$slider->mode           = $request->getBodyParam('mode');
-		$slider->speed          = $request->getBodyParam('speed');
-		$slider->slideMargin    = $request->getBodyParam('slideMargin');
-		$slider->randomStart    = $request->getBodyParam('randomStart');
-		$slider->slideSelector  = $request->getBodyParam('slideSelector');
-		$slider->infiniteLoop   = $request->getBodyParam('infiniteLoop');
-		$slider->captions       = $request->getBodyParam('captions');
-		$slider->ticker         = $request->getBodyParam('ticker');
-		$slider->tickerHover    = $request->getBodyParam('tickerHover');
-		$slider->adaptiveHeight = $request->getBodyParam('adaptiveHeight');
-		$slider->video          = $request->getBodyParam('video');
-		$slider->responsive     = $request->getBodyParam('responsive');
-		$slider->useCss         = $request->getBodyParam('useCss');
-		$slider->easing         = $request->getBodyParam('easing');
-		$slider->preloadImages  = $request->getBodyParam('preloadImages');
-		$slider->touchEnabled   = $request->getBodyParam('touchEnabled');
-		$slider->swipeThreshold = $request->getBodyParam('swipeThreshold');
-		$slider->adaptiveHeightSpeed  = $request->getBodyParam('adaptiveHeightSpeed');
-		$slider->preventDefaultSwipeX = $request->getBodyParam('preventDefaultSwipeX');
-		$slider->preventDefaultSwipeX = $request->getBodyParam('preventDefaultSwipeX');
-		//Pager
-		$slider->pager                = $request->getBodyParam('pager');
-		$slider->pagerType            = $request->getBodyParam('pagerType');
-		$slider->pagerShortSeparator  = $request->getBodyParam('pagerShortSeparator');
-		$slider->pagerSelector        = $request->getBodyParam('pagerSelector');
-		$slider->thumbnailPager       = $request->getBodyParam('thumbnailPager');
-		//Controls
-		$slider->controls             = $request->getBodyParam('controls');
-		$slider->nextText             = $request->getBodyParam('nextText');
-		$slider->prevText             = $request->getBodyParam('prevText');
-		$slider->nextSelector         = $request->getBodyParam('nextSelector');
-		$slider->prevSelector         = $request->getBodyParam('prevSelector');
-		$slider->autoControls         = $request->getBodyParam('autoControls');
-		$slider->startText            = $request->getBodyParam('startText');
-		$slider->stopText             = $request->getBodyParam('stopText');
-		$slider->autoControlsCombine  = $request->getBodyParam('autoControlsCombine');
-		$slider->autoControlsSelector = $request->getBodyParam('autoControlsSelector');
-		$slider->keyboardEnabled      = $request->getBodyParam('keyboardEnabled');
-		//Auto
-		$slider->auto                 = $request->getBodyParam('auto');
-		$slider->stopAutoOnClick      = $request->getBodyParam('stopAutoOnClick');
-		$slider->pause                = $request->getBodyParam('pause');
-		$slider->autoStart            = $request->getBodyParam('autoStart');
-		$slider->autoDirection        = $request->getBodyParam('autoDirection');
-		$slider->autoHover            = $request->getBodyParam('autoHover');
-		$slider->autoDelay            = $request->getBodyParam('autoDelay');
-		//Carousel
-		$slider->minSlides            = $request->getBodyParam('minSlides');
-		$slider->maxSlides            = $request->getBodyParam('maxSlides');
-		$slider->moveSlides           = $request->getBodyParam('moveSlides');
-		$slider->slideWidth           = $request->getBodyParam('slideWidth');
-		$slider->shrinkItems          = $request->getBodyParam('shrinkItems');
+		$postFields = $request->getBodyParam('fields');
+
+		$slider->setAttributes($postFields, false);
 
 		return $slider;
 	}
