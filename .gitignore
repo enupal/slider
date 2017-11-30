@@ -6,3 +6,5 @@
 *Thumbs.db
 haters
 .DS_Store
+/composer.lock
+/vendor

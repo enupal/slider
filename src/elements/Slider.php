@@ -1,4 +1,11 @@
 <?php
+/**
+ * EnupalSlider plugin for Craft CMS 3.x
+ *
+ * @link      https://enupal.com/
+ * @copyright Copyright (c) 2017 Enupal
+ */
+
 namespace enupal\slider\elements;
 
 use Craft;
@@ -48,11 +55,14 @@ class Slider extends Element
 	//  Start slider on a random slide.
 	public $randomStart = false;
 
+	// Starting slide index (zero-based)
+	public $startSlide = 0;
+
 	//If checked, clicking "Next" while on the last slide will transition to the first slide and vice-versa.
 	public $infiniteLoop = true;
 
 	// Include image captions.
-	public $captions = true;
+	public $captions = false;
 
 	// Use slider in ticker mode (similar to a news ticker).
 	public $ticker = false;
@@ -142,6 +152,12 @@ class Slider extends Element
 	public $slideWidth = 0;
 	public $shrinkItems = false;
 
+	// Develop - Properties
+	// =========================================================================
+
+	public $wrapperClass = 'bx-wrapper';
+	public $thumbClass   = '';
+
 	/**
 	 * Returns the field context this element's content uses.
 	 *
@@ -150,7 +166,7 @@ class Slider extends Element
 	 */
 	public function getFieldContext(): string
 	{
-		return 'enupalSlider:' . $this->id;
+		return 'global';
 	}
 
 	/**
@@ -209,7 +225,7 @@ class Slider extends Element
 	public function getCpEditUrl()
 	{
 		return UrlHelper::cpUrl(
-			'enupalslider/slider/edit/'.$this->id
+			'enupal-slider/slider/edit/'.$this->id
 		);
 	}
 
@@ -379,6 +395,7 @@ class Slider extends Element
 		$record->speed                = $this->speed;
 		$record->slideMargin          = $this->slideMargin;
 		$record->randomStart          = $this->randomStart;
+		$record->startSlide           = $this->startSlide;
 		$record->slideSelector        = $this->slideSelector;
 		$record->infiniteLoop         = $this->infiniteLoop;
 		$record->captions             = $this->captions;
@@ -427,6 +444,8 @@ class Slider extends Element
 		$record->moveSlides           = $this->moveSlides;
 		$record->slideWidth           = $this->slideWidth;
 		$record->shrinkItems          = $this->shrinkItems;
+		$record->wrapperClass         = $this->wrapperClass;
+		$record->thumbClass           = $this->thumbClass;
 
 		$record->save(false);
 

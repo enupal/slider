@@ -1,4 +1,11 @@
 <?php
+/**
+ * EnupalSlider plugin for Craft CMS 3.x
+ *
+ * @link      https://enupal.com/
+ * @copyright Copyright (c) 2017 Enupal
+ */
+
 namespace enupal\slider\migrations;
 
 use Craft;
@@ -26,8 +33,8 @@ class Install extends Migration
 	 */
 	public function safeDown()
 	{
-		$this->dropTable('{{%enupalslider_sliders}}');
-		$this->dropTable('{{%enupalslider_groups}}');
+		$this->dropTableIfExists('{{%enupalslider_sliders}}');
+		$this->dropTableIfExists('{{%enupalslider_groups}}');
 	}
 
 	/**
@@ -46,6 +53,7 @@ class Install extends Migration
 			'mode'                 => $this->string(),
 			'speed'                => $this->integer(),
 			'randomStart'          => $this->boolean()->defaultValue(false),
+			'startSlide'           => $this->string(),
 			'infiniteLoop'         => $this->boolean()->defaultValue(true),
 			'captions'             => $this->boolean()->defaultValue(true),
 			'ticker'               => $this->boolean()->defaultValue(false),
@@ -95,6 +103,9 @@ class Install extends Migration
 			'moveSlides'           => $this->integer(),
 			'slideWidth'           => $this->float(),
 			'shrinkItems'          => $this->boolean()->defaultValue(false),
+			//Develop
+			'wrapperClass'         => $this->string(),
+			'thumbClass'           => $this->string(),
 			//
 			'dateCreated'          => $this->dateTime()->notNull(),
 			'dateUpdated'          => $this->dateTime()->notNull(),

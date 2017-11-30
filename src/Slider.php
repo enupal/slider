@@ -1,10 +1,19 @@
 <?php
+/**
+ * EnupalSlider plugin for Craft CMS 3.x
+ *
+ * @link      https://enupal.com/
+ * @copyright Copyright (c) 2017 Enupal
+ */
+
 namespace enupal\slider;
 
 use Craft;
 use craft\events\RegisterUrlRulesEvent;
 use craft\web\UrlManager;
 use yii\base\Event;
+use craft\events\DefineComponentsEvent;
+use craft\web\twig\variables\CraftVariable;
 
 use enupal\slider\variables\SliderVariable;
 use enupal\slider\models\Settings;
@@ -19,6 +28,7 @@ class Slider extends \craft\base\Plugin
 	public static $app;
 
 	public $hasCpSection = true;
+	public $hasCpSettings = true;
 
 	public function init()
 	{
@@ -36,11 +46,27 @@ class Slider extends \craft\base\Plugin
 				$event->rules = array_merge($event->rules, $this->getCpUrlRules());
 			}
 		);
+
+		Event::on(
+			CraftVariable::class,
+			CraftVariable::EVENT_DEFINE_COMPONENTS,
+			function (DefineComponentsEvent $event) {
+					$event->components['enupalslider'] = SliderVariable::class;
+			}
+		);
 	}
 
 	protected function afterInstall()
 	{
 		self::$app->sliders->installDefaultVolume();
+	}
+
+	/**
+	 * Performs actions after the plugin is installed.
+	 */
+	protected function afterUninstall()
+	{
+		self::$app->sliders->removeVolumeAndFields();
 	}
 
 	protected function createSettingsModel()
@@ -55,11 +81,11 @@ class Slider extends \craft\base\Plugin
 			'subnav' => [
 				'sliders' => [
 					"label" => Slider::t("Sliders"),
-					"url"   => 'enupalslider/sliders'
+					"url"   => 'enupal-slider/sliders'
 				],
 				'settings' =>[
 					"label" => Slider::t("Settings"),
-					"url" => 'enupalslider/settings'
+					"url" => 'enupal-slider/settings'
 				]
 			]
 		]);
@@ -73,7 +99,7 @@ class Slider extends \craft\base\Plugin
 	 */
 	public static function t($message, array $params = [])
 	{
-		return Craft::t('enupalslider', $message, $params);
+		return Craft::t('enupal-slider', $message, $params);
 	}
 
 	public static function log($message, $type = 'info')
@@ -97,23 +123,15 @@ class Slider extends \craft\base\Plugin
 	private function getCpUrlRules()
 	{
 		return [
-			'enupalslider'            =>
-			'enupalslider/sliders/index',
+			'enupal-slider/slider/new'                 =>
+			'enupal-slider/sliders/edit-slider',
 
-			'enupalslider/slider/new'            =>
-			'enupalslider/sliders/edit-slider',
+			'enupal-slider/slider/edit/<sliderId:\d+>' =>
+			'enupal-slider/sliders/edit-slider',
 
-			'enupalslider/slider/edit/<sliderId:\d+>'            =>
-			'enupalslider/sliders/edit-slider',
+			'enupal-slider/settings'                   =>
+			'enupal-slider/settings',
 		];
-	}
-
-	/**
-	 * @return string
-	 */
-	public function defineTemplateComponent()
-	{
-		return SliderVariable::class;
 	}
 }
 

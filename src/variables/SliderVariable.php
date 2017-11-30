@@ -1,4 +1,10 @@
 <?php
+/**
+ * EnupalSlider plugin for Craft CMS 3.x
+ *
+ * @link      https://enupal.com/
+ * @copyright Copyright (c) 2017 Enupal
+ */
 
 namespace enupal\slider\variables;
 
@@ -20,7 +26,7 @@ class SliderVariable
 	 */
 	public function getName()
 	{
-		$plugin = Craft::$app->plugins->getPlugin('enupalslider');
+		$plugin = Craft::$app->plugins->getPlugin('enupal-slider');
 
 		return $plugin->getName();
 	}
@@ -30,7 +36,7 @@ class SliderVariable
 	 */
 	public function getVersion()
 	{
-		$plugin = Craft::$app->plugins->getPlugin('enupalslider');
+		$plugin = Craft::$app->plugins->getPlugin('enupal-slider');
 
 		return $plugin->getVersion();
 	}

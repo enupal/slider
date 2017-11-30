@@ -1,6 +1,15 @@
+{#
+/**
+ * EnupalSlider plugin for Craft CMS 3.x
+ *
+ * @link      https://enupal.com/
+ * @copyright Copyright (c) 2017 Enupal
+ */
+#}
+
 {% do view.registerAssetBundle("enupal\\slider\\assetbundles\\SliderAsset") %}
 
-<ul class="enupal-slider" {{dataAttributes|raw}}
+<ul class="enupal-slider" data-enupal-slider-wrapper-class ="Tesst" {{dataAttributes|raw}}
  {% if slider.thumbnailPager %} data-enupalslider-pager-custom = 'enupalslider-{{slider.handle}}-pager' {% endif %}>
  {% for slide in slidesElements %}
 	{% if attribute(slide, htmlHandle) and attribute(slide, htmlHandle)!='' %}
@@ -35,7 +44,7 @@
 		height: 80,
 		quality: 100
 	} %}
-	<div id="enupalslider-{{slider.handle}}-pager">
+	<div id="enupalslider-{{slider.handle}}-pager" class="{{slider.thumbClass}}">
 	 {% for slide in slidesElements %}
 			<a data-slide-index="{{loop.index0}}" href="">
 				<img src="{{slide.getUrl(thumb)}}" />

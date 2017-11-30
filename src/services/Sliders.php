@@ -1,9 +1,15 @@
 <?php
+/**
+ * EnupalSlider plugin for Craft CMS 3.x
+ *
+ * @link      https://enupal.com/
+ * @copyright Copyright (c) 2017 Enupal
+ */
+
 namespace enupal\slider\services;
 
 use Craft;
 use yii\base\Component;
-use craft\fields\RichText;
 use craft\fields\PlainText;
 use craft\fields\Dropdown;
 use craft\elements\Asset;
@@ -18,6 +24,7 @@ use enupal\slider\Slider;
 use enupal\slider\elements\Slider as SliderElement;
 use enupal\slider\records\Slider as SliderRecord;
 use craft\helpers\FileHelper;
+use craft\redactor\Field as RichText;
 
 class Sliders extends Component
 {
@@ -136,28 +143,49 @@ class Sliders extends Component
 				$fieldGroupId = $fieldGroup['id'];
 			}
 
-			$htmlHandle    = $this->getHandleAsNew("enupalSliderHtml");
-			$redactorPath = Craft::$app->path->getPluginsPath() . '/enupalslider/src/redactor/enupalslider';
+			$htmlHandle   = $this->getHandleAsNew("enupalSliderHtml");
+			$redactorPath = Craft::getAlias('@enupal/slider/redactor/enupalslider');
 			$redactorConfigPath = Craft::$app->path->getConfigPath();
 			$redactorConfigPath = FileHelper::normalizePath($redactorConfigPath."/redactor");
 			FileHelper::copyDirectory($redactorPath, $redactorConfigPath);
-			$richTextSettings = [
-				"redactorConfig"=> "EnupalSlider.json",
-				"purifierConfig"=>"",
-				"cleanupHtml"=>"1",
-				"purifyHtml"=>"1",
-				"columnType"=>"text",
-				"availableVolumes"=>"*",
-				"availableTransforms"=>"*"
+
+			// SET ENUPAL SLIDER CONTEXT
+			Craft::$app->content->fieldContext = "global";
+
+			//Rich text was moved to a plugin
+			$redactor = Craft::$app->plugins->getPlugin('redactor');
+			$htmlType = PlainText::class;
+
+			$htmlSettings = [
+				"placeholder"=> "",
+				"multiline"=>"1",
+				"initialRows"=>"6",
+				"charLimit"=>"",
+				"columnType"=>"text"
 			];
+
+			if ($redactor)
+			{
+				$htmlType     = RichText::class;
+				$htmlSettings = [
+					"redactorConfig"=> "EnupalSlider.json",
+					"purifierConfig"=>"",
+					"cleanupHtml"=>"1",
+					"purifyHtml"=>"1",
+					"columnType"=>"text",
+					"availableVolumes"=>"*",
+					"availableTransforms"=>"*"
+				];
+			}
+
 			$htmlField = $fieldsService->createField([
-				'type' => RichText::class,
+				'type' => $htmlType,
 				'name' => Slider::t('Html'),
 				'groupId' => $fieldGroupId,
 				'handle' => $htmlHandle,
-				'settings' => json_encode($richTextSettings),
+				'settings' => json_encode($htmlSettings),
 				'instructions' => Slider::t('Override your image with custom HTML. Leave it blank to disable'),
-				'translationMethod' => Field::TRANSLATION_METHOD_NONE,
+				'translationMethod' => Field::TRANSLATION_METHOD_LANGUAGE,
 			]);
 			// Save our field
 			Craft::$app->fields->saveField($htmlField);
@@ -170,7 +198,7 @@ class Sliders extends Component
 				'groupId' => $fieldGroupId,
 				'instructions' => Slider::t('Open Link on same window or new tab'),
 				'settings'  => '{"placeholder":"Leave it blank to disable","multiline":"","initialRows":"4","charLimit":"","columnType":"text"}',
-				'translationMethod' => Field::TRANSLATION_METHOD_NONE,
+				'translationMethod' => Field::TRANSLATION_METHOD_LANGUAGE,
 			]);
 			// Save our field
 			Craft::$app->fields->saveField($linkField);
@@ -183,7 +211,7 @@ class Sliders extends Component
 				'groupId' => $fieldGroupId,
 				'instructions' => Slider::t('Where should be opened the link?'),
 				'settings'  => '{"options":[{"label":"Same window","value":"sameWindow","default":"1"},{"label":"New Tab or Window","value":"newTabOrWindow","default":""}]}',
-				'translationMethod' => Field::TRANSLATION_METHOD_NONE,
+				'translationMethod' => Field::TRANSLATION_METHOD_LANGUAGE,
 			]);
 			// Save our field
 			Craft::$app->fields->saveField($openLinkField);
@@ -212,22 +240,24 @@ class Sliders extends Component
 			// Set the field layout
 			$fieldLayout = Craft::$app->fields->assembleLayout($postedFieldLayout, $requiredFields);
 
-			$fieldLayout->type = FormElement::class;
-			$volumeHandle = $this->getHandleAsNew('EnupalSlider', true);
-			// Let's reuse the same handle if the volume already exists
-
 			/** @var Volume $volume */
 			$volumes = Craft::$app->getVolumes();
 			// get the full path of the web/enupalslider folder
 			$enupalSliderPath = $this->getSliderPath();
-			$volumeSettings = [
+			$volumeSettings   = [
 				'path' => $enupalSliderPath
 			];
+
+			$createNewVolume = true;
+			$volumeHandle    = $this->getHandleAsNew("enupalSlider", true);
+			// We need validate if the volume exists(unistall) but nothing is override in the settings
+			$volume = null;
+
 			$volume = $volumes->createVolume([
 				'id' => null,
 				// let's add support for local just for now.
 				'type' => Local::class,
-				'name' => $volumeHandle,
+				'name' => "Enupal Slider",
 				'handle' => $volumeHandle,
 				'hasUrls' => true,
 				'url' => '/enupalslider/',
@@ -235,7 +265,7 @@ class Sliders extends Component
 			]);
 
 			// Set the field layout
-			$fieldLayout->type = Asset::class;
+			$fieldLayout->type = SliderElement::class;
 			$volume->setFieldLayout($fieldLayout);
 			$volume->validate();
 			$errors = $volume->getErrors();
@@ -262,7 +292,7 @@ class Sliders extends Component
 				'settings' => $settings
 				],
 				[
-				'handle' => 'enupalslider'
+				'handle' => 'enupal-slider'
 				]
 			)->execute();
 
@@ -290,14 +320,8 @@ class Sliders extends Component
 
 		if($this->saveSlider($slider))
 		{
-			$settings = (new Query())
-				->select('settings')
-				->from(['{{%plugins}}'])
-				->where(['handle' => 'enupalslider'])
-				->one();
-
-			$sources = null;
-			$settings = json_decode($settings['settings'], true);
+			$settings = $this->getSettings();
+			$sources  = null;
 
 			if (isset($settings['volumeId']))
 			{
@@ -369,8 +393,8 @@ class Sliders extends Component
 		do
 		{
 			$newField = $field == "handle" ? $value . $i : $value . " " . $i;
-			$form     = $this->getFieldValue($field, $newField);
-			if (is_null($form))
+			$slider   = $this->getFieldValue($field, $newField);
+			if (is_null($slider))
 			{
 				$band = false;
 			}
@@ -388,7 +412,7 @@ class Sliders extends Component
 	 * @param string $field
 	 * @param string $value
 	 *
-	 * @return $form
+	 * @return $slider
 	 */
 	public function getFieldValue($field, $value)
 	{
@@ -474,7 +498,7 @@ class Sliders extends Component
 		$settings = (new Query())
 			->select('settings')
 			->from(['{{%plugins}}'])
-			->where(['handle' => 'enupalslider'])
+			->where(['handle' => 'enupal-slider'])
 			->one();
 
 		$settings = json_decode($settings['settings'], true);
@@ -530,7 +554,7 @@ class Sliders extends Component
 
 	public function getEnupalSliderPath()
 	{
-		$defaultTemplate = Craft::$app->path->getPluginsPath() . '/enupalslider/src/templates/_frontend/';
+		$defaultTemplate = Craft::getAlias('@enupal/slider/templates/_frontend/');
 
 		return $defaultTemplate;
 	}
@@ -607,6 +631,7 @@ class Sliders extends Component
 			'move-slides' => $slider->moveSlides,
 			'slide-width' => $slider->slideWidth,
 			'slide-shrink-items' => $slider->shrinkItems,
+			'wrapper-class' => $slider->wrapperClass
 		];
 	}
 
@@ -671,6 +696,7 @@ class Sliders extends Component
 			'moveSlides' => $slider->moveSlides,
 			'slideWidth' => $slider->slideWidth,
 			'slideS0hrinkItems' => $slider->shrinkItems,
+			'wrapperClass' => $slider->wrapperClass
 		];
 	}
 
@@ -690,61 +716,30 @@ class Sliders extends Component
 	{
 		$request = Craft::$app->getRequest();
 
-		$slider->slides         = $request->getBodyParam('slides');
-		$slider->mode           = $request->getBodyParam('mode');
-		$slider->speed          = $request->getBodyParam('speed');
-		$slider->slideMargin    = $request->getBodyParam('slideMargin');
-		$slider->randomStart    = $request->getBodyParam('randomStart');
-		$slider->slideSelector  = $request->getBodyParam('slideSelector');
-		$slider->infiniteLoop   = $request->getBodyParam('infiniteLoop');
-		$slider->captions       = $request->getBodyParam('captions');
-		$slider->ticker         = $request->getBodyParam('ticker');
-		$slider->tickerHover    = $request->getBodyParam('tickerHover');
-		$slider->adaptiveHeight = $request->getBodyParam('adaptiveHeight');
-		$slider->video          = $request->getBodyParam('video');
-		$slider->responsive     = $request->getBodyParam('responsive');
-		$slider->useCss         = $request->getBodyParam('useCss');
-		$slider->easing         = $request->getBodyParam('easing');
-		$slider->preloadImages  = $request->getBodyParam('preloadImages');
-		$slider->touchEnabled   = $request->getBodyParam('touchEnabled');
-		$slider->swipeThreshold = $request->getBodyParam('swipeThreshold');
-		$slider->adaptiveHeightSpeed  = $request->getBodyParam('adaptiveHeightSpeed');
-		$slider->preventDefaultSwipeX = $request->getBodyParam('preventDefaultSwipeX');
-		$slider->preventDefaultSwipeX = $request->getBodyParam('preventDefaultSwipeX');
-		//Pager
-		$slider->pager                = $request->getBodyParam('pager');
-		$slider->pagerType            = $request->getBodyParam('pagerType');
-		$slider->pagerShortSeparator  = $request->getBodyParam('pagerShortSeparator');
-		$slider->pagerSelector        = $request->getBodyParam('pagerSelector');
-		$slider->thumbnailPager       = $request->getBodyParam('thumbnailPager');
-		//Controls
-		$slider->controls             = $request->getBodyParam('controls');
-		$slider->nextText             = $request->getBodyParam('nextText');
-		$slider->prevText             = $request->getBodyParam('prevText');
-		$slider->nextSelector         = $request->getBodyParam('nextSelector');
-		$slider->prevSelector         = $request->getBodyParam('prevSelector');
-		$slider->autoControls         = $request->getBodyParam('autoControls');
-		$slider->startText            = $request->getBodyParam('startText');
-		$slider->stopText             = $request->getBodyParam('stopText');
-		$slider->autoControlsCombine  = $request->getBodyParam('autoControlsCombine');
-		$slider->autoControlsSelector = $request->getBodyParam('autoControlsSelector');
-		$slider->keyboardEnabled      = $request->getBodyParam('keyboardEnabled');
-		//Auto
-		$slider->auto                 = $request->getBodyParam('auto');
-		$slider->stopAutoOnClick      = $request->getBodyParam('stopAutoOnClick');
-		$slider->pause                = $request->getBodyParam('pause');
-		$slider->autoStart            = $request->getBodyParam('autoStart');
-		$slider->autoDirection        = $request->getBodyParam('autoDirection');
-		$slider->autoHover            = $request->getBodyParam('autoHover');
-		$slider->autoDelay            = $request->getBodyParam('autoDelay');
-		//Carousel
-		$slider->minSlides            = $request->getBodyParam('minSlides');
-		$slider->maxSlides            = $request->getBodyParam('maxSlides');
-		$slider->moveSlides           = $request->getBodyParam('moveSlides');
-		$slider->slideWidth           = $request->getBodyParam('slideWidth');
-		$slider->shrinkItems          = $request->getBodyParam('shrinkItems');
+		$postFields = $request->getBodyParam('fields');
+
+		$slider->setAttributes($postFields, false);
 
 		return $slider;
 	}
 
+	public function removeVolumeAndFields()
+	{
+		$plugin = Craft::$app->getPlugins()->getPlugin('enupal-slider');
+
+		// Let's delete the volume
+		if (isset($plugin->settings['volumeId']))
+		{
+			Craft::$app->getVolumes()->deleteVolumeById((int)$plugin->settings['volumeId']);
+		}
+
+		$fields = Craft::$app->getFields();
+
+		$fieldsToDelete = $fields->getFieldsByElementType(SliderElement::class);
+
+		foreach ($fieldsToDelete as $key => $field)
+		{
+			$fields->deleteFieldById($field->id);
+		}
+	}
 }

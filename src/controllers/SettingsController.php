@@ -1,4 +1,11 @@
 <?php
+/**
+ * EnupalSlider plugin for Craft CMS 3.x
+ *
+ * @link      https://enupal.com/
+ * @copyright Copyright (c) 2017 Enupal
+ */
+
 namespace enupal\slider\controllers;
 
 use Craft;
@@ -15,6 +22,15 @@ use enupal\slider\elements\Slider as SliderElement;
 
 class SettingsController extends BaseController
 {
+
+	/*
+	 * Redirect to sliders settings
+	*/
+	public function actionIndex()
+	{
+		return $this->renderTemplate('enupal-slider/settings/index');
+	}
+
 	/**
 	 * Save Plugin Settings
 	 *

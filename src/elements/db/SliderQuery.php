@@ -1,4 +1,11 @@
 <?php
+/**
+ * EnupalSlider plugin for Craft CMS 3.x
+ *
+ * @link      https://enupal.com/
+ * @copyright Copyright (c) 2017 Enupal
+ */
+
 namespace enupal\slider\elements\db;
 
 use Craft;
@@ -203,6 +210,7 @@ class SliderQuery extends ElementQuery
 			'enupalslider_sliders.moveSlides',
 			'enupalslider_sliders.slideWidth',
 			'enupalslider_sliders.shrinkItems',
+			'enupalslider_sliders.wrapperClass',
 			'enupalslider_sliders.uid',
 		]);
 

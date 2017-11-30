@@ -1,13 +1,22 @@
+{#
+/**
+ * EnupalSlider plugin for Craft CMS 3.x
+ *
+ * @link      https://enupal.com/
+ * @copyright Copyright (c) 2017 Enupal
+ */
+#}
+
 {% extends "_layouts/cp" %}
 
 {% set bodyClass = craft.app.request.getSegments()|slice(0, 3)|join(' ') %}
 
 {% set selectedSubnavItem = craft.request.segment(2) == 'slider' ? 'sliders' : craft.request.segment(2)  %}
 
-{% block content %}
+{#% block content %}
 
   {% if body is defined %}
   	{{ body }}
   {% endif %}
 
-{% endblock %}
+{% endblock %#}

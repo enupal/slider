@@ -1,4 +1,11 @@
 <?php
+/**
+ * EnupalSlider plugin for Craft CMS 3.x
+ *
+ * @link      https://enupal.com/
+ * @copyright Copyright (c) 2017 Enupal
+ */
+
 namespace enupal\slider\controllers;
 
 use Craft;
@@ -10,6 +17,7 @@ use craft\helpers\ArrayHelper;
 use craft\elements\Asset;
 use craft\helpers\Json;
 use craft\helpers\Template as TemplateHelper;
+use yii\web\Response;
 
 use enupal\slider\variables\SliderVariable;
 use enupal\slider\Slider;
@@ -17,14 +25,6 @@ use enupal\slider\elements\Slider as SliderElement;
 
 class SlidersController extends BaseController
 {
-	/*
-	 * Redirect to sliders index page
-	*/
-	public function actionIndex()
-	{
-		return $this->renderTemplate('enupalslider/sliders/index');
-	}
-
 	/**
 	 * Save a slider
 	 */
@@ -34,26 +34,6 @@ class SlidersController extends BaseController
 
 		$request = Craft::$app->getRequest();
 		$slider  = new SliderElement;
-
-		// @todo - save as new
-		/*if ($request->getBodyParam('saveAsNew'))
-		{
-			@todo save as new feature
-			$slider->saveAsNew = true;
-			$duplicateSlider = Slider::$app()->sliders->createNewSlider(
-				$request->getBodyParam('name'),
-				$request->getBodyParam('handle')
-			);
-
-			if ($duplicateSlider)
-			{
-				$slider->id = $duplicateSlider->id;
-			}
-			else
-			{
-				throw new Exception(Craft::t('Error creating Form'));
-			}
-		}*/
 
 		$sliderId = $request->getBodyParam('sliderId');
 		$isNew    = true;
@@ -99,8 +79,6 @@ class SlidersController extends BaseController
 
 		Craft::$app->getSession()->setNotice(Slider::t('Slider saved.'));
 
-		#$_POST['redirect'] = str_replace('{id}', $form->id, $_POST['redirect']);
-
 		return $this->redirectToPostedUrl($slider);
 	}
 
@@ -115,14 +93,15 @@ class SlidersController extends BaseController
 	 */
 	public function actionEditSlider(int $sliderId = null, SliderElement $slider = null)
 	{
-		// Immediately create a new Form
+		$redactor = Craft::$app->plugins->getPlugin('redactor');
+		// Immediately create a new Slider
 		if ($sliderId === null)
 		{
 			$slider = Slider::$app->sliders->createNewSlider();
 
 			if ($slider->id)
 			{
-				$url = UrlHelper::cpUrl('enupalslider/slider/edit/' . $slider->id);
+				$url = UrlHelper::cpUrl('enupal-slider/slider/edit/' . $slider->id);
 				return $this->redirect($url);
 			}
 			else
@@ -187,11 +166,10 @@ class SlidersController extends BaseController
 		// Enable Live Preview?
 		if (!Craft::$app->getRequest()->isMobileBrowser(true))
 		{
-
 			//#title-field, #fields > div > div > .field
 			$this->getView()->registerJs('Craft.LivePreview.init('.Json::encode([
-					'fields' => '.field',
-					'previewAction' => 'enupalslider/sliders/live-preview',
+					'fields' => '#fields-tab-enupalslider-settings .field, #fields-tab-enupalslider-controls .field, #fields-tab-enupalslider-slides .field, #fields-slides-field',
+					'previewAction' => 'enupal-slider/sliders/live-preview',
 					'previewParams' => [
 						'sliderId' => $slider->id
 					]
@@ -201,11 +179,11 @@ class SlidersController extends BaseController
 		}
 
 		// Set the "Continue Editing" URL
-		$variables['continueEditingUrl'] = 'enupalslider/slider/edit/{id}';
+		$variables['continueEditingUrl'] = 'enupal-slider/slider/edit/{id}';
 
-		$variables['settings'] = Craft::$app->plugins->getPlugin('enupalslider')->getSettings();
+		$variables['settings'] = Craft::$app->plugins->getPlugin('enupal-slider')->getSettings();
 
-		return $this->renderTemplate('enupalslider/sliders/_editSlider', $variables);
+		return $this->renderTemplate('enupal-slider/sliders/_editSlider', $variables);
 	}
 
 	/**
@@ -219,14 +197,13 @@ class SlidersController extends BaseController
 
 		$request = Craft::$app->getRequest();
 
-		// Get the Form these fields are related to
 		$sliderId = $request->getRequiredBodyParam('id');
 		$slider   = Slider::$app->sliders->getSliderById($sliderId);
 
 		// @TODO - handle errors
 		$success = Slider::$app->sliders->deleteSlider($slider);
 
-		return $this->redirectToPostedUrl($form);
+		return $success;
 	}
 
 	/**
@@ -234,7 +211,7 @@ class SlidersController extends BaseController
 	 *
 	 * @return void
 	 */
-	public function actionLivePreview()
+	public function actionLivePreview(): Response
 	{
 		$this->requirePostRequest();
 		$slider = new SliderElement;
@@ -256,8 +233,13 @@ class SlidersController extends BaseController
 		$this->getView()->getTwig()->disableStrictVariables();
 		$this->getView()->registerAssetBundle('enupal\\slider\\assetbundles\\SliderAsset');
 		$this->getView()->registerAssetBundle('enupal\\slider\\assetbundles\\LivePreviewAsset');
+		// set path
+		$templatePath = Craft::getAlias('@enupal/slider/templates/');
+		$originalTemplatesPath = Craft::$app->getView()->getTemplatesPath();
 
-		return $this->renderTemplate('enupalslider/_preview', [
+		Craft::$app->getView()->setTemplatesPath($templatePath);
+
+		$rendered = $this->renderTemplate('_preview/index', [
 			'slider'         => $slider,
 			'slidesElements' => $slidesElements,
 			'dataAttributes' => $dataAttributes,
@@ -266,5 +248,32 @@ class SlidersController extends BaseController
 			'openLinkHandle' => $settings['openLinkHandle'],
 			'options'        => []
 		]);
+
+		Craft::$app->getView()->setTemplatesPath($originalTemplatesPath);
+
+		return $rendered;
+	}
+
+	/*
+	 * Download Default Image
+	*/
+	public function actionDownloadDefault()
+	{
+		$this->requirePostRequest();
+
+		$date = date('Y-m-d_H_i_s');
+		$imagePath = Craft::getAlias('@enupal/slider/resources/default.png');
+		$tempPath  = Craft::$app->getPath()->getTempPath().DIRECTORY_SEPARATOR.pathinfo('Default_'.$date, PATHINFO_FILENAME).'.png';
+
+		copy($imagePath, $tempPath);
+
+		if (!is_file($tempPath))
+		{
+			throw new NotFoundHttpException(Backup::t('Invalid default image name: {filename}', [
+				'filename' => $tempPath
+			]));
+		}
+
+		return Craft::$app->getResponse()->sendFile($tempPath);
 	}
 }

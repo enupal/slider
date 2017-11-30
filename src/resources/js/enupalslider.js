@@ -15,14 +15,14 @@
 		{
 			this.easingOptions = easingOptions;
 			this.cssEasingOptions = cssEasingOptions;
-			this.addListener($("#useCss"), 'activate', 'changeOptions');
+			this.addListener($("#fields-useCss"), 'activate', 'changeOptions');
 		},
 
 		changeOptions: function(option)
 		{
 			var option = option.currentTarget;
 			var value = $(option).attr('aria-checked');
-			var $select = $("#easing");
+			var $select = $("#fields-easing");
 			$select.empty();
 
 			if (value == 'true')

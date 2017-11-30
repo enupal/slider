@@ -1,9 +1,18 @@
-{% extends "enupalslider/_layouts/elementindex" %}
+{#
+/**
+ * EnupalSlider plugin for Craft CMS 3.x
+ *
+ * @link      https://enupal.com/
+ * @copyright Copyright (c) 2017 Enupal
+ */
+#}
+
+{% extends "enupal-slider/_layouts/elementindex" %}
 {% set title = "Sliders"|t %}
 {% set elementType = 'enupal\\slider\\elements\\Slider' %}
 
-{% set extraPageHeaderHtml %}
+{% block actionButton %}
 	<div class="buttons">
-		<a class="btn submit add icon" href="{{ url('enupalslider/slider/new') }}">{{ "New Slider"|t('enupalslider') }}</a>
+		<a class="btn submit add icon" href="{{ url('enupal-slider/slider/new') }}">{{ "New Slider"|t('enupal-slider') }}</a>
 	</div>
-{% endset %}
+{% endblock %}
