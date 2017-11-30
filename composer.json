@@ -14,7 +14,8 @@
     "slide",
     "responsive",
     "html",
-    "link"
+    "link",
+    "fade"
   ],
   "autoload": {
     "psr-4": {
