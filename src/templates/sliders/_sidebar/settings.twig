@@ -15,24 +15,24 @@
 <nav id="tabs" class="tabs" style= "margin: 0 0 0 0;">
 	<ul>
 		<li>
-			<a class="tab {{ tab == 1 ? ' sel' : '' }}" href="#tab-enupalslider-settings">
+			<a class="tab {{ tab == 1 ? ' sel' : '' }}" href="#fields-tab-enupalslider-settings">
 				{{ "Settings"|t('enupal-slider') }}
 			</a>
 		</li>
 		<li>
-			<a class="tab {{ tab == 2 ? ' sel' : '' }} {{ tab2 ? 'error' : '' }}" href="#tab-enupalslider-controls">
+			<a class="tab {{ tab == 2 ? ' sel' : '' }} {{ tab2 ? 'error' : '' }}" href="#fields-tab-enupalslider-controls">
 				{{ "Controls"|t('enupal-slider') }}
 			</a>
 		</li>
 		<li>
-			<a class="tab {{ tab == 3 ? ' sel' : '' }}" href="#tab-enupalslider-slides">
+			<a class="tab {{ tab == 3 ? ' sel' : '' }}" href="#fields-tab-enupalslider-slides">
 				{{ "Slides"|t('enupal-slider') }}
 			</a>
 		</li>
 	</ul>
 </nav>
 
-<div>
+<div id="slider-content">
 	<div class="{{ tab != 1 ? 'hidden' : '' }} meta" id="tab-enupalslider-settings">
 		<div class="field enupal-field-heading">{{'Slider Options'|t('enupal-slider')}}</div>
 		{{ forms.textField({
@@ -475,3 +475,21 @@
 		}) }}
 	</div><!-- slides div -->
 </div>
+
+
+{% js %}
+	$(document).ready(function()
+	{
+		$("#fields-tabs a").click(function(ev){
+			ev.preventDefault();
+			var $currentUrl = $("#fields-tabs .sel");
+			var currentId = $currentUrl.attr('href');
+			$currentUrl.removeClass('sel');
+			$(currentId).addClass('hidden');
+			var newShow = $(this).attr('href');
+			$(newShow).removeClass('hidden');
+			console.log(newShow);
+			$(this).addClass('sel');
+		});
+	});
+{% endjs %}
