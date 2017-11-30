@@ -121,6 +121,7 @@
 #fields-tabs a:hover {
     background: #c93434;
     background: linear-gradient(220deg, transparent 10px, #c93434 10px);
+    color:#FFF;
 }
 
 #fields-tabs a:focus {
