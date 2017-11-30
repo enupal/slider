@@ -10,10 +10,10 @@ Best Slider Plugin for Craft CMS
 
 Add a slider to any entry of Craft CMS
 
+* <On line of Code> `{{ craft.enupalslider.displaySlider('slider1') }} `
 * Fully responsive - will adapt to any device
 * Horizontal, vertical, and fade modes
 * Slides can contain images, video, or HTML content
-* <On line of Code> To add it easily to any template
 * Browser support: Firefox, Chrome, Safari, iOS, Android, IE7+
 * SEO Optimized
 * Tons of configuration options
