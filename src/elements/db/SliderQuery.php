@@ -211,6 +211,7 @@ class SliderQuery extends ElementQuery
 			'enupalslider_sliders.slideWidth',
 			'enupalslider_sliders.shrinkItems',
 			'enupalslider_sliders.wrapperClass',
+			'enupalslider_sliders.thumbClass',
 			'enupalslider_sliders.uid',
 		]);
 
