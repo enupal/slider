@@ -11,7 +11,7 @@ Fully responsive and customizable Slider plugin for Craft CMS
 
 Add a slider to any template of Craft CMS
 
-* <On line of Code> `{{ craft.enupalslider.displaySlider('slider1') }} `
+* On line of Code: `{{ craft.enupalslider.displaySlider('slider1') }} `
 * Fully responsive - will adapt to any device
 * Horizontal, vertical, and fade modes
 * Slides can contain images, video, or HTML content
