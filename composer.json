@@ -1,6 +1,6 @@
 {
   "name": "enupal/slider",
-  "description": "Best Slider Plugin for Craft CMS",
+  "description": "Fully responsive and customizable Slider plugin for Craft CMS",
   "type": "craft-plugin",
   "version": "1.0.0",
   "keywords": [

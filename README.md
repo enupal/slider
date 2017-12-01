@@ -2,13 +2,13 @@
 	<a href="https://enupal.com/craft-plugins/enupal-slider/docs/" target="_blank">
 	<img width="312" height="90" src="https://enupal.com/assets/docs/slider-icon.svg" alt="Enupal Slider"></a>
 </p>
-# Enupal Slider Plugin for CraftCMS
+# Enupal Slider Plugin for Craft CMS 3.x
 
-Best Slider Plugin for Craft CMS
+Fully responsive and customizable Slider plugin for Craft CMS
 
 ## Features
 
-Add a slider to any entry of Craft CMS
+Add a slider to any template of Craft CMS
 
 * <On line of Code> `{{ craft.enupalslider.displaySlider('slider1') }} `
 * Fully responsive - will adapt to any device
