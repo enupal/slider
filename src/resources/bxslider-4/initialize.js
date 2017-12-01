@@ -62,7 +62,8 @@ jQuery(document).ready(function(){
 			maxSlides: jQuery(this).data('enupalslider-max-slides'),
 			moveSlides: jQuery(this).data('enupalslider-move-slides'),
 			slideWidth: jQuery(this).data('enupalslider-slide-width'),
-			shrinkItems: jQuery(this).data('enupalslider-shrink-items')
+			shrinkItems: jQuery(this).data('enupalslider-shrink-items'),
+			wrapperClass: jQuery(this).data('enupalslider-wrapper-class')
 		};
 		jQuery(this).bxSlider(jQuery.extend(pagerCustom, options));
 	});

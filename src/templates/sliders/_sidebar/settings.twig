@@ -473,6 +473,28 @@
 			onLabel: "On"|t('enupal-slider'),
 			offLabel: "Off"|t('enupal-slider')
 		}) }}
+
+		<div class="field enupal-field-heading">{{'Developer Options'|t('enupal-slider')}}</div>
+
+		{{ forms.textField({
+			label: "Wrapper class <span class='info'>Class to wrap the slider in. Change to prevent from using default bxSlider styles. If you change this may no have effect on livepreview</span>"|t('enupal-slider'),
+			id: 'wrapperClass',
+			name: 'wrapperClass',
+			class: 'enupalslider',
+			value: slider.wrapperClass,
+			errors: slider.getErrors('wrapperClass')
+		}) }}
+
+		{{ forms.textField({
+			label: "Thumb Class <span class='info'>Class to wrap thumbnail pager if is enabled. Change to add styles to the thumbnail pager.</span>"|t('enupal-slider'),
+			id: 'thumbClass',
+			name: 'thumbClass',
+			class: 'enupalslider',
+			value: slider.thumbClass,
+			errors: slider.getErrors('thumbClass')
+		}) }}
+
+
 	</div><!-- slides div -->
 </div>
 
