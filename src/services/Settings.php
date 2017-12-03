@@ -34,7 +34,7 @@ class Settings extends Component
 
 		$settings = json_encode($settings);
 
-		$affectedRows = Craft::$app->getDb()->createCommand()->update('plugins', [
+		$affectedRows = Craft::$app->getDb()->createCommand()->update('{{%plugins}}', [
 			'settings' => $settings
 			],
 			[

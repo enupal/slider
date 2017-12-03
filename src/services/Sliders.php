@@ -288,11 +288,10 @@ class Sliders extends Component
 			];
 
 			$settings = json_encode($settings);
-			$affectedRows = Craft::$app->getDb()->createCommand()->update('plugins', [
-				'settings' => $settings
-				],
-				[
-				'handle' => 'enupal-slider'
+			$affectedRows = Craft::$app->getDb()->createCommand()->update('{{%plugins}}',[
+					'settings' => $settings
+				],[
+					'handle' => 'enupal-slider'
 				]
 			)->execute();
 
