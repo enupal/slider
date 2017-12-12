@@ -21,7 +21,7 @@ use craft\validators\UniqueValidator;
 
 use enupal\slider\elements\db\SliderQuery;
 use enupal\slider\records\Slider as SliderRecord;
-use enupal\slider\Slider;
+use enupal\slider\Slider as SliderPlugin;
 
 /**
  * Slider represents a entry element.
@@ -176,7 +176,7 @@ class Slider extends Element
 	 */
 	public static function displayName(): string
 	{
-		return Slider::t('Sliders');
+		return SliderPlugin::t('Sliders');
 	}
 
 	/**
@@ -264,11 +264,11 @@ class Slider extends Element
 		$sources = [
 			[
 			'key'   => '*',
-			'label' => Slider::t('All Sliders'),
+			'label' => SliderPlugin::t('All Sliders'),
 			]
 		];
 
-		// @todo - $groups = Slider::$app->groups->getAllSliderGroups();
+		// @todo - $groups = SliderPlugin::$app->groups->getAllSliderGroups();
 		$groups = [];
 
 		foreach ($groups as $group)
@@ -277,7 +277,7 @@ class Slider extends Element
 
 			$sources[] = [
 				'key'      => $key,
-				'label'    => Slider::t($group->name),
+				'label'    => SliderPlugin::t($group->name),
 				'data'     => ['id' => $group->id],
 				'criteria' => ['groupId' => $group->id]
 			];
@@ -296,8 +296,8 @@ class Slider extends Element
 		// Delete
 		$actions[] = Craft::$app->getElements()->createAction([
 			'type' => Delete::class,
-			'confirmationMessage' => Slider::t('Are you sure you want to delete the selected sliders?'),
-			'successMessage' => Slider::t('Sliders deleted.'),
+			'confirmationMessage' => SliderPlugin::t('Are you sure you want to delete the selected sliders?'),
+			'successMessage' => SliderPlugin::t('Sliders deleted.'),
 		]);
 
 		return $actions;
@@ -317,9 +317,9 @@ class Slider extends Element
 	protected static function defineSortOptions(): array
 	{
 		$attributes = [
-			'enupalslider_sliders.name' => Slider::t('Slider Name'),
-			'elements.dateCreated'      => Slider::t('Date Created'),
-			'elements.dateUpdated'      => Slider::t('Date Updated'),
+			'enupalslider_sliders.name' => SliderPlugin::t('Slider Name'),
+			'elements.dateCreated'      => SliderPlugin::t('Date Created'),
+			'elements.dateUpdated'      => SliderPlugin::t('Date Updated'),
 		];
 
 		return $attributes;
@@ -330,10 +330,10 @@ class Slider extends Element
 	 */
 	protected static function defineTableAttributes(): array
 	{
-		$attributes['name']        = ['label' => Slider::t('Slider Name')];
-		$attributes['handle']      = ['label' => Slider::t('Slider Handle')];
-		// @todo - $attributes['numberOfSlides'] = ['label' => Slider::t('Date Created')];
-		$attributes['dateUpdated'] = ['label' => Slider::t('Number of Slides')];
+		$attributes['name']        = ['label' => SliderPlugin::t('Slider Name')];
+		$attributes['handle']      = ['label' => SliderPlugin::t('Slider Handle')];
+		// @todo - $attributes['numberOfSlides'] = ['label' => SliderPlugin::t('Date Created')];
+		$attributes['dateUpdated'] = ['label' => SliderPlugin::t('Number of Slides')];
 
 		return $attributes;
 	}
