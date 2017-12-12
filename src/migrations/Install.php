@@ -26,6 +26,8 @@ class Install extends Migration
 	{
 		$this->createTables();
 		$this->addForeignKeys();
+
+		return true;
 	}
 
 	/**
@@ -35,6 +37,8 @@ class Install extends Migration
 	{
 		$this->dropTableIfExists('{{%enupalslider_sliders}}');
 		$this->dropTableIfExists('{{%enupalslider_groups}}');
+
+		return true;
 	}
 
 	/**
