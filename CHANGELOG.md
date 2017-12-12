@@ -1,5 +1,9 @@
 # Enupal Slider Changelog
 
+## 1.0.4 - 2017.12.12
+### Fixed
+- Fixed bug on migration install
+
 ## 1.0.3 - 2017.12.12
 ### Fixed
 - Fixed bug with `namespace`
