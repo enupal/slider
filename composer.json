@@ -33,6 +33,9 @@
     "issues": "https://github.com/enupal/slider/issues",
     "docs": "https://enupal.com/en/craft-plugins/enupal-slider/docs/getting-started/overview"
   },
+  "require": {
+    "craftcms/cms": "^3.0.0-RC1"
+  },
   "extra": {
     "name": "Enupal Slider",
     "handle": "enupal-slider",
