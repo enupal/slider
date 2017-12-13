@@ -31,7 +31,7 @@
   "support": {
     "email": "info@enupal.com",
     "issues": "https://github.com/enupal/slider/issues",
-    "docs": "https://enupal.com/en/craft-plugins/enupal-slider/docs/getting-started/overview"
+    "docs": "https://enupal.com/en/craft-plugins/enupal-slider/docs"
   },
   "require": {
     "craftcms/cms": "^3.0.0-RC1"
