@@ -1,5 +1,9 @@
 # Enupal Slider Changelog
 
+## 1.0.5 - 2017.12.13
+### Added
+- Added require Craft cms rc1 or higher
+
 ## 1.0.4 - 2017.12.12
 ### Fixed
 - Fixed bug on migration install
