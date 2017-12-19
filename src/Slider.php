@@ -29,7 +29,7 @@ class Slider extends \craft\base\Plugin
 
 	public $hasCpSection  = true;
 	public $hasCpSettings = true;
-	public $schemaVersion = '1.0.0';
+	public $schemaVersion = '1.0.7';
 
 	public function init()
 	{
