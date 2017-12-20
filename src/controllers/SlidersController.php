@@ -229,8 +229,6 @@ class SlidersController extends BaseController
 		}
 
 		$this->getView()->getTwig()->disableStrictVariables();
-		$this->getView()->registerAssetBundle('enupal\\slider\\assetbundles\\SliderAsset');
-		$this->getView()->registerAssetBundle('enupal\\slider\\assetbundles\\LivePreviewAsset');
 		// set path
 		$templatePath = Craft::getAlias('@enupal/slider/templates/');
 		$originalTemplatesPath = Craft::$app->getView()->getTemplatesPath();

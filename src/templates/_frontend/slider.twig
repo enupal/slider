@@ -28,8 +28,9 @@
 			{% if attribute(slide, linkHandle) and attribute(slide, linkHandle)!='' %}
 				<a href="{{attribute(slide, linkHandle)}}" {% if attribute(slide, openLinkHandle) == 'newTabOrWindow' %} target="_blank" {% endif %}>
 			{% endif %}
-			{% set assetTransform = slide.assetTransform ?? null %}
-			<img src="{{slide.getUrl(assetTransform)}}" title="{{slide.title}}">
+			{% set assetTransform = slider.assetTransform ?? null %}
+			{% set imageUrl = assetTransform ? slide.getUrl(assetTransform) : slide.getUrl() %}
+			<img src="{{ imageUrl }}" title="{{slide.title}}">
 			{% if attribute(slide, linkHandle) and attribute(slide, linkHandle)!='' %}
 				</a>
 			{% endif %}
@@ -46,7 +47,7 @@
 		quality: 100
 	} %}
 
-	{% set thumbTransform = slide.thumbTransform ?? thumb %}
+	{% set thumbTransform = slider.thumbTransform ? slider.thumbTransform : thumb %}
 
 	<div id="enupalslider-{{slider.handle}}-pager" class="{{slider.thumbClass}}">
 	 {% for slide in slidesElements %}
