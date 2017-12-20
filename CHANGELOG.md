@@ -1,5 +1,12 @@
 # Enupal Slider Changelog
 
+## 1.0.8 - 2017.12.19
+### Added
+- Added `assetTransform` and `thumbTransform` settings to slides
+
+### Fixed
+- Fixed a bug where the volume folder didn't get renamed after change handle of slider
+
 ## 1.0.6 - 2017.12.13
 ### Fixed
 - Fixed docs url
