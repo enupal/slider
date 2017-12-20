@@ -110,6 +110,8 @@ class Install extends Migration
 			//Develop
 			'wrapperClass'         => $this->string(),
 			'thumbClass'           => $this->string(),
+			'thumbTransform'       => $this->string(),
+			'assetTransform'       => $this->string(),
 			//
 			'dateCreated'          => $this->dateTime()->notNull(),
 			'dateUpdated'          => $this->dateTime()->notNull(),

@@ -157,6 +157,8 @@ class Slider extends Element
 
 	public $wrapperClass = 'bx-wrapper';
 	public $thumbClass   = '';
+	public $assetTransform = '';
+	public $thumbTransform = '';
 
 	/**
 	 * Returns the field context this element's content uses.
@@ -446,6 +448,8 @@ class Slider extends Element
 		$record->shrinkItems          = $this->shrinkItems;
 		$record->wrapperClass         = $this->wrapperClass;
 		$record->thumbClass           = $this->thumbClass;
+		$record->assetTransform       = $this->assetTransform;
+		$record->thumbTransform       = $this->thumbTransform;
 
 		$record->save(false);
 

@@ -494,6 +494,23 @@
 			errors: slider.getErrors('thumbClass')
 		}) }}
 
+		{% set transformOptions = craft.enupalslider.getTransforms() %}
+
+		{{ forms.selectField({
+			label: "Image Transform for Slides <span class='info'>Select Image Transforms for the slides.</span>"|t('enupal-slider'),
+			name: 'assetTransform',
+			options: transformOptions,
+			value: slider.assetTransform,
+			errors: slider.getErrors('assetTransform')
+		}) }}
+
+		{{ forms.selectField({
+			label: "Image Transform for thumbs <span class='info'>Select Image Transforms for the thumbs. Default transform will be 80x80 </span>"|t('enupal-slider'),
+			name: 'thumbTransform',
+			options: transformOptions,
+			value: slider.thumbTransform,
+			errors: slider.getErrors('thumbTransform')
+		}) }}
 
 	</div><!-- slides div -->
 </div>

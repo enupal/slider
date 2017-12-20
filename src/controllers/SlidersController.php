@@ -49,11 +49,9 @@ class SlidersController extends BaseController
 		}
 
 		//$slider->groupId     = $request->getBodyParam('groupId');
-		$oldHandle              = $slider->handle;
-		$newHandle              = $request->getBodyParam('handle');
-		$slider->name           = $request->getBodyParam('name');
-		$slider->handle         = $newHandle;
-		$slider                 = Slider::$app->sliders->populateSliderFromPost($slider);
+		$oldHandle = $slider->handle;
+		$slider    = Slider::$app->sliders->populateSliderFromPost($slider);
+		$newHandle = $slider->handle;
 
 		// Save it
 		if (!Slider::$app->sliders->saveSlider($slider))
@@ -231,8 +229,6 @@ class SlidersController extends BaseController
 		}
 
 		$this->getView()->getTwig()->disableStrictVariables();
-		$this->getView()->registerAssetBundle('enupal\\slider\\assetbundles\\SliderAsset');
-		$this->getView()->registerAssetBundle('enupal\\slider\\assetbundles\\LivePreviewAsset');
 		// set path
 		$templatePath = Craft::getAlias('@enupal/slider/templates/');
 		$originalTemplatesPath = Craft::$app->getView()->getTemplatesPath();

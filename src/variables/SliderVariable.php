@@ -216,5 +216,24 @@ class SliderVariable
 		return Slider::$app->sliders->getSettings();
 	}
 
+	public function getTransforms()
+	{
+		$options = [
+			'' => Slider::t('None')
+		];
+
+		$transforms = Craft::$app->assetTransforms->getAllTransforms();
+
+		if (count($transforms))
+		{
+			foreach ($transforms as $transform)
+			{
+				$options[$transform->handle] = $transform->name;
+			}
+		}
+
+		return $options;
+	}
+
 }
 
