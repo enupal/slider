@@ -16,32 +16,31 @@ use enupal\slider\Slider;
 class Settings extends Component
 {
 
-	/**
-	 * Saves Settings
-	 *
-	 * @param array $postSettings
-	 *
-	 * @return bool
-	 */
-	public function saveSettings($postSettings): bool
-	{
-		$settings = Slider::$app->sliders->getSettings();
+    /**
+     * Saves Settings
+     *
+     * @param array $postSettings
+     *
+     * @return bool
+     */
+    public function saveSettings($postSettings): bool
+    {
+        $settings = Slider::$app->sliders->getSettings();
 
-		if (isset($postSettings['pluginNameOverride']))
-		{
-			$settings['pluginNameOverride'] = $postSettings['pluginNameOverride'];
-		}
+        if (isset($postSettings['pluginNameOverride'])) {
+            $settings['pluginNameOverride'] = $postSettings['pluginNameOverride'];
+        }
 
-		$settings = json_encode($settings);
+        $settings = json_encode($settings);
 
-		$affectedRows = Craft::$app->getDb()->createCommand()->update('{{%plugins}}', [
-			'settings' => $settings
-			],
-			[
-			'handle' => 'enupal-slider'
-			]
-		)->execute();
+        $affectedRows = Craft::$app->getDb()->createCommand()->update('{{%plugins}}', [
+            'settings' => $settings
+        ],
+            [
+                'handle' => 'enupal-slider'
+            ]
+        )->execute();
 
-		return (bool) $affectedRows;
-	}
+        return (bool)$affectedRows;
+    }
 }

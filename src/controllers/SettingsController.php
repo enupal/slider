@@ -23,39 +23,36 @@ use enupal\slider\elements\Slider as SliderElement;
 class SettingsController extends BaseController
 {
 
-	/*
-	 * Redirect to sliders settings
-	*/
-	public function actionIndex()
-	{
-		return $this->renderTemplate('enupal-slider/settings/index');
-	}
+    /*
+     * Redirect to sliders settings
+    */
+    public function actionIndex()
+    {
+        return $this->renderTemplate('enupal-slider/settings/index');
+    }
 
-	/**
-	 * Save Plugin Settings
-	 *
-	 * @return void
-	 */
-	public function actionSaveSettings()
-	{
-		$this->requirePostRequest();
-		$request  = Craft::$app->getRequest();
-		$settings = $request->getBodyParam('settings');
+    /**
+     * Save Plugin Settings
+     *
+     * @return void
+     */
+    public function actionSaveSettings()
+    {
+        $this->requirePostRequest();
+        $request = Craft::$app->getRequest();
+        $settings = $request->getBodyParam('settings');
 
-		if (Slider::$app->settings->saveSettings($settings))
-		{
-			Craft::$app->getSession()->setNotice(Slider::t('Settings saved.'));
+        if (Slider::$app->settings->saveSettings($settings)) {
+            Craft::$app->getSession()->setNotice(Slider::t('Settings saved.'));
 
-			return $this->redirectToPostedUrl();
-		}
-		else
-		{
-			Craft::$app->getSession()->setError(Slider::t('Couldn’t save settings.'));
+            return $this->redirectToPostedUrl();
+        } else {
+            Craft::$app->getSession()->setError(Slider::t('Couldn’t save settings.'));
 
-			// Send the settings back to the template
-			craft()->urlManager->setRouteVariables(array(
-				'settings' => $settings
-			));
-		}
-	}
+            // Send the settings back to the template
+            craft()->urlManager->setRouteVariables([
+                'settings' => $settings
+            ]);
+        }
+    }
 }

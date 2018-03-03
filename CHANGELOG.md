@@ -1,5 +1,12 @@
 # Enupal Slider Changelog
 
+## 1.0.9 - 2018.03.03
+### Fixed
+- Fixed deprecation errors
+- Fixed bug when save settings
+### Added
+- Added PSR2 support
+
 ## 1.0.8 - 2017.12.19
 ### Added
 - Added `assetTransform` and `thumbTransform` settings to slides

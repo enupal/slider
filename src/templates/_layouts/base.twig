@@ -9,9 +9,9 @@
 
 {% extends "_layouts/cp" %}
 
-{% set bodyClass = craft.app.request.getSegments()|slice(0, 3)|join(' ') %}
+{% set bodyClass = craft.app.request.segments()|slice(0, 3)|join(' ') %}
 
-{% set selectedSubnavItem = craft.request.segment(2) == 'slider' ? 'sliders' : craft.request.segment(2)  %}
+{% set selectedSubnavItem = craft.app.request.getSegment(2) == 'slider' ? 'sliders' : craft.app.request.getSegment(2)  %}
 
 {#% block content %}
 
