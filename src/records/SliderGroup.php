@@ -20,14 +20,14 @@ use yii\db\ActiveQueryInterface;
  */
 class SliderGroup extends ActiveRecord
 {
-	/**
-	 * @inheritdoc
-	 *
-	 * @return string
-	 */
-	public static function tableName(): string
-	{
-		return '{{%enupalslider_groups}}';
-	}
+    /**
+     * @inheritdoc
+     *
+     * @return string
+     */
+    public static function tableName(): string
+    {
+        return '{{%enupalslider_groups}}';
+    }
 
 }

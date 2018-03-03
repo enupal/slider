@@ -14,14 +14,14 @@ use enupal\slider\Slider;
 
 class App extends Component
 {
-	public $sliders;
-	public $groups;
-	public $settings;
+    public $sliders;
+    public $groups;
+    public $settings;
 
-	public function init()
-	{
-		$this->sliders = new Sliders();
-		$this->groups  = new Groups();
-		$this->settings  = new Settings();
-	}
+    public function init()
+    {
+        $this->sliders = new Sliders();
+        $this->groups = new Groups();
+        $this->settings = new Settings();
+    }
 }
