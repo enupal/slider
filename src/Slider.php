@@ -48,13 +48,15 @@ class Slider extends \craft\base\Plugin
 			}
 		);
 
-		Event::on(
-			CraftVariable::class,
-			CraftVariable::EVENT_DEFINE_COMPONENTS,
-			function (DefineComponentsEvent $event) {
-					$event->components['enupalslider'] = SliderVariable::class;
-			}
-		);
+        Event::on(
+            CraftVariable::class,
+            CraftVariable::EVENT_INIT,
+            function (Event $event) {
+                /** @var CraftVariable $variable */
+                $variable = $event->sender;
+                $variable->set('enupalslider', SliderVariable::class);
+            }
+        );
 	}
 
 	protected function afterInstall()
