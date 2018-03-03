@@ -1,6 +1,6 @@
 <p align="center">
 	<a href="https://enupal.com/en/craft-plugins/enupal-slider/docs/" target="_blank">
-	<img width="312" height="312" src="https://enupal.com/assets/docs/slider-icon.svg" alt="Enupal Slider"></a>
+	<img width="212" height="212" src="https://enupal.com/assets/docs/slider-icon.svg" alt="Enupal Slider"></a>
 </p>
 
 # Enupal Slider Plugin for Craft CMS 3.x
