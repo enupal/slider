@@ -12,7 +12,6 @@ use Craft;
 use yii\base\Component;
 use craft\fields\PlainText;
 use craft\fields\Dropdown;
-use craft\elements\Asset;
 use craft\volumes\Local;
 use craft\base\Field;
 use craft\models\FieldGroup;

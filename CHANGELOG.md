@@ -1,5 +1,11 @@
 # Enupal Slider Changelog
 
+## 1.1.0 - 2018.03.04
+### Added
+- Added `craft.enupalslider.getSlider('handle')` template variable
+- Added `craft.enupalslider.getSliderById(id)` template variable
+- Added `getSlides()` method to slider element
+
 ## 1.0.9 - 2018.03.03
 ### Fixed
 - Fixed deprecation errors

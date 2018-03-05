@@ -158,18 +158,12 @@ class SliderVariable
     {
         $slider = Slider::$app->sliders->getSliderByHandle($sliderHandle);
         $templatePath = Slider::$app->sliders->getEnupalSliderPath();
-        $slidesElements = [];
         $sliderHtml = null;
         $settings = Slider::$app->sliders->getSettings();
 
         if ($slider) {
             $dataAttributes = Slider::$app->sliders->getDataAttributes($slider);
-            $slides = json_decode($slider->slides);
-
-            foreach ($slides as $key => $slideId) {
-                $slide = Craft::$app->elements->getElementById($slideId);
-                array_push($slidesElements, $slide);
-            }
+            $slidesElements = $slider->getSlides();
 
             $view = Craft::$app->getView();
 
@@ -211,6 +205,9 @@ class SliderVariable
         return Slider::$app->sliders->getSettings();
     }
 
+    /**
+     * @return array
+     */
     public function getTransforms()
     {
         $options = [
@@ -226,6 +223,30 @@ class SliderVariable
         }
 
         return $options;
+    }
+
+    /**
+     * Gets a specific slider.
+     *
+     * @param  int $id
+     *
+     * @return mixed
+     */
+    public function getSliderById($id)
+    {
+        return Slider::$app->sliders->getSliderById($id);
+    }
+
+    /**
+     * Gets a specific slider by handle.
+     *
+     * @param  string $handle
+     *
+     * @return mixed
+     */
+    public function getSlider($handle)
+    {
+        return Slider::$app->sliders->getSliderByHandle($handle);
     }
 
 }
