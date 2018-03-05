@@ -464,4 +464,20 @@ class Slider extends Element
             [['name', 'handle'], UniqueValidator::class, 'targetClass' => SliderRecord::class],
         ];
     }
+
+    /**
+     * @return array
+     */
+    public function getSlides()
+    {
+        $slidesElements = [];
+        $slides = json_decode($this->slides);
+
+        foreach ($slides as $key => $slideId) {
+            $slide = Craft::$app->elements->getElementById($slideId);
+            array_push($slidesElements, $slide);
+        }
+
+        return $slidesElements;
+    }
 }
