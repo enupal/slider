@@ -10,9 +10,7 @@ namespace enupal\slider\variables;
 
 use Craft;
 use craft\helpers\Template as TemplateHelper;
-use craft\helpers\FileHelper;
 use enupal\slider\Slider;
-use enupal\slider\models\Settings;
 
 /**
  * EnupalSlider provides an API for accessing information about sliders. It is accessible from templates via `craft.enupalslider`.
@@ -153,40 +151,12 @@ class SliderVariable
      * @param array|null $options
      *
      * @return string
+     * @throws \Twig_Error_Loader
+     * @throws \yii\base\Exception
      */
     public function displaySlider($sliderHandle, array $options = null)
     {
-        $slider = Slider::$app->sliders->getSliderByHandle($sliderHandle);
-        $templatePath = Slider::$app->sliders->getEnupalSliderPath();
-        $sliderHtml = null;
-        $settings = Slider::$app->sliders->getSettings();
-
-        if ($slider) {
-            $dataAttributes = Slider::$app->sliders->getDataAttributes($slider);
-            $slidesElements = $slider->getSlides();
-
-            $view = Craft::$app->getView();
-
-            $view->setTemplatesPath($templatePath);
-
-            $sliderHtml = $view->renderTemplate(
-                'slider', [
-                    'slider' => $slider,
-                    'slidesElements' => $slidesElements,
-                    'dataAttributes' => $dataAttributes,
-                    'htmlHandle' => $settings['htmlHandle'],
-                    'linkHandle' => $settings['linkHandle'],
-                    'openLinkHandle' => $settings['openLinkHandle'],
-                    'options' => $options
-                ]
-            );
-
-            $view->setTemplatesPath(Craft::$app->path->getSiteTemplatesPath());
-        } else {
-            $sliderHtml = Slider::t("Slider {$sliderHandle} not found");
-        }
-
-        return TemplateHelper::raw($sliderHtml);
+        return Slider::$app->sliders->getSliderHtml($sliderHandle, $options);
     }
 
     /**
