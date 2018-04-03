@@ -54,6 +54,8 @@ class SliderVariable
     }
 
     /**
+     * @param bool $useCss
+     *
      * @return mixed
      */
     public function getEasingOptions($useCss = true)
@@ -151,8 +153,6 @@ class SliderVariable
      * @param array|null $options
      *
      * @return string
-     * @throws \Twig_Error_Loader
-     * @throws \yii\base\Exception
      */
     public function displaySlider($sliderHandle, array $options = null)
     {
