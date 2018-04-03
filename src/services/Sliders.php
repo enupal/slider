@@ -24,6 +24,7 @@ use enupal\slider\elements\Slider as SliderElement;
 use enupal\slider\records\Slider as SliderRecord;
 use craft\helpers\FileHelper;
 use craft\redactor\Field as RichText;
+use craft\helpers\Template as TemplateHelper;
 
 class Sliders extends Component
 {
@@ -70,11 +71,10 @@ class Sliders extends Component
      *
      * @throws \Exception
      * @return bool
+     * @throws \Throwable
      */
     public function saveSlider(SliderElement $slider)
     {
-        $isNewSlider = true;
-
         if ($slider->id) {
             $sliderRecord = SliderRecord::findOne($slider->id);
 
@@ -104,6 +104,13 @@ class Sliders extends Component
         return true;
     }
 
+    /**
+     * @return bool
+     * @throws \Exception
+     * @throws \Throwable
+     * @throws \yii\base\Exception
+     * @throws \yii\db\Exception
+     */
     public function installDefaultVolume()
     {
         // Let's create the fields for the Slider Layout
@@ -231,7 +238,6 @@ class Sliders extends Component
                 'path' => $enupalSliderPath
             ];
 
-            $createNewVolume = true;
             $volumeHandle = $this->getHandleAsNew("enupalSlider", true);
             // We need validate if the volume exists(unistall) but nothing is override in the settings
             $volume = null;
@@ -251,7 +257,6 @@ class Sliders extends Component
             $fieldLayout->type = SliderElement::class;
             $volume->setFieldLayout($fieldLayout);
             $volume->validate();
-            $errors = $volume->getErrors();
 
             // save it
             $response = $volumes->saveVolume($volume);
@@ -270,7 +275,7 @@ class Sliders extends Component
             ];
 
             $settings = json_encode($settings);
-            $affectedRows = Craft::$app->getDb()->createCommand()->update('{{%plugins}}', [
+            Craft::$app->getDb()->createCommand()->update('{{%plugins}}', [
                 'settings' => $settings
             ], [
                     'handle' => 'enupal-slider'
@@ -287,6 +292,14 @@ class Sliders extends Component
         return true;
     }
 
+    /**
+     * @param null $name
+     * @param null $handle
+     *
+     * @return SliderElement
+     * @throws \Exception
+     * @throws \Throwable
+     */
     public function createNewSlider($name = null, $handle = null): SliderElement
     {
         $slider = new SliderElement();
@@ -320,6 +333,12 @@ class Sliders extends Component
         return $slider;
     }
 
+    /**
+     * @param SliderElement $slider
+     * @param string        $oldSubfolder
+     *
+     * @return bool
+     */
     public function updateSubFolder(SliderElement $slider, string $oldSubfolder): bool
     {
         $settings = $this->getSettings();
@@ -359,6 +378,8 @@ class Sliders extends Component
      * @param string
      * @param string
      * return string
+     *
+     * @return null|string
      */
     public function getFieldAsNew($field, $value)
     {
@@ -384,7 +405,7 @@ class Sliders extends Component
      * @param string $field
      * @param string $value
      *
-     * @return $slider
+     * @return SliderRecord|null $slider
      */
     public function getFieldValue($field, $value)
     {
@@ -397,8 +418,9 @@ class Sliders extends Component
      * Create a secuencial string for "handle" if it's already taken
      *
      * @param string
-     * @param string
-     * return string
+     * @param bool $isVolume
+     *
+     * @return string
      */
     public function getHandleAsNew($value, $isVolume = false)
     {
@@ -429,7 +451,6 @@ class Sliders extends Component
     /**
      * Returns the value of a given field
      *
-     * @param string $field
      * @param string $value
      *
      * @return FieldRecord
@@ -446,7 +467,6 @@ class Sliders extends Component
     /**
      * Returns the value valume of a given field
      *
-     * @param string $field
      * @param string $value
      *
      * @return VolumeRecord
@@ -505,6 +525,11 @@ class Sliders extends Component
         return $sources;
     }
 
+    /**
+     * @param $slider
+     *
+     * @return string
+     */
     public function getDataAttributes($slider)
     {
         $settings = $this->getDefaultOptions($slider);
@@ -517,6 +542,9 @@ class Sliders extends Component
         return $data;
     }
 
+    /**
+     * @return bool|string
+     */
     public function getEnupalSliderPath()
     {
         $defaultTemplate = Craft::getAlias('@enupal/slider/templates/_frontend/');
@@ -524,6 +552,12 @@ class Sliders extends Component
         return $defaultTemplate;
     }
 
+    /**
+     * @param string   $handle
+     * @param int|null $siteId
+     *
+     * @return array|\craft\base\ElementInterface|null
+     */
     public function getSliderByHandle(string $handle, int $siteId = null)
     {
         $query = SliderElement::find();
@@ -538,6 +572,7 @@ class Sliders extends Component
     /**
      * Get default options
      *
+     * @param $slider
      * @return array Default slide options data
      */
     public function getDefaultOptions($slider)
@@ -603,6 +638,7 @@ class Sliders extends Component
     /**
      * Get default options
      *
+     * @param $slider
      * @return array Default slide options data
      */
     public function getDefaultOptionsByAjax($slider)
@@ -665,6 +701,9 @@ class Sliders extends Component
         ];
     }
 
+    /**
+     * @return string
+     */
     public function getSliderPath()
     {
         // Get the public path of Craft CMS
@@ -677,6 +716,11 @@ class Sliders extends Component
         return $publicFolderPath;
     }
 
+    /**
+     * @param SliderElement $slider
+     *
+     * @return SliderElement
+     */
     public function populateSliderFromPost(SliderElement $slider)
     {
         $request = Craft::$app->getRequest();
@@ -688,6 +732,9 @@ class Sliders extends Component
         return $slider;
     }
 
+    /**
+     * @throws \Throwable
+     */
     public function removeVolumeAndFields()
     {
         $plugin = Craft::$app->getPlugins()->getPlugin('enupal-slider');
@@ -704,5 +751,48 @@ class Sliders extends Component
         foreach ($fieldsToDelete as $key => $field) {
             $fields->deleteFieldById($field->id);
         }
+    }
+
+    /**
+     * @param string     $sliderHandle
+     * @param array|null $options
+     *
+     * @return mixed
+     * @throws \Twig_Error_Loader
+     * @throws \yii\base\Exception
+     */
+    public function getSliderHtml($sliderHandle, array $options = null)
+    {
+        $slider = Slider::$app->sliders->getSliderByHandle($sliderHandle);
+        $templatePath = Slider::$app->sliders->getEnupalSliderPath();
+        $sliderHtml = null;
+        $settings = Slider::$app->sliders->getSettings();
+
+        if ($slider) {
+            $dataAttributes = Slider::$app->sliders->getDataAttributes($slider);
+            $slidesElements = $slider->getSlides();
+
+            $view = Craft::$app->getView();
+
+            $view->setTemplatesPath($templatePath);
+
+            $sliderHtml = $view->renderTemplate(
+                'slider', [
+                    'slider' => $slider,
+                    'slidesElements' => $slidesElements,
+                    'dataAttributes' => $dataAttributes,
+                    'htmlHandle' => $settings['htmlHandle'],
+                    'linkHandle' => $settings['linkHandle'],
+                    'openLinkHandle' => $settings['openLinkHandle'],
+                    'options' => $options
+                ]
+            );
+
+            $view->setTemplatesPath(Craft::$app->path->getSiteTemplatesPath());
+        } else {
+            $sliderHtml = Slider::t("Slider {$sliderHandle} not found");
+        }
+
+        return TemplateHelper::raw($sliderHtml);
     }
 }

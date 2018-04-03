@@ -480,4 +480,14 @@ class Slider extends Element
 
         return $slidesElements;
     }
+
+    /**
+     * @param array $options
+     *
+     * @return mixed
+     */
+    public function displaySlider($options = null)
+    {
+        return SliderPlugin::$app->sliders->getSliderHtml($this->handle, $options);
+    }
 }

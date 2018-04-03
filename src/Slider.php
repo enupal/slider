@@ -9,10 +9,12 @@
 namespace enupal\slider;
 
 use Craft;
+use craft\events\RegisterComponentTypesEvent;
 use craft\events\RegisterUrlRulesEvent;
+use craft\services\Fields;
 use craft\web\UrlManager;
+use enupal\slider\fields\Sliders;
 use yii\base\Event;
-use craft\events\DefineComponentsEvent;
 use craft\web\twig\variables\CraftVariable;
 
 use enupal\slider\variables\SliderVariable;
@@ -43,8 +45,8 @@ class Slider extends \craft\base\Plugin
         }
 
         Event::on(UrlManager::class, UrlManager::EVENT_REGISTER_CP_URL_RULES, function(RegisterUrlRulesEvent $event) {
-            $event->rules = array_merge($event->rules, $this->getCpUrlRules());
-        }
+                $event->rules = array_merge($event->rules, $this->getCpUrlRules());
+            }
         );
 
         Event::on(
@@ -56,6 +58,10 @@ class Slider extends \craft\base\Plugin
                 $variable->set('enupalslider', SliderVariable::class);
             }
         );
+
+        Event::on(Fields::class, Fields::EVENT_REGISTER_FIELD_TYPES, function(RegisterComponentTypesEvent $event) {
+            $event->types[] = Sliders::class;
+        });
     }
 
     protected function afterInstall()
