@@ -103,6 +103,8 @@ class Slider extends \craft\base\Plugin
      * Settings HTML
      *
      * @return string
+     * @throws \Twig_Error_Loader
+     * @throws \yii\base\Exception
      */
     protected function settingsHtml()
     {

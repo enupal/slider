@@ -78,11 +78,11 @@ class SlidersController extends BaseController
     /**
      * Edit a Slider.
      *
-     * @param int|null           $slierId The slider's ID, if editing an existing slider.
-     * @param SliderElement|null $slider  The slider send back by setRouteParams if any errors on saveSlider
+     * @param int|null           $sliderId
+     * @param SliderElement|null $slider The slider send back by setRouteParams if any errors on saveSlider
      *
-     * @throws HttpException
-     * @throws Exception
+     * @return Response
+     * @throws NotFoundHttpException
      */
     public function actionEditSlider(int $sliderId = null, SliderElement $slider = null)
     {
@@ -169,6 +169,7 @@ class SlidersController extends BaseController
      * Delete a slider.
      *
      * @return void
+     * @throws \yii\web\BadRequestHttpException
      */
     public function actionDeleteSlider()
     {
@@ -188,7 +189,8 @@ class SlidersController extends BaseController
     /**
      * Live preview.
      *
-     * @return void
+     * @return Response
+     * @throws \yii\web\BadRequestHttpException
      */
     public function actionLivePreview(): Response
     {

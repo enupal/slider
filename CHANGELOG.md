@@ -1,5 +1,10 @@
 # Enupal Slider Changelog
 
+## 1.2.0 - 2018.04.03
+### Added
+- Added Sliders Field Type
+- Added `displaySlider()` method to slider element
+
 ## 1.1.0 - 2018.03.04
 ### Added
 - Added `craft.enupalslider.getSlider('handle')` template variable

@@ -34,7 +34,8 @@ class SettingsController extends BaseController
     /**
      * Save Plugin Settings
      *
-     * @return void
+     * @return \yii\web\Response
+     * @throws \yii\web\BadRequestHttpException
      */
     public function actionSaveSettings()
     {

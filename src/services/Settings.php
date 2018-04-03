@@ -22,6 +22,7 @@ class Settings extends Component
      * @param array $postSettings
      *
      * @return bool
+     * @throws \yii\db\Exception
      */
     public function saveSettings($postSettings): bool
     {

@@ -27,6 +27,7 @@ class Groups extends Component
      * @param SliderGroupModel $group
      *
      * @return bool
+     * @throws Exception
      */
     public function saveGroup(SliderGroupModel $group): bool
     {
@@ -55,6 +56,7 @@ class Groups extends Component
      * @param int $groupId
      *
      * @return bool
+     * @throws \yii\db\Exception
      */
     public function deleteGroupById($groupId)
     {

@@ -33,18 +33,13 @@ class Sliders extends Component
 
     protected $sliderRecord;
 
-    /**
-     * Constructor
-     *
-     * @param object $sliderRecord
-     */
-    public function __construct($sliderRecord = null)
+    public function init()
     {
-        $this->sliderRecord = $sliderRecord;
-
         if (is_null($this->sliderRecord)) {
             $this->sliderRecord = new SliderRecord();
         }
+
+        parent::init();
     }
 
     /**
