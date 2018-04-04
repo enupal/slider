@@ -355,9 +355,14 @@ class Slider extends Element
                 }
             case 'dateUpdated':
                 {
+                    $total = 0;
                     $slides = json_decode($this->slides, true);
 
-                    return count($slides);
+                    if ($slides){
+                        $total = count($slides);
+                    }
+
+                    return $total;
                 }
         }
 
