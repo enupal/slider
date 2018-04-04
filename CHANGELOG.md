@@ -1,5 +1,9 @@
 # Enupal Slider Changelog
 
+## 1.2.1 - 2018.04.04
+### Fixed
+- Fixed bug on PHP 7.2
+
 ## 1.2.0 - 2018.04.03
 ### Added
 - Added Sliders Field Type
