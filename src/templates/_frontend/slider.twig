@@ -7,7 +7,7 @@
  */
 #}
 
-{% do view.registerAssetBundle("enupal\\slider\\assetbundles\\SliderAsset") %}
+{% do view.registerAssetBundle("enupal\\slider\\web\\SliderAsset") %}
 
 <ul class="enupal-slider" {{dataAttributes|raw}}
  {% if slider.thumbnailPager %} data-enupalslider-pager-custom = 'enupalslider-{{slider.handle}}-pager' {% endif %}>

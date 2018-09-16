@@ -15,4 +15,5 @@ class Settings extends \craft\base\Model
     public $linkHandle = '';
     public $openLinkHandle = '';
     public $htmlHandle = '';
+    public $loadJquery = 1;
 }

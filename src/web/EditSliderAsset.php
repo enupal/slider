@@ -6,31 +6,30 @@
  * @copyright Copyright (c) 2017 Enupal
  */
 
-namespace enupal\slider\assetbundles;
+namespace enupal\slider\web;
 
 use craft\web\AssetBundle;
 use craft\web\assets\cp\CpAsset;
 
-class SliderAsset extends AssetBundle
+class EditSliderAsset extends AssetBundle
 {
     public function init()
     {
         // define the path that your publishable resources live
-        $this->sourcePath = '@enupal/slider/resources/bxslider-4/';
+        $this->sourcePath = '@enupal/slider/resources/';
 
         // define the dependencies
+
         // define the relative path to CSS/JS files that should be registered with the page
         // when this asset bundle is registered
         $this->js = [
-            'jquery.min.js',
-            'vendor/jquery.easing.1.3.js',
-            'jquery.bxslider.min.js',
-            'initialize.js',
-            'vendor/jquery.fitvids.js',
+            'clipboard/clipboard.min.js',
+            'js/enupalslider.js'
         ];
 
         $this->css = [
-            'jquery.bxslider.min.css'
+            'css/enupalslider.css',
+            'css/font/css/font-awesome.min.css'
         ];
 
         parent::init();

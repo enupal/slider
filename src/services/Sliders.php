@@ -25,6 +25,7 @@ use enupal\slider\records\Slider as SliderRecord;
 use craft\helpers\FileHelper;
 use craft\redactor\Field as RichText;
 use craft\helpers\Template as TemplateHelper;
+use enupal\slider\models\Settings as SettingsModel;
 
 class Sliders extends Component
 {
@@ -477,13 +478,15 @@ class Sliders extends Component
 
     public function getSettings()
     {
-        $settings = (new Query())
+        $result = (new Query())
             ->select('settings')
             ->from(['{{%plugins}}'])
             ->where(['handle' => 'enupal-slider'])
             ->one();
 
-        $settings = json_decode($settings['settings'], true);
+        $settingsArray = json_decode($result['settings'], true);
+        $settings = new SettingsModel();
+        $settings->setAttributes($settingsArray, false);
 
         return $settings;
     }

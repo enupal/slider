@@ -17,6 +17,7 @@ Add a slider to any template of Craft CMS
 * Slides can contain images, video, or HTML content
 * Browser support: Firefox, Chrome, Safari, iOS, Android, IE7+
 * SEO Optimized
+* Sliders Field Type
 * Tons of configuration options
 
 ### Documentation

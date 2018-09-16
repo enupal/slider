@@ -16,6 +16,7 @@ use craft\web\UrlManager;
 use enupal\slider\fields\Sliders;
 use yii\base\Event;
 use craft\web\twig\variables\CraftVariable;
+use enupal\slider\services\App;
 
 use enupal\slider\variables\SliderVariable;
 use enupal\slider\models\Settings;
@@ -25,7 +26,7 @@ class Slider extends \craft\base\Plugin
     /**
      * Enable use of Slider::$app-> in place of Craft::$app->
      *
-     * @var [type]
+     * @var App
      */
     public static $app;
 
