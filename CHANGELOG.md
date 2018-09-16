@@ -1,5 +1,9 @@
 # Enupal Slider Changelog
 
+## 1.2.2 - 2018.09.16
+### Added
+- Added loadJquery setting to prevent load JQuery
+
 ## 1.2.1 - 2018.04.04
 ### Fixed
 - Fixed bug on PHP 7.2
