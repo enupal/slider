@@ -39,6 +39,6 @@ class Sliders extends BaseRelationField
      */
     public static function defaultSelectionLabel(): string
     {
-        return SliderPlugin::t('Add an Slider');
+        return SliderPlugin::t('Add a Slider');
     }
 }

@@ -12,36 +12,29 @@ use Craft;
 use yii\base\Component;
 
 use enupal\slider\Slider;
+use enupal\slider\models\Settings as SettingsModel;
 
 class Settings extends Component
 {
 
     /**
-     * Saves Settings
-     *
-     * @param array $postSettings
-     *
+     * @param $settings SettingsModel
      * @return bool
-     * @throws \yii\db\Exception
      */
-    public function saveSettings($postSettings): bool
+    public function saveSettings($settings): bool
     {
-        $settings = Slider::$app->sliders->getSettings();
+        $plugin = $this->getPlugin();
 
-        if (isset($postSettings['pluginNameOverride'])) {
-            $settings['pluginNameOverride'] = $postSettings['pluginNameOverride'];
-        }
+        $success = Craft::$app->getPlugins()->savePluginSettings($plugin, $settings->getAttributes());
 
-        $settings = json_encode($settings);
+        return $success;
+    }
 
-        $affectedRows = Craft::$app->getDb()->createCommand()->update('{{%plugins}}', [
-            'settings' => $settings
-        ],
-            [
-                'handle' => 'enupal-slider'
-            ]
-        )->execute();
-
-        return (bool)$affectedRows;
+    /**
+     * @return \craft\base\PluginInterface|null
+     */
+    public function getPlugin()
+    {
+        return Craft::$app->getPlugins()->getPlugin('enupal-slider');
     }
 }

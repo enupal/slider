@@ -42,8 +42,11 @@ class SettingsController extends BaseController
         $this->requirePostRequest();
         $request = Craft::$app->getRequest();
         $settings = $request->getBodyParam('settings');
+        $plugin = Slider::$app->settings->getPlugin();
+        $settingsModel = $plugin->getSettings();
+        $settingsModel->setAttributes($settings, false);
 
-        if (Slider::$app->settings->saveSettings($settings)) {
+        if (Slider::$app->settings->saveSettings($settingsModel)) {
             Craft::$app->getSession()->setNotice(Slider::t('Settings saved.'));
 
             return $this->redirectToPostedUrl();

@@ -14,8 +14,19 @@ use enupal\slider\Slider;
 
 class App extends Component
 {
+    /**
+     * @var Sliders
+     */
     public $sliders;
+
+    /**
+     * @var Groups
+     */
     public $groups;
+
+    /**
+     * @var Settings
+     */
     public $settings;
 
     public function init()

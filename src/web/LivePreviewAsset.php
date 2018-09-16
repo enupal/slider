@@ -6,7 +6,7 @@
  * @copyright Copyright (c) 2017 Enupal
  */
 
-namespace enupal\slider\assetbundles;
+namespace enupal\slider\web;
 
 use craft\web\AssetBundle;
 use craft\web\assets\cp\CpAsset;
