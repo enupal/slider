@@ -37,4 +37,12 @@ class Settings extends Component
     {
         return Craft::$app->getPlugins()->getPlugin('enupal-slider');
     }
+
+    /**
+     * @return SettingsModel|null
+     */
+    public function getSettings()
+    {
+        return $this->getPlugin()->getSettings();
+    }
 }

@@ -39,10 +39,10 @@ class Slider extends \craft\base\Plugin
         parent::init();
         self::$app = $this->get('app');
 
-        $settings = Slider::$app->sliders->getSettings();
+        $settings = $this->getSettings();
 
-        if (isset($settings['pluginNameOverride']) && $settings['pluginNameOverride']) {
-            $this->name = $settings['pluginNameOverride'];
+        if ($settings->pluginNameOverride) {
+            $this->name = $settings->pluginNameOverride;
         }
 
         Event::on(UrlManager::class, UrlManager::EVENT_REGISTER_CP_URL_RULES, function(RegisterUrlRulesEvent $event) {
