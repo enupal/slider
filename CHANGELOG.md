@@ -1,5 +1,9 @@
 # Enupal Slider Changelog
 
+## 1.2.3 - 2019.01.21
+### Fixed
+- Fixed missing column settings error on Craft 3.1
+
 ## 1.2.2 - 2018.09.16
 ### Added
 - Added loadJquery setting to prevent load JQuery

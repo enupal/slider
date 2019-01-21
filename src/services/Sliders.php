@@ -9,6 +9,7 @@
 namespace enupal\slider\services;
 
 use Craft;
+use enupal\slider\web\SliderAsset;
 use yii\base\Component;
 use craft\fields\PlainText;
 use craft\fields\Dropdown;
@@ -708,7 +709,7 @@ class Sliders extends Component
         $debugTrace = debug_backtrace();
         $initialCalledFile = count($debugTrace) ? $debugTrace[count($debugTrace) - 1]['file'] : __FILE__;
         $publicFolderPath = dirname($initialCalledFile);
-        $publicFolderPath = $publicFolderPath."/enupalslider";
+        $publicFolderPath = $publicFolderPath.DIRECTORY_SEPARATOR."enupalslider";
         $publicFolderPath = FileHelper::normalizePath($publicFolderPath);
 
         return $publicFolderPath;
