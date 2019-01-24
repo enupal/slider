@@ -200,7 +200,7 @@ class SlidersController extends BaseController
         $slider = Slider::$app->sliders->populateSliderFromPost($slider);
         $sliderOptions = Slider::$app->sliders->getDefaultOptionsByAjax($slider);
         $slidesElements = [];
-        $settings = Slider::$app->sliders->getSettings();
+        $settings = Slider::$app->settings->getSettings();
         $sliderHtml = null;
         $templatePath = Slider::$app->sliders->getEnupalSliderPath();
         $dataAttributes = Slider::$app->sliders->getDataAttributes($slider);

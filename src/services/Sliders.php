@@ -308,7 +308,7 @@ class Sliders extends Component
         $slider->slides = [];
 
         if ($this->saveSlider($slider)) {
-            $settings = $this->getSettings();
+            $settings = Slider::$app->settings->getSettings();
             $sources = null;
 
             if (isset($settings['volumeId'])) {
@@ -338,7 +338,7 @@ class Sliders extends Component
      */
     public function updateSubFolder(SliderElement $slider, string $oldSubfolder): bool
     {
-        $settings = $this->getSettings();
+        $settings = Slider::$app->settings->getSettings();
 
         if (isset($settings['volumeId'])) {
             $folder = (new Query())
@@ -477,24 +477,9 @@ class Sliders extends Component
         return $result;
     }
 
-    public function getSettings()
-    {
-        $result = (new Query())
-            ->select('settings')
-            ->from(['{{%plugins}}'])
-            ->where(['handle' => 'enupal-slider'])
-            ->one();
-
-        $settingsArray = json_decode($result['settings'], true);
-        $settings = new SettingsModel();
-        $settings->setAttributes($settingsArray, false);
-
-        return $settings;
-    }
-
     public function getVolumeFolder($slider)
     {
-        $settings = $this->getSettings();
+        $settings = Slider::$app->settings->getSettings();
         $sources = [];
 
         if (isset($settings['volumeId'])) {
@@ -765,7 +750,7 @@ class Sliders extends Component
         $slider = Slider::$app->sliders->getSliderByHandle($sliderHandle);
         $templatePath = Slider::$app->sliders->getEnupalSliderPath();
         $sliderHtml = null;
-        $settings = Slider::$app->sliders->getSettings();
+        $settings = Slider::$app->settings->getSettings();
 
         if ($slider) {
             $dataAttributes = Slider::$app->sliders->getDataAttributes($slider);

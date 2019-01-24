@@ -172,7 +172,7 @@ class SliderVariable
      */
     public function getSettings()
     {
-        return Slider::$app->sliders->getSettings();
+        return Slider::$app->settings->getSettings();
     }
 
     /**
