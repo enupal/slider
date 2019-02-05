@@ -78,11 +78,12 @@ class SlidersController extends BaseController
     /**
      * Edit a Slider.
      *
-     * @param int|null           $sliderId
+     * @param int|null $sliderId
      * @param SliderElement|null $slider The slider send back by setRouteParams if any errors on saveSlider
      *
      * @return Response
      * @throws NotFoundHttpException
+     * @throws \Throwable
      */
     public function actionEditSlider(int $sliderId = null, SliderElement $slider = null)
     {
@@ -95,7 +96,7 @@ class SlidersController extends BaseController
                 $url = UrlHelper::cpUrl('enupal-slider/slider/edit/'.$slider->id);
                 return $this->redirect($url);
             } else {
-                throw new Exception(Craft::t('Error creating Slider'));
+                throw new \Exception(Craft::t('enupal-slider','Error creating Slider'));
             }
         } else {
             if ($sliderId !== null) {
@@ -148,7 +149,7 @@ class SlidersController extends BaseController
             //#title-field, #fields > div > div > .field
             $this->getView()->registerJs('Craft.LivePreview.init('.Json::encode([
                     'fields' => '#fields-tab-enupalslider-settings .field, #fields-tab-enupalslider-controls .field, #fields-tab-enupalslider-slides .field, #fields-slides-field',
-                    'previewAction' => 'enupal-slider/sliders/live-preview',
+                    'previewAction' => Craft::$app->getSecurity()->hashData('enupal-slider/sliders/live-preview'),
                     'previewParams' => [
                         'sliderId' => $slider->id
                     ]
@@ -200,7 +201,7 @@ class SlidersController extends BaseController
         $slider = Slider::$app->sliders->populateSliderFromPost($slider);
         $sliderOptions = Slider::$app->sliders->getDefaultOptionsByAjax($slider);
         $slidesElements = [];
-        $settings = Slider::$app->sliders->getSettings();
+        $settings = Slider::$app->settings->getSettings();
         $sliderHtml = null;
         $templatePath = Slider::$app->sliders->getEnupalSliderPath();
         $dataAttributes = Slider::$app->sliders->getDataAttributes($slider);

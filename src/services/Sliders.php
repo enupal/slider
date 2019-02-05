@@ -9,6 +9,7 @@
 namespace enupal\slider\services;
 
 use Craft;
+use craft\services\Plugins;
 use enupal\slider\web\SliderAsset;
 use yii\base\Component;
 use craft\fields\PlainText;
@@ -76,7 +77,7 @@ class Sliders extends Component
             $sliderRecord = SliderRecord::findOne($slider->id);
 
             if (!$sliderRecord) {
-                throw new Exception(Slider::t('No Slider exists with the ID “{id}”', ['id' => $slider->id]));
+                throw new \Exception(Slider::t('No Slider exists with the ID “{id}”', ['id' => $slider->id]));
             }
         }
 
@@ -263,24 +264,19 @@ class Sliders extends Component
                 return false;
             }
 
-            $settings = [
-                'pluginNameOverride' => '',
-                'volumeId' => $volume->id,
-                'linkHandle' => $linkHandle,
-                'openLinkHandle' => $openLinkHandle,
-                'htmlHandle' => $htmlHandle,
-            ];
+            $plugin = Slider::getInstance();
+            $settings = $plugin->getSettings();
+            $settings->volumeId = $volume->id;
+            $settings->volumeUid = $volume->uid;
+            $settings->linkHandle = $linkHandle;
+            $settings->openLinkHandle = $openLinkHandle;
+            $settings->htmlHandle = $htmlHandle;
 
-            $settings = json_encode($settings);
-            Craft::$app->getDb()->createCommand()->update('{{%plugins}}', [
-                'settings' => $settings
-            ], [
-                    'handle' => 'enupal-slider'
-                ]
-            )->execute();
+            $projectConfig = Craft::$app->getProjectConfig();
+            $projectConfig->set(Plugins::CONFIG_PLUGINS_KEY . '.' . $plugin->handle . '.settings', $settings->toArray());
 
             $transaction->commit();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $transaction->rollBack();
             Slider::error('Failed to save element: '.$e->getMessage());
             throw $e;
@@ -308,22 +304,25 @@ class Sliders extends Component
         $slider->slides = [];
 
         if ($this->saveSlider($slider)) {
-            $settings = $this->getSettings();
+            $settings = Slider::$app->settings->getSettings();
             $sources = null;
 
-            if (isset($settings['volumeId'])) {
+            if ($settings->volumeUid) {
+                $volume = Craft::$app->getVolumes()->getVolumeByUid($settings->volumeUid);
                 $folder = (new Query())
                     ->select('*')
                     ->from(['{{%volumefolders}}'])
-                    ->where(['volumeId' => $settings['volumeId']])
+                    ->where(['[[volumeId]]' => $volume->id])
                     ->one();
 
                 $defaultSubFolder = new VolumeFolderRecord();
                 $defaultSubFolder->parentId = $folder['id'];
-                $defaultSubFolder->volumeId = $settings['volumeId'];
+                $defaultSubFolder->volumeId = $volume->id;
                 $defaultSubFolder->name = $slider->handle;
                 $defaultSubFolder->path = $slider->handle."/";
                 $defaultSubFolder->save();
+            }else{
+                throw new \Exception('Volume Uid is required, please contact Enupal Slider support.');
             }
         }
 
@@ -338,13 +337,14 @@ class Sliders extends Component
      */
     public function updateSubFolder(SliderElement $slider, string $oldSubfolder): bool
     {
-        $settings = $this->getSettings();
+        $settings = Slider::$app->settings->getSettings();
 
-        if (isset($settings['volumeId'])) {
+        if ($settings->volumeId) {
+            $volume = Craft::$app->getVolumes()->getVolumeByUid($settings->volumeUid);
             $folder = (new Query())
                 ->select('*')
                 ->from(['{{%volumefolders}}'])
-                ->where(['volumeId' => $settings['volumeId']])
+                ->where(['[[volumeId]]' => $volume->volumeId])
                 ->one();
 
             if ($folder) {
@@ -352,8 +352,8 @@ class Sliders extends Component
                     ->select('*')
                     ->from(['{{%volumefolders}}'])
                     ->where([
-                        'volumeId' => $settings['volumeId'],
-                        'parentId' => $folder['id'],
+                        '[[volumeId]]' => $volume->volumeId,
+                        '[[parentId]]' => $folder['id'],
                         'name' => $oldSubfolder
                     ])
                     ->one();
@@ -477,24 +477,9 @@ class Sliders extends Component
         return $result;
     }
 
-    public function getSettings()
-    {
-        $result = (new Query())
-            ->select('settings')
-            ->from(['{{%plugins}}'])
-            ->where(['handle' => 'enupal-slider'])
-            ->one();
-
-        $settingsArray = json_decode($result['settings'], true);
-        $settings = new SettingsModel();
-        $settings->setAttributes($settingsArray, false);
-
-        return $settings;
-    }
-
     public function getVolumeFolder($slider)
     {
-        $settings = $this->getSettings();
+        $settings = Slider::$app->settings->getSettings();
         $sources = [];
 
         if (isset($settings['volumeId'])) {
@@ -517,7 +502,7 @@ class Sliders extends Component
                 ->one();
 
             if ($subFolder) {
-                $sources = ['folder:'.$folder['id'].'/folder:'.$subFolder['id']];
+                $sources = ['folder:'.$folder['uid'].'/folder:'.$subFolder['uid']];
             }
         }
 
@@ -736,11 +721,13 @@ class Sliders extends Component
      */
     public function removeVolumeAndFields()
     {
-        $plugin = Craft::$app->getPlugins()->getPlugin('enupal-slider');
+        $plugin = Slider::getInstance();
+        $settings = $plugin->getSettings();
 
         // Let's delete the volume
-        if (isset($plugin->settings['volumeId'])) {
-            Craft::$app->getVolumes()->deleteVolumeById((int)$plugin->settings['volumeId']);
+        if ($settings->volumeUid) {
+            $volume = Craft::$app->getVolumes()->getVolumeByUid($settings->volumeUid);
+            Craft::$app->getVolumes()->deleteVolume($volume);
         }
 
         $fields = Craft::$app->getFields();
@@ -765,7 +752,7 @@ class Sliders extends Component
         $slider = Slider::$app->sliders->getSliderByHandle($sliderHandle);
         $templatePath = Slider::$app->sliders->getEnupalSliderPath();
         $sliderHtml = null;
-        $settings = Slider::$app->sliders->getSettings();
+        $settings = Slider::$app->settings->getSettings();
 
         if ($slider) {
             $dataAttributes = Slider::$app->sliders->getDataAttributes($slider);

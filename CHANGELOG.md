@@ -1,5 +1,14 @@
 # Enupal Slider Changelog
 
+## 1.3.2 - 2019.02.05
+### Fixed
+- Fixed bug on afterUninstall process
+
+## 1.3.1 - 2019.02.05
+### Added
+- Added support to 3.1
+- Fixed live preview error on Craft 3.1
+
 ## 1.2.3 - 2019.01.21
 ### Fixed
 - Fixed missing column settings error on Craft 3.1
