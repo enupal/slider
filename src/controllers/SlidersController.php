@@ -78,11 +78,12 @@ class SlidersController extends BaseController
     /**
      * Edit a Slider.
      *
-     * @param int|null           $sliderId
+     * @param int|null $sliderId
      * @param SliderElement|null $slider The slider send back by setRouteParams if any errors on saveSlider
      *
      * @return Response
      * @throws NotFoundHttpException
+     * @throws \Throwable
      */
     public function actionEditSlider(int $sliderId = null, SliderElement $slider = null)
     {
@@ -95,7 +96,7 @@ class SlidersController extends BaseController
                 $url = UrlHelper::cpUrl('enupal-slider/slider/edit/'.$slider->id);
                 return $this->redirect($url);
             } else {
-                throw new Exception(Craft::t('Error creating Slider'));
+                throw new \Exception(Craft::t('enupal-slider','Error creating Slider'));
             }
         } else {
             if ($sliderId !== null) {

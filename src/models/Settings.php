@@ -12,6 +12,7 @@ class Settings extends \craft\base\Model
 {
     public $pluginNameOverride = '';
     public $volumeId = '';
+    public $volumeUid = '';
     public $linkHandle = '';
     public $openLinkHandle = '';
     public $htmlHandle = '';

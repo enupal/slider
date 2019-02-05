@@ -9,6 +9,7 @@
 namespace enupal\slider\services;
 
 use Craft;
+use craft\services\Plugins;
 use enupal\slider\web\SliderAsset;
 use yii\base\Component;
 use craft\fields\PlainText;
@@ -76,7 +77,7 @@ class Sliders extends Component
             $sliderRecord = SliderRecord::findOne($slider->id);
 
             if (!$sliderRecord) {
-                throw new Exception(Slider::t('No Slider exists with the ID “{id}”', ['id' => $slider->id]));
+                throw new \Exception(Slider::t('No Slider exists with the ID “{id}”', ['id' => $slider->id]));
             }
         }
 
@@ -263,24 +264,19 @@ class Sliders extends Component
                 return false;
             }
 
-            $settings = [
-                'pluginNameOverride' => '',
-                'volumeId' => $volume->id,
-                'linkHandle' => $linkHandle,
-                'openLinkHandle' => $openLinkHandle,
-                'htmlHandle' => $htmlHandle,
-            ];
+            $plugin = Slider::getInstance();
+            $settings = $plugin->getSettings();
+            $settings->volumeId = $volume->id;
+            $settings->volumeUid = $volume->uid;
+            $settings->linkHandle = $linkHandle;
+            $settings->openLinkHandle = $openLinkHandle;
+            $settings->htmlHandle = $htmlHandle;
 
-            $settings = json_encode($settings);
-            Craft::$app->getDb()->createCommand()->update('{{%plugins}}', [
-                'settings' => $settings
-            ], [
-                    'handle' => 'enupal-slider'
-                ]
-            )->execute();
+            $projectConfig = Craft::$app->getProjectConfig();
+            $projectConfig->set(Plugins::CONFIG_PLUGINS_KEY . '.' . $plugin->handle . '.settings', $settings->toArray());
 
             $transaction->commit();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $transaction->rollBack();
             Slider::error('Failed to save element: '.$e->getMessage());
             throw $e;
@@ -311,19 +307,22 @@ class Sliders extends Component
             $settings = Slider::$app->settings->getSettings();
             $sources = null;
 
-            if (isset($settings['volumeId'])) {
+            if ($settings->volumeUid) {
+                $volume = Craft::$app->getVolumes()->getVolumeByUid($settings->volumeUid);
                 $folder = (new Query())
                     ->select('*')
                     ->from(['{{%volumefolders}}'])
-                    ->where(['volumeId' => $settings['volumeId']])
+                    ->where(['[[volumeId]]' => $volume->id])
                     ->one();
 
                 $defaultSubFolder = new VolumeFolderRecord();
                 $defaultSubFolder->parentId = $folder['id'];
-                $defaultSubFolder->volumeId = $settings['volumeId'];
+                $defaultSubFolder->volumeId = $volume->id;
                 $defaultSubFolder->name = $slider->handle;
                 $defaultSubFolder->path = $slider->handle."/";
                 $defaultSubFolder->save();
+            }else{
+                throw new \Exception('Volume Uid is required, please contact Enupal Slider support.');
             }
         }
 
@@ -340,11 +339,12 @@ class Sliders extends Component
     {
         $settings = Slider::$app->settings->getSettings();
 
-        if (isset($settings['volumeId'])) {
+        if ($settings->volumeId) {
+            $volume = Craft::$app->getVolumes()->getVolumeByUid($settings->volumeUid);
             $folder = (new Query())
                 ->select('*')
                 ->from(['{{%volumefolders}}'])
-                ->where(['volumeId' => $settings['volumeId']])
+                ->where(['[[volumeId]]' => $volume->volumeId])
                 ->one();
 
             if ($folder) {
@@ -352,8 +352,8 @@ class Sliders extends Component
                     ->select('*')
                     ->from(['{{%volumefolders}}'])
                     ->where([
-                        'volumeId' => $settings['volumeId'],
-                        'parentId' => $folder['id'],
+                        '[[volumeId]]' => $volume->volumeId,
+                        '[[parentId]]' => $folder['id'],
                         'name' => $oldSubfolder
                     ])
                     ->one();
