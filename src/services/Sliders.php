@@ -721,11 +721,13 @@ class Sliders extends Component
      */
     public function removeVolumeAndFields()
     {
-        $plugin = Craft::$app->getPlugins()->getPlugin('enupal-slider');
+        $plugin = Slider::getInstance();
+        $settings = $plugin->getSettings();
 
         // Let's delete the volume
-        if (isset($plugin->settings['volumeId'])) {
-            Craft::$app->getVolumes()->deleteVolumeById((int)$plugin->settings['volumeId']);
+        if ($settings->volumeUid) {
+            $volume = Craft::$app->getVolumes()->getVolumeByUid($settings->volumeUid);
+            Craft::$app->getVolumes()->deleteVolume($volume);
         }
 
         $fields = Craft::$app->getFields();
