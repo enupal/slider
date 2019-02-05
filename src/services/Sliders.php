@@ -502,7 +502,7 @@ class Sliders extends Component
                 ->one();
 
             if ($subFolder) {
-                $sources = ['folder:'.$folder['id'].'/folder:'.$subFolder['id']];
+                $sources = ['folder:'.$folder['uid'].'/folder:'.$subFolder['uid']];
             }
         }
 

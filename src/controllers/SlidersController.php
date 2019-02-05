@@ -149,7 +149,7 @@ class SlidersController extends BaseController
             //#title-field, #fields > div > div > .field
             $this->getView()->registerJs('Craft.LivePreview.init('.Json::encode([
                     'fields' => '#fields-tab-enupalslider-settings .field, #fields-tab-enupalslider-controls .field, #fields-tab-enupalslider-slides .field, #fields-slides-field',
-                    'previewAction' => 'enupal-slider/sliders/live-preview',
+                    'previewAction' => Craft::$app->getSecurity()->hashData('enupal-slider/sliders/live-preview'),
                     'previewParams' => [
                         'sliderId' => $slider->id
                     ]
