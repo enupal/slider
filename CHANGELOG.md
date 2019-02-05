@@ -1,8 +1,9 @@
 # Enupal Slider Changelog
 
-## 1.3.0 - 2019.01.24
+## 1.3.1 - 2019.02.05
 ### Added
 - Added support to 3.1
+- Fixed live preview error on Craft 3.1
 
 ## 1.2.3 - 2019.01.21
 ### Fixed
