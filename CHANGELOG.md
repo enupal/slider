@@ -1,5 +1,11 @@
 # Enupal Slider Changelog
 
+## 1.4.0 - 2021.05.20
+### Fixed
+- Fixed link not working ([#11])
+
+[#11]: https://github.com/enupal/slider/issues/11
+
 ## 1.3.2 - 2019.02.05
 ### Fixed
 - Fixed bug on afterUninstall process
