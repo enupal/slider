@@ -30,9 +30,9 @@ class Slider extends \craft\base\Plugin
      */
     public static $app;
 
-    public $hasCpSection = true;
-    public $hasCpSettings = true;
-    public $schemaVersion = '1.3.1';
+    public bool $hasCpSection = true;
+    public bool $hasCpSettings = true;
+    public string $schemaVersion = '1.3.1';
 
     public function init()
     {
@@ -65,7 +65,7 @@ class Slider extends \craft\base\Plugin
         });
     }
 
-    protected function afterInstall()
+    protected function afterInstall(): void
     {
         self::$app->sliders->installDefaultVolume();
     }
@@ -73,17 +73,17 @@ class Slider extends \craft\base\Plugin
     /**
      * Performs actions after the plugin is installed.
      */
-    protected function afterUninstall()
+    protected function afterUninstall(): void
     {
         self::$app->sliders->removeVolumeAndFields();
     }
 
-    protected function createSettingsModel()
+    protected function createSettingsModel(): ?\craft\base\Model
     {
         return new Settings();
     }
 
-    public function getCpNavItem()
+    public function getCpNavItem(): ?array
     {
         $parent = parent::getCpNavItem();
         return array_merge($parent, [
@@ -104,10 +104,10 @@ class Slider extends \craft\base\Plugin
      * Settings HTML
      *
      * @return string
-     * @throws \Twig_Error_Loader
+     * @throws \Twig\Error\LoaderError
      * @throws \yii\base\Exception
      */
-    protected function settingsHtml()
+    protected function settingsHtml(): ?string
     {
         return Craft::$app->getView()->renderTemplate('enupal-slider/settings/index');
     }

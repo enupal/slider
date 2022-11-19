@@ -31,7 +31,7 @@ class Slider extends Element
 
     // General - Properties
     // =========================================================================
-    public $id;
+    public ?int $id;
 
     // Name of the Slider
     public $name;
@@ -182,7 +182,7 @@ class Slider extends Element
     /**
      * @inheritdoc
      */
-    public static function refHandle()
+    public static function refHandle(): ?string
     {
         return 'sliders';
     }
@@ -222,7 +222,7 @@ class Slider extends Element
     /**
      * @inheritdoc
      */
-    public function getCpEditUrl()
+    public function getCpEditUrl(): ?string
     {
         return UrlHelper::cpUrl(
             'enupal-slider/slider/edit/'.$this->id
@@ -235,7 +235,7 @@ class Slider extends Element
      * @return string
      */
     /** @noinspection PhpInconsistentReturnPointsInspection */
-    public function __toString()
+    public function __toString(): string
     {
         try {
             // @todo - For some reason the Title returns null possible Craft3 bug
@@ -373,7 +373,7 @@ class Slider extends Element
      * @inheritdoc
      * @throws Exception if reasons
      */
-    public function afterSave(bool $isNew)
+    public function afterSave(bool $isNew): void
     {
         // Get the Slider record
         if (!$isNew) {
@@ -456,7 +456,7 @@ class Slider extends Element
     /**
      * @inheritdoc
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             [['name', 'handle'], 'required'],

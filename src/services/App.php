@@ -29,7 +29,7 @@ class App extends Component
      */
     public $settings;
 
-    public function init()
+    public function init(): void
     {
         $this->sliders = new Sliders();
         $this->groups = new Groups();

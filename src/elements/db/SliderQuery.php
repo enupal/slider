@@ -21,7 +21,7 @@ class SliderQuery extends ElementQuery
 
     // General - Properties
     // =========================================================================
-    public $id;
+    public mixed $id;
 
     // Name of the Slider
     public $name;

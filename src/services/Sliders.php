@@ -273,7 +273,7 @@ class Sliders extends Component
             $settings->htmlHandle = $htmlHandle;
 
             $projectConfig = Craft::$app->getProjectConfig();
-            $projectConfig->set(Plugins::CONFIG_PLUGINS_KEY . '.' . $plugin->handle . '.settings', $settings->toArray());
+            $projectConfig->set(\craft\services\ProjectConfig::PATH_PLUGINS . '.' . $plugin->handle . '.settings', $settings->toArray());
 
             $transaction->commit();
         } catch (\Exception $e) {
@@ -744,7 +744,7 @@ class Sliders extends Component
      * @param array|null $options
      *
      * @return mixed
-     * @throws \Twig_Error_Loader
+     * @throws \Twig\Error\LoaderError
      * @throws \yii\base\Exception
      */
     public function getSliderHtml($sliderHandle, array $options = null)

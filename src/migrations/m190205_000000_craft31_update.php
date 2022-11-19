@@ -33,7 +33,7 @@ class m190205_000000_craft31_update extends Migration
             $settings->volumeUid = $volume['uid'];
 
             $projectConfig = Craft::$app->getProjectConfig();
-            $projectConfig->set(Plugins::CONFIG_PLUGINS_KEY . '.' . $plugin->handle . '.settings', $settings->toArray());
+            $projectConfig->set(\craft\services\ProjectConfig::PATH_PLUGINS . '.' . $plugin->handle . '.settings', $settings->toArray());
         }
 
         return true;

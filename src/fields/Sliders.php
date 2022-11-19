@@ -16,7 +16,7 @@ class Sliders extends BaseRelationField
     /**
      * @inheritdoc
      */
-    public $allowMultipleSources = false;
+    public bool $allowMultipleSources = false;
 
     /**
      * @inheritdoc
