@@ -9,12 +9,16 @@
 namespace enupal\slider\services;
 
 use Craft;
+use craft\fieldlayoutelements\CustomField;
+use craft\fs\Local;
+use craft\helpers\StringHelper;
+use craft\models\Volume;
 use craft\services\Plugins;
+use craft\services\Volumes;
 use enupal\slider\web\SliderAsset;
 use yii\base\Component;
 use craft\fields\PlainText;
 use craft\fields\Dropdown;
-use craft\volumes\Local;
 use craft\base\Field;
 use craft\models\FieldGroup;
 use yii\db\Query;
@@ -208,27 +212,35 @@ class Sliders extends Component
             Craft::$app->fields->saveField($openLinkField);
 
             // Create a tab
-            $tabName = Slider::t('Enupal Slider');
-            $requiredFields = [];
-            $postedFieldLayout = [];
+            // Create a tab
+            $config['uid'] = StringHelper::UUID();
+            $config['tabs'][0] = [];
+            $config['tabs'][0]['name'] = "Tab1";
+            $config['tabs'][0]['uid'] = StringHelper::UUID();
 
             // Add our new fields
             if (isset($htmlField) && $htmlField->id != null) {
-                $postedFieldLayout[$tabName][] = $htmlField->id;
+                $config['tabs'][0]['elements'][0]['uid'] = StringHelper::UUID();
+                $config['tabs'][0]['elements'][0]['type'] = CustomField::class;
+                $config['tabs'][0]['elements'][0]['fieldUid'] = $htmlField->uid;
             }
 
             if (isset($linkField) && $linkField->id != null) {
-                $postedFieldLayout[$tabName][] = $linkField->id;
+                $config['tabs'][0]['elements'][1]['uid'] = StringHelper::UUID();
+                $config['tabs'][0]['elements'][1]['type'] = CustomField::class;
+                $config['tabs'][0]['elements'][1]['fieldUid'] = $linkField->uid;
             }
 
             if (isset($openLinkField) && $openLinkField->id != null) {
-                $postedFieldLayout[$tabName][] = $openLinkField->id;
+                $config['tabs'][0]['elements'][2]['uid'] = StringHelper::UUID();
+                $config['tabs'][0]['elements'][2]['type'] = CustomField::class;
+                $config['tabs'][0]['elements'][2]['fieldUid'] = $openLinkField->uid;
             }
 
             // Set the field layout
-            $fieldLayout = Craft::$app->fields->assembleLayout($postedFieldLayout, $requiredFields);
+            $fieldLayout = Craft::$app->fields->createLayout($config);
 
-            /** @var Volume $volume */
+            /** @var Volumes $volume */
             $volumes = Craft::$app->getVolumes();
             // get the full path of the web/enupalslider folder
             $enupalSliderPath = $this->getSliderPath();
@@ -238,29 +250,32 @@ class Sliders extends Component
 
             $volumeHandle = $this->getHandleAsNew("enupalSlider", true);
             // We need validate if the volume exists(unistall) but nothing is override in the settings
-            $volume = null;
-
-            $volume = $volumes->createVolume([
-                'id' => null,
-                // let's add support for local just for now.
-                'type' => Local::class,
+            $fs = Craft::$app->getFs()->createFilesystem([
                 'name' => "Enupal Slider",
                 'handle' => $volumeHandle,
+                'type' => Local::class,
                 'hasUrls' => true,
-                'url' => '/enupalslider/',
+                'url' => "/enupalslider/",
                 'settings' => json_encode($volumeSettings)
             ]);
 
+            Craft::$app->getFs()->saveFilesystem($fs);
+
+            $volume = new Volume([
+                'name' => "Enupal Slider",
+                'handle' => $volumeHandle,
+                'fsHandle' => $fs->handle,
+                'titleTranslationMethod' => Field::TRANSLATION_METHOD_SITE
+            ]);
             // Set the field layout
             $fieldLayout->type = SliderElement::class;
             $volume->setFieldLayout($fieldLayout);
             $volume->validate();
 
-            // save it
             $response = $volumes->saveVolume($volume);
 
             if (!$response) {
-                Slider::error('Unable to save the volume');
+                Craft::error('Unable to save the volume', __METHOD__);
                 return false;
             }
 
@@ -680,7 +695,7 @@ class Sliders extends Component
             'maxSlides' => $slider->maxSlides,
             'moveSlides' => $slider->moveSlides,
             'slideWidth' => $slider->slideWidth,
-            'slideS0hrinkItems' => $slider->shrinkItems,
+            'slideShrinkItems' => $slider->shrinkItems,
             'wrapperClass' => $slider->wrapperClass
         ];
     }
@@ -728,14 +743,6 @@ class Sliders extends Component
         if ($settings->volumeUid) {
             $volume = Craft::$app->getVolumes()->getVolumeByUid($settings->volumeUid);
             Craft::$app->getVolumes()->deleteVolume($volume);
-        }
-
-        $fields = Craft::$app->getFields();
-
-        $fieldsToDelete = $fields->getFieldsByElementType(SliderElement::class);
-
-        foreach ($fieldsToDelete as $key => $field) {
-            $fields->deleteFieldById($field->id);
         }
     }
 

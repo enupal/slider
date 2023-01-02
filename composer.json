@@ -2,7 +2,7 @@
   "name": "enupal/slider",
   "description": "Fully responsive and customizable Slider plugin for Craft CMS",
   "type": "craft-plugin",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "keywords": [
     "craft",
     "cms",
@@ -34,7 +34,7 @@
     "docs": "https://enupal.com/craft-plugins/enupal-slider/docs"
   },
   "require": {
-    "craftcms/cms": "^3.1.0"
+    "craftcms/cms": "^4.0.0"
   },
   "extra": {
     "name": "Enupal Slider",

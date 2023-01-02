@@ -31,8 +31,6 @@ class Slider extends Element
 
     // General - Properties
     // =========================================================================
-    public ?int $id;
-
     // Name of the Slider
     public $name;
 
